@@ -35,6 +35,8 @@
       this.controlPropertyGrid = new System.Windows.Forms.PropertyGrid();
       this.tabList = new Cyotek.Windows.Forms.TabList();
       this.applicationTabListPage = new Cyotek.Windows.Forms.TabListPage();
+      this.textBox2 = new System.Windows.Forms.TextBox();
+      this.label2 = new System.Windows.Forms.Label();
       this.buildTabListPage = new Cyotek.Windows.Forms.TabListPage();
       this.checkBox1 = new System.Windows.Forms.CheckBox();
       this.builtEventsTabListPage = new Cyotek.Windows.Forms.TabListPage();
@@ -45,11 +47,11 @@
       this.dateTimePicker1 = new System.Windows.Forms.DateTimePicker();
       this.servicesTabListPage = new Cyotek.Windows.Forms.TabListPage();
       this.linkLabel1 = new System.Windows.Forms.LinkLabel();
+      this.securityTabListPage = new Cyotek.Windows.Forms.TabListPage();
       this.settingsTabListPage = new Cyotek.Windows.Forms.TabListPage();
       this.referencePathsTabListPage = new Cyotek.Windows.Forms.TabListPage();
       this.signingTabListPage = new Cyotek.Windows.Forms.TabListPage();
       this.publishTabListPage = new Cyotek.Windows.Forms.TabListPage();
-      this.securityTabListPage = new Cyotek.Windows.Forms.TabListPage();
       this.codeAnalysisTabListPage = new Cyotek.Windows.Forms.TabListPage();
       this.textBox1 = new System.Windows.Forms.TextBox();
       this.label1 = new System.Windows.Forms.Label();
@@ -58,8 +60,10 @@
       this.miscTabListPage = new Cyotek.Windows.Forms.TabListPage();
       this.removePageButton = new System.Windows.Forms.Button();
       this.addPageButton = new System.Windows.Forms.Button();
-      this.label2 = new System.Windows.Forms.Label();
-      this.textBox2 = new System.Windows.Forms.TextBox();
+      this.firstButton = new System.Windows.Forms.Button();
+      this.previousButton = new System.Windows.Forms.Button();
+      this.nextButton = new System.Windows.Forms.Button();
+      this.lastButton = new System.Windows.Forms.Button();
       this.splitContainer.Panel1.SuspendLayout();
       this.splitContainer.Panel2.SuspendLayout();
       this.splitContainer.SuspendLayout();
@@ -154,11 +158,27 @@
       this.applicationTabListPage.TabIndex = 0;
       this.applicationTabListPage.Text = "Application";
       // 
+      // textBox2
+      // 
+      this.textBox2.Location = new System.Drawing.Point(6, 21);
+      this.textBox2.Name = "textBox2";
+      this.textBox2.Size = new System.Drawing.Size(100, 21);
+      this.textBox2.TabIndex = 1;
+      // 
+      // label2
+      // 
+      this.label2.AutoSize = true;
+      this.label2.Location = new System.Drawing.Point(3, 5);
+      this.label2.Name = "label2";
+      this.label2.Size = new System.Drawing.Size(35, 13);
+      this.label2.TabIndex = 0;
+      this.label2.Text = "label2";
+      // 
       // buildTabListPage
       // 
       this.buildTabListPage.Controls.Add(this.checkBox1);
       this.buildTabListPage.Name = "buildTabListPage";
-      this.buildTabListPage.Size = new System.Drawing.Size(197, 510);
+      this.buildTabListPage.Size = new System.Drawing.Size(42, 192);
       this.buildTabListPage.TabIndex = 1;
       this.buildTabListPage.Text = "Build";
       // 
@@ -176,7 +196,7 @@
       // 
       this.builtEventsTabListPage.Controls.Add(this.checkedListBox1);
       this.builtEventsTabListPage.Name = "builtEventsTabListPage";
-      this.builtEventsTabListPage.Size = new System.Drawing.Size(197, 510);
+      this.builtEventsTabListPage.Size = new System.Drawing.Size(42, 192);
       this.builtEventsTabListPage.TabIndex = 2;
       this.builtEventsTabListPage.Text = "Build Events";
       // 
@@ -192,7 +212,7 @@
       // 
       this.debugTabListPage.Controls.Add(this.comboBox1);
       this.debugTabListPage.Name = "debugTabListPage";
-      this.debugTabListPage.Size = new System.Drawing.Size(197, 510);
+      this.debugTabListPage.Size = new System.Drawing.Size(42, 192);
       this.debugTabListPage.TabIndex = 3;
       this.debugTabListPage.Text = "Debug";
       // 
@@ -208,7 +228,7 @@
       // 
       this.resourcesTabListPage.Controls.Add(this.dateTimePicker1);
       this.resourcesTabListPage.Name = "resourcesTabListPage";
-      this.resourcesTabListPage.Size = new System.Drawing.Size(197, 510);
+      this.resourcesTabListPage.Size = new System.Drawing.Size(42, 192);
       this.resourcesTabListPage.TabIndex = 4;
       this.resourcesTabListPage.Text = "Resources";
       // 
@@ -223,7 +243,7 @@
       // 
       this.servicesTabListPage.Controls.Add(this.linkLabel1);
       this.servicesTabListPage.Name = "servicesTabListPage";
-      this.servicesTabListPage.Size = new System.Drawing.Size(197, 510);
+      this.servicesTabListPage.Size = new System.Drawing.Size(42, 192);
       this.servicesTabListPage.TabIndex = 5;
       this.servicesTabListPage.Text = "Services";
       // 
@@ -236,6 +256,13 @@
       this.linkLabel1.TabIndex = 0;
       this.linkLabel1.TabStop = true;
       this.linkLabel1.Text = "linkLabel1";
+      // 
+      // securityTabListPage
+      // 
+      this.securityTabListPage.Name = "securityTabListPage";
+      this.securityTabListPage.Size = new System.Drawing.Size(42, 192);
+      this.securityTabListPage.TabIndex = 9;
+      this.securityTabListPage.Text = "Security";
       // 
       // settingsTabListPage
       // 
@@ -265,19 +292,12 @@
       this.publishTabListPage.TabIndex = 10;
       this.publishTabListPage.Text = "Publish";
       // 
-      // securityTabListPage
-      // 
-      this.securityTabListPage.Name = "securityTabListPage";
-      this.securityTabListPage.Size = new System.Drawing.Size(197, 510);
-      this.securityTabListPage.TabIndex = 9;
-      this.securityTabListPage.Text = "Security";
-      // 
       // codeAnalysisTabListPage
       // 
       this.codeAnalysisTabListPage.Controls.Add(this.textBox1);
       this.codeAnalysisTabListPage.Controls.Add(this.label1);
       this.codeAnalysisTabListPage.Name = "codeAnalysisTabListPage";
-      this.codeAnalysisTabListPage.Size = new System.Drawing.Size(197, 510);
+      this.codeAnalysisTabListPage.Size = new System.Drawing.Size(42, 192);
       this.codeAnalysisTabListPage.TabIndex = 11;
       this.codeAnalysisTabListPage.Text = "Code Analysis";
       // 
@@ -316,11 +336,15 @@
       // 
       // miscTabListPage
       // 
+      this.miscTabListPage.Controls.Add(this.lastButton);
+      this.miscTabListPage.Controls.Add(this.nextButton);
+      this.miscTabListPage.Controls.Add(this.previousButton);
+      this.miscTabListPage.Controls.Add(this.firstButton);
       this.miscTabListPage.Controls.Add(this.removePageButton);
       this.miscTabListPage.Controls.Add(this.addPageButton);
       this.miscTabListPage.Name = "miscTabListPage";
       this.miscTabListPage.Padding = new System.Windows.Forms.Padding(3);
-      this.miscTabListPage.Size = new System.Drawing.Size(42, 192);
+      this.miscTabListPage.Size = new System.Drawing.Size(242, 510);
       this.miscTabListPage.TabIndex = 2;
       this.miscTabListPage.Text = "Misc";
       // 
@@ -344,21 +368,45 @@
       this.addPageButton.UseVisualStyleBackColor = true;
       this.addPageButton.Click += new System.EventHandler(this.addPageButton_Click);
       // 
-      // label2
+      // firstButton
       // 
-      this.label2.AutoSize = true;
-      this.label2.Location = new System.Drawing.Point(3, 5);
-      this.label2.Name = "label2";
-      this.label2.Size = new System.Drawing.Size(35, 13);
-      this.label2.TabIndex = 0;
-      this.label2.Text = "label2";
+      this.firstButton.Location = new System.Drawing.Point(8, 75);
+      this.firstButton.Name = "firstButton";
+      this.firstButton.Size = new System.Drawing.Size(132, 23);
+      this.firstButton.TabIndex = 2;
+      this.firstButton.Text = "First";
+      this.firstButton.UseVisualStyleBackColor = true;
+      this.firstButton.Click += new System.EventHandler(this.firstButton_Click);
       // 
-      // textBox2
+      // previousButton
       // 
-      this.textBox2.Location = new System.Drawing.Point(6, 21);
-      this.textBox2.Name = "textBox2";
-      this.textBox2.Size = new System.Drawing.Size(100, 21);
-      this.textBox2.TabIndex = 1;
+      this.previousButton.Location = new System.Drawing.Point(8, 104);
+      this.previousButton.Name = "previousButton";
+      this.previousButton.Size = new System.Drawing.Size(132, 23);
+      this.previousButton.TabIndex = 3;
+      this.previousButton.Text = "Previous";
+      this.previousButton.UseVisualStyleBackColor = true;
+      this.previousButton.Click += new System.EventHandler(this.previousButton_Click);
+      // 
+      // nextButton
+      // 
+      this.nextButton.Location = new System.Drawing.Point(8, 133);
+      this.nextButton.Name = "nextButton";
+      this.nextButton.Size = new System.Drawing.Size(132, 23);
+      this.nextButton.TabIndex = 4;
+      this.nextButton.Text = "Next";
+      this.nextButton.UseVisualStyleBackColor = true;
+      this.nextButton.Click += new System.EventHandler(this.nextButton_Click);
+      // 
+      // lastButton
+      // 
+      this.lastButton.Location = new System.Drawing.Point(8, 162);
+      this.lastButton.Name = "lastButton";
+      this.lastButton.Size = new System.Drawing.Size(132, 23);
+      this.lastButton.TabIndex = 5;
+      this.lastButton.Text = "Last";
+      this.lastButton.UseVisualStyleBackColor = true;
+      this.lastButton.Click += new System.EventHandler(this.lastButton_Click);
       // 
       // MainForm
       // 
@@ -426,6 +474,10 @@
     private System.Windows.Forms.LinkLabel linkLabel1;
     private System.Windows.Forms.TextBox textBox2;
     private System.Windows.Forms.Label label2;
+    private System.Windows.Forms.Button firstButton;
+    private System.Windows.Forms.Button lastButton;
+    private System.Windows.Forms.Button nextButton;
+    private System.Windows.Forms.Button previousButton;
 
 
 

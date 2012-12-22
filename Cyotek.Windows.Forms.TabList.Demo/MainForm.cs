@@ -51,5 +51,35 @@ namespace Cyotek.Windows.Forms.Demo
     }
 
     #endregion  Event Handlers
+
+    private void firstButton_Click(object sender, EventArgs e)
+    {
+      this.SelectTab(0);
+    }
+
+    private void lastButton_Click(object sender, EventArgs e)
+    {
+      this.SelectTab(tabList.TabListPageCount - 1);
+    }
+
+    private void previousButton_Click(object sender, EventArgs e)
+    {
+      this.SelectTab(tabList.SelectedIndex - 1);
+    }
+
+    private void nextButton_Click(object sender, EventArgs e)
+    {
+      this.SelectTab(tabList.SelectedIndex + 1);
+    }
+
+    private void SelectTab(int index)
+    {
+      if (index < 0)
+        index = 0;
+      else if (index > tabList.TabListPageCount - 1)
+        index = tabList.TabListPageCount - 1;
+
+      tabList.SelectedIndex = index;
+    }
   }
 }

@@ -12,6 +12,11 @@ namespace Cyotek.Windows.Forms
   public class TabListPage
     : Panel
   {
+    public TabListPage()
+    {
+      this.Dock = DockStyle.Fill;
+    }
+
     #region  Private Member Declarations
 
     private Rectangle _headerBounds;

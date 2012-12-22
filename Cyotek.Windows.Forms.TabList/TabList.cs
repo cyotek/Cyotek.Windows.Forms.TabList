@@ -38,18 +38,27 @@ namespace Cyotek.Windows.Forms
 
     public TabList()
     {
+      // ReSharper disable DoNotCallOverridableMethodsInConstructor
       this.TabListPages = new TabListPageCollection(this);
       this.SelectedIndex = -1;
       this.HeaderSize = new Size(150, 25);
       this.Size = new Size(200, 200); // the default size is tiny!
       this.Padding = new Padding(3);
       this.DoubleBuffered = true;
+      this.ShowTabList = true;
+      this.AllowTabSelection = true;
+      this.SetStyles();
+      // ReSharper restore DoNotCallOverridableMethodsInConstructor
+    }
+
+    protected virtual void SetStyles()
+    {
       this.SetStyle(ControlStyles.AllPaintingInWmPaint
                         | ControlStyles.ResizeRedraw
                         | ControlStyles.OptimizedDoubleBuffer
                         | ControlStyles.UserMouse
-                        | ControlStyles.Selectable
                         , true);
+      this.SetStyle(ControlStyles.Selectable, this.AllowTabSelection);
     }
 
     #endregion  Public Constructors
@@ -75,18 +84,21 @@ namespace Cyotek.Windows.Forms
       {
         if (_displayRectangle.IsEmpty)
         {
-          int marginL;
-          int marginT;
-          int marginR;
-          int marginB;
+          int leftMargin;
+          int topMargin;
+          int rightMargin;
+          int bottomMargin;
 
           // to avoid calculating every time, calculate it only when it's need it and cache it like any normal property
-          marginL = this.HeaderSize.Width + this.Padding.Left + 1;
-          marginT = this.Padding.Top + 1;
-          marginR = this.Padding.Right + 1;
-          marginB = this.Padding.Bottom + 1;
+          if (this.ShowTabList)
+            leftMargin = this.HeaderSize.Width + this.Padding.Left + 1;
+          else
+            leftMargin = this.Padding.Left + 1;
+          topMargin = this.Padding.Top + 1;
+          rightMargin = this.Padding.Right + 1;
+          bottomMargin = this.Padding.Bottom + 1;
 
-          _displayRectangle = new Rectangle(marginL, marginT, this.ClientSize.Width - (marginL + marginR), this.ClientSize.Height - (marginT + marginB));
+          _displayRectangle = new Rectangle(leftMargin, topMargin, this.ClientSize.Width - (leftMargin + rightMargin), this.ClientSize.Height - (topMargin + bottomMargin));
         }
 
         return _displayRectangle;
@@ -138,21 +150,33 @@ namespace Cyotek.Windows.Forms
     {
       base.OnKeyDown(e);
 
-      // allow keyboard navigation, if any tabs are present
-      if (this.TabListPageCount != 0)
+      if (this.ShowTabList)
       {
-        if (e.KeyCode == Keys.Down)
-          this.CycleSelectedTab(1);
-        else if (e.KeyCode == Keys.Up)
-          this.CycleSelectedTab(-1);
-        else if (e.KeyCode == Keys.PageDown)
-          this.CycleSelectedTab(3);
-        else if (e.KeyCode == Keys.PageUp)
-          this.CycleSelectedTab(-3);
-        else if (e.KeyCode == Keys.Home)
-          this.SelectedIndex = 0;
-        else if (e.KeyCode == Keys.End)
-          this.SelectedIndex = this.TabListPageCount - 1;
+        // allow keyboard navigation, if any tabs are present
+        if (this.TabListPageCount != 0)
+        {
+          switch (e.KeyCode)
+          {
+            case Keys.Down:
+              this.CycleSelectedTab(1);
+              break;
+            case Keys.Up:
+              this.CycleSelectedTab(-1);
+              break;
+            case Keys.PageDown:
+              this.CycleSelectedTab(3);
+              break;
+            case Keys.PageUp:
+              this.CycleSelectedTab(-3);
+              break;
+            case Keys.Home:
+              this.SelectedIndex = 0;
+              break;
+            case Keys.End:
+              this.SelectedIndex = this.TabListPageCount - 1;
+              break;
+          }
+        }
       }
     }
 
@@ -167,7 +191,7 @@ namespace Cyotek.Windows.Forms
     {
       base.OnMouseClick(e);
 
-      if (e.Button == MouseButtons.Left)
+      if (e.Button == MouseButtons.Left && (this.DesignMode | this.AllowTabSelection))
       {
         int index;
 
@@ -188,7 +212,8 @@ namespace Cyotek.Windows.Forms
     {
       base.OnMouseMove(e);
 
-      this.HoverIndex = this.GetItemAtPoint(e.Location);
+      if (this.AllowTabSelection)
+        this.HoverIndex = this.GetItemAtPoint(e.Location);
     }
 
     protected override void OnPaddingChanged(EventArgs e)
@@ -200,28 +225,31 @@ namespace Cyotek.Windows.Forms
 
     protected override void OnPaint(PaintEventArgs e)
     {
-      ITabListPageRenderer renderer;
-
       base.OnPaint(e);
 
-      renderer = this.GetRenderer();
-
-      for (int i = 0; i < this.TabListPageCount; i++)
+      if (this.ShowTabList)
       {
-        TabListPageState state;
+        ITabListPageRenderer renderer;
 
-        if (i == this.SelectedIndex)
+        renderer = this.GetRenderer();
+
+        for (int i = 0; i < this.TabListPageCount; i++)
         {
-          state = TabListPageState.Selected;
-          if (this.Focused)
-            state |= TabListPageState.Focused;
-        }
-        else if (i == this.HoverIndex)
-          state = TabListPageState.Hot;
-        else
-          state = TabListPageState.Normal;
+          TabListPageState state;
 
-        renderer.RenderHeader(e.Graphics, this.TabListPages[i], state);
+          if (i == this.SelectedIndex)
+          {
+            state = TabListPageState.Selected;
+            if (this.Focused)
+              state |= TabListPageState.Focused;
+          }
+          else if (i == this.HoverIndex)
+            state = TabListPageState.Hot;
+          else
+            state = TabListPageState.Normal;
+
+          renderer.RenderHeader(e.Graphics, this.TabListPages[i], state);
+        }
       }
     }
 
@@ -545,5 +573,85 @@ namespace Cyotek.Windows.Forms
     }
 
     #endregion  Protected Methods
+
+    private bool _showTabList;
+
+    [Category("Appearance"), DefaultValue(true)]
+    public virtual bool ShowTabList
+    {
+      get { return _showTabList; }
+      set
+      {
+        if (this.ShowTabList != value)
+        {
+          _showTabList = value;
+
+          this.OnShowTabListChanged(EventArgs.Empty);
+        }
+      }
+    }
+
+    /// <summary>
+    /// Occurs when the ShowTabList property value changes
+    /// </summary>
+    [Category("Property Changed")]
+    public event EventHandler ShowTabListChanged;
+
+    /// <summary>
+    /// Raises the <see cref="E:ShowTabListChanged" /> event.
+    /// </summary>
+    /// <param name="e">The <see cref="EventArgs" /> instance containing the event data.</param>
+    protected virtual void OnShowTabListChanged(EventArgs e)
+    {
+      EventHandler handler;
+
+      this.ResetSelectedPage();
+
+      handler = this.ShowTabListChanged;
+
+      if (handler != null)
+        handler(this, e);
+    }
+
+    private bool _allowTabSelection;
+
+    [Category("Behavior"), DefaultValue(true)]
+    public virtual bool AllowTabSelection
+    {
+      get { return _allowTabSelection; }
+      set
+      {
+        if (this.AllowTabSelection != value)
+        {
+          _allowTabSelection = value;
+
+          this.OnAllowTabSelectionChanged(EventArgs.Empty);
+        }
+      }
+    }
+
+    /// <summary>
+    /// Occurs when the AllowTabSelection property value changes
+    /// </summary>
+    [Category("Property Changed")]
+    public event EventHandler AllowTabSelectionChanged;
+
+    /// <summary>
+    /// Raises the <see cref="E:AllowTabSelectionChanged" /> event.
+    /// </summary>
+    /// <param name="e">The <see cref="EventArgs" /> instance containing the event data.</param>
+    protected virtual void OnAllowTabSelectionChanged(EventArgs e)
+    {
+      EventHandler handler;
+
+      this.SetStyles();
+
+      handler = this.AllowTabSelectionChanged;
+
+      if (handler != null)
+        handler(this, e);
+    }
+
+
   }
 }
