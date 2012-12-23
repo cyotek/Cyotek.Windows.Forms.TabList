@@ -41,6 +41,7 @@ namespace Cyotek.Windows.Forms
       // ReSharper disable DoNotCallOverridableMethodsInConstructor
       this.TabListPages = new TabListPageCollection(this);
       this.SelectedIndex = -1;
+      this.HoverIndex = -1;
       this.HeaderSize = new Size(150, 25);
       this.Size = new Size(200, 200); // the default size is tiny!
       this.Padding = new Padding(3);

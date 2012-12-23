@@ -1,5 +1,9 @@
 # TabList Change Log
 
+## 1.0.0.2
+### Bug fixes
+* Fixed the `HoverIndex` property always defaulting to zero.
+
 ## 1.0.0.1
 ### Changes and new features
 * Added `ShowTabList` property. When set to `False`, the list of tabs is no longer displayed, and navigation can only occur via code.
