@@ -9,7 +9,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Cyotek")]
 [assembly: AssemblyProduct("Cyotek Application Framework")]
-[assembly: AssemblyCopyright("Copyright © 2012 Cyotek. All Rights Reserved")]
+[assembly: AssemblyCopyright("Copyright © 2012-2013 Cyotek. All Rights Reserved")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 

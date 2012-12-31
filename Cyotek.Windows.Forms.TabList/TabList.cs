@@ -599,7 +599,7 @@ namespace Cyotek.Windows.Forms
     public event EventHandler ShowTabListChanged;
 
     /// <summary>
-    /// Raises the <see cref="E:ShowTabListChanged" /> event.
+    /// Raises the <see cref="ShowTabListChanged" /> event.
     /// </summary>
     /// <param name="e">The <see cref="EventArgs" /> instance containing the event data.</param>
     protected virtual void OnShowTabListChanged(EventArgs e)
@@ -638,7 +638,7 @@ namespace Cyotek.Windows.Forms
     public event EventHandler AllowTabSelectionChanged;
 
     /// <summary>
-    /// Raises the <see cref="E:AllowTabSelectionChanged" /> event.
+    /// Raises the <see cref="AllowTabSelectionChanged" /> event.
     /// </summary>
     /// <param name="e">The <see cref="EventArgs" /> instance containing the event data.</param>
     protected virtual void OnAllowTabSelectionChanged(EventArgs e)
