@@ -4,25 +4,32 @@ using System.Windows.Forms.Design;
 
 namespace Cyotek.Windows.Forms.Design
 {
+  // Cyotek TabList
+  // Copyright (c) 2012-2013 Cyotek.
+  // http://cyotek.com
+  // http://cyotek.com/blog/tag/tablist
+
+  // Licensed under the MIT License. See tablist-license.txt for the full text.
+
+  // If you use this control in your applications, attribution, donations or contributions are welcome.
+
   public class TabListPageDesigner : ScrollableControlDesigner
   {
-    #region  Overriden Properties
+    #region Overridden Properties
 
     public override SelectionRules SelectionRules
-    { get { return SelectionRules.Locked; } }
+    {
+      get { return SelectionRules.Locked; }
+    }
 
-    #endregion  Overriden Properties
+    #endregion
 
-    #region  Public Overridden Methods
+    #region Overridden Members
 
     public override bool CanBeParentedTo(IDesigner parentDesigner)
     {
       return parentDesigner != null && parentDesigner.Component is TabList;
     }
-
-    #endregion  Public Overridden Methods
-
-    #region  Protected Overridden Methods
 
     protected override void OnPaintAdornments(PaintEventArgs pe)
     {
@@ -35,6 +42,6 @@ namespace Cyotek.Windows.Forms.Design
       }
     }
 
-    #endregion  Protected Overridden Methods
+    #endregion
   }
 }

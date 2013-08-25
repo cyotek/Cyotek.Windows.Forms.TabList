@@ -1,0 +1,35 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!--
+  // Cyotek TabList
+  // Copyright (c) 2012-2013 Cyotek.
+  // http://cyotek.com
+  // http://cyotek.com/blog/tag/tablist
+
+  // Licensed under the MIT License. See tablist-license.txt for the full text.
+
+  // If you use this control in your applications, attribution, donations or contributions are welcome.
+-->
+<package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
+  <metadata>
+    <id>CyotekTabList</id>
+    <version>$version$</version>
+    <title>Cyotek TabList Control</title>
+    <authors>Cyotek</authors>
+    <owners>Cyotek</owners>
+    <licenseUrl>http://static.cyotek.com/files/productlicenses/tablist-license.txt</licenseUrl>
+    <projectUrl>http://cyotek.com/blog/tag/tablist</projectUrl>
+    <iconUrl>http://static.cyotek.com/files/packageicons/tablist-32x32.png</iconUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>The TabList is a multi-paged container control similar to the standard TabControl but designed to look like the Project Properties of Visual Studio 2012 and 2013.</description>
+    <summary>The TabList is a multi-paged container control similar to the standard TabControl but designed to look like the Project Properties of Visual Studio 2012 and 2013.</summary>
+    <releaseNotes />
+    <copyright>Copyright 2012-2013 Cyotek.</copyright>
+    <language>en-GB</language>
+    <tags>tablist tabcontrol form control cyotek</tags>
+    <frameworkAssemblies>
+      <frameworkAssembly assemblyName="System.Windows.Forms" targetFramework="" />
+      <frameworkAssembly assemblyName="System.Drawing" targetFramework="" />
+      <frameworkAssembly assemblyName="System.Design" targetFramework="" />
+    </frameworkAssemblies>
+  </metadata>
+</package>

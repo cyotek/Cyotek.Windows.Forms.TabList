@@ -1,6 +1,6 @@
 ﻿namespace Cyotek.Windows.Forms.Demo
 {
-  partial class MainForm
+  partial class GeneralDemonstrationForm
   {
     /// <summary>
     /// Required designer variable.
@@ -28,7 +28,6 @@
     /// </summary>
     private void InitializeComponent()
     {
-      System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
       this.splitContainer = new System.Windows.Forms.SplitContainer();
       this.viewsTabList = new Cyotek.Windows.Forms.TabList();
       this.controlTabListPage = new Cyotek.Windows.Forms.TabListPage();
@@ -58,12 +57,12 @@
       this.pageTabListPage = new Cyotek.Windows.Forms.TabListPage();
       this.selectionPropertyGrid = new System.Windows.Forms.PropertyGrid();
       this.miscTabListPage = new Cyotek.Windows.Forms.TabListPage();
+      this.lastButton = new System.Windows.Forms.Button();
+      this.nextButton = new System.Windows.Forms.Button();
+      this.previousButton = new System.Windows.Forms.Button();
+      this.firstButton = new System.Windows.Forms.Button();
       this.removePageButton = new System.Windows.Forms.Button();
       this.addPageButton = new System.Windows.Forms.Button();
-      this.firstButton = new System.Windows.Forms.Button();
-      this.previousButton = new System.Windows.Forms.Button();
-      this.nextButton = new System.Windows.Forms.Button();
-      this.lastButton = new System.Windows.Forms.Button();
       this.splitContainer.Panel1.SuspendLayout();
       this.splitContainer.Panel2.SuspendLayout();
       this.splitContainer.SuspendLayout();
@@ -113,6 +112,7 @@
       // controlTabListPage
       // 
       this.controlTabListPage.Controls.Add(this.controlPropertyGrid);
+      this.controlTabListPage.Dock = System.Windows.Forms.DockStyle.Fill;
       this.controlTabListPage.Name = "controlTabListPage";
       this.controlTabListPage.Padding = new System.Windows.Forms.Padding(3);
       this.controlTabListPage.Size = new System.Drawing.Size(242, 510);
@@ -153,6 +153,7 @@
       // 
       this.applicationTabListPage.Controls.Add(this.textBox2);
       this.applicationTabListPage.Controls.Add(this.label2);
+      this.applicationTabListPage.Dock = System.Windows.Forms.DockStyle.Fill;
       this.applicationTabListPage.Name = "applicationTabListPage";
       this.applicationTabListPage.Size = new System.Drawing.Size(197, 510);
       this.applicationTabListPage.TabIndex = 0;
@@ -177,6 +178,7 @@
       // buildTabListPage
       // 
       this.buildTabListPage.Controls.Add(this.checkBox1);
+      this.buildTabListPage.Dock = System.Windows.Forms.DockStyle.Fill;
       this.buildTabListPage.Name = "buildTabListPage";
       this.buildTabListPage.Size = new System.Drawing.Size(42, 192);
       this.buildTabListPage.TabIndex = 1;
@@ -195,6 +197,7 @@
       // builtEventsTabListPage
       // 
       this.builtEventsTabListPage.Controls.Add(this.checkedListBox1);
+      this.builtEventsTabListPage.Dock = System.Windows.Forms.DockStyle.Fill;
       this.builtEventsTabListPage.Name = "builtEventsTabListPage";
       this.builtEventsTabListPage.Size = new System.Drawing.Size(42, 192);
       this.builtEventsTabListPage.TabIndex = 2;
@@ -211,6 +214,7 @@
       // debugTabListPage
       // 
       this.debugTabListPage.Controls.Add(this.comboBox1);
+      this.debugTabListPage.Dock = System.Windows.Forms.DockStyle.Fill;
       this.debugTabListPage.Name = "debugTabListPage";
       this.debugTabListPage.Size = new System.Drawing.Size(42, 192);
       this.debugTabListPage.TabIndex = 3;
@@ -227,6 +231,7 @@
       // resourcesTabListPage
       // 
       this.resourcesTabListPage.Controls.Add(this.dateTimePicker1);
+      this.resourcesTabListPage.Dock = System.Windows.Forms.DockStyle.Fill;
       this.resourcesTabListPage.Name = "resourcesTabListPage";
       this.resourcesTabListPage.Size = new System.Drawing.Size(42, 192);
       this.resourcesTabListPage.TabIndex = 4;
@@ -242,6 +247,7 @@
       // servicesTabListPage
       // 
       this.servicesTabListPage.Controls.Add(this.linkLabel1);
+      this.servicesTabListPage.Dock = System.Windows.Forms.DockStyle.Fill;
       this.servicesTabListPage.Name = "servicesTabListPage";
       this.servicesTabListPage.Size = new System.Drawing.Size(42, 192);
       this.servicesTabListPage.TabIndex = 5;
@@ -259,6 +265,7 @@
       // 
       // securityTabListPage
       // 
+      this.securityTabListPage.Dock = System.Windows.Forms.DockStyle.Fill;
       this.securityTabListPage.Name = "securityTabListPage";
       this.securityTabListPage.Size = new System.Drawing.Size(42, 192);
       this.securityTabListPage.TabIndex = 9;
@@ -266,6 +273,7 @@
       // 
       // settingsTabListPage
       // 
+      this.settingsTabListPage.Dock = System.Windows.Forms.DockStyle.Fill;
       this.settingsTabListPage.Name = "settingsTabListPage";
       this.settingsTabListPage.Size = new System.Drawing.Size(42, 192);
       this.settingsTabListPage.TabIndex = 6;
@@ -273,6 +281,7 @@
       // 
       // referencePathsTabListPage
       // 
+      this.referencePathsTabListPage.Dock = System.Windows.Forms.DockStyle.Fill;
       this.referencePathsTabListPage.Name = "referencePathsTabListPage";
       this.referencePathsTabListPage.Size = new System.Drawing.Size(42, 192);
       this.referencePathsTabListPage.TabIndex = 7;
@@ -280,6 +289,7 @@
       // 
       // signingTabListPage
       // 
+      this.signingTabListPage.Dock = System.Windows.Forms.DockStyle.Fill;
       this.signingTabListPage.Name = "signingTabListPage";
       this.signingTabListPage.Size = new System.Drawing.Size(42, 192);
       this.signingTabListPage.TabIndex = 8;
@@ -287,6 +297,7 @@
       // 
       // publishTabListPage
       // 
+      this.publishTabListPage.Dock = System.Windows.Forms.DockStyle.Fill;
       this.publishTabListPage.Name = "publishTabListPage";
       this.publishTabListPage.Size = new System.Drawing.Size(42, 192);
       this.publishTabListPage.TabIndex = 10;
@@ -296,6 +307,7 @@
       // 
       this.codeAnalysisTabListPage.Controls.Add(this.textBox1);
       this.codeAnalysisTabListPage.Controls.Add(this.label1);
+      this.codeAnalysisTabListPage.Dock = System.Windows.Forms.DockStyle.Fill;
       this.codeAnalysisTabListPage.Name = "codeAnalysisTabListPage";
       this.codeAnalysisTabListPage.Size = new System.Drawing.Size(42, 192);
       this.codeAnalysisTabListPage.TabIndex = 11;
@@ -320,6 +332,7 @@
       // pageTabListPage
       // 
       this.pageTabListPage.Controls.Add(this.selectionPropertyGrid);
+      this.pageTabListPage.Dock = System.Windows.Forms.DockStyle.Fill;
       this.pageTabListPage.Name = "pageTabListPage";
       this.pageTabListPage.Padding = new System.Windows.Forms.Padding(3);
       this.pageTabListPage.Size = new System.Drawing.Size(42, 192);
@@ -342,11 +355,52 @@
       this.miscTabListPage.Controls.Add(this.firstButton);
       this.miscTabListPage.Controls.Add(this.removePageButton);
       this.miscTabListPage.Controls.Add(this.addPageButton);
+      this.miscTabListPage.Dock = System.Windows.Forms.DockStyle.Fill;
       this.miscTabListPage.Name = "miscTabListPage";
       this.miscTabListPage.Padding = new System.Windows.Forms.Padding(3);
-      this.miscTabListPage.Size = new System.Drawing.Size(242, 510);
+      this.miscTabListPage.Size = new System.Drawing.Size(42, 192);
       this.miscTabListPage.TabIndex = 2;
       this.miscTabListPage.Text = "Misc";
+      // 
+      // lastButton
+      // 
+      this.lastButton.Location = new System.Drawing.Point(8, 162);
+      this.lastButton.Name = "lastButton";
+      this.lastButton.Size = new System.Drawing.Size(132, 23);
+      this.lastButton.TabIndex = 5;
+      this.lastButton.Text = "Last";
+      this.lastButton.UseVisualStyleBackColor = true;
+      this.lastButton.Click += new System.EventHandler(this.lastButton_Click);
+      // 
+      // nextButton
+      // 
+      this.nextButton.Location = new System.Drawing.Point(8, 133);
+      this.nextButton.Name = "nextButton";
+      this.nextButton.Size = new System.Drawing.Size(132, 23);
+      this.nextButton.TabIndex = 4;
+      this.nextButton.Text = "Next";
+      this.nextButton.UseVisualStyleBackColor = true;
+      this.nextButton.Click += new System.EventHandler(this.nextButton_Click);
+      // 
+      // previousButton
+      // 
+      this.previousButton.Location = new System.Drawing.Point(8, 104);
+      this.previousButton.Name = "previousButton";
+      this.previousButton.Size = new System.Drawing.Size(132, 23);
+      this.previousButton.TabIndex = 3;
+      this.previousButton.Text = "Previous";
+      this.previousButton.UseVisualStyleBackColor = true;
+      this.previousButton.Click += new System.EventHandler(this.previousButton_Click);
+      // 
+      // firstButton
+      // 
+      this.firstButton.Location = new System.Drawing.Point(8, 75);
+      this.firstButton.Name = "firstButton";
+      this.firstButton.Size = new System.Drawing.Size(132, 23);
+      this.firstButton.TabIndex = 2;
+      this.firstButton.Text = "First";
+      this.firstButton.UseVisualStyleBackColor = true;
+      this.firstButton.Click += new System.EventHandler(this.firstButton_Click);
       // 
       // removePageButton
       // 
@@ -368,55 +422,14 @@
       this.addPageButton.UseVisualStyleBackColor = true;
       this.addPageButton.Click += new System.EventHandler(this.addPageButton_Click);
       // 
-      // firstButton
-      // 
-      this.firstButton.Location = new System.Drawing.Point(8, 75);
-      this.firstButton.Name = "firstButton";
-      this.firstButton.Size = new System.Drawing.Size(132, 23);
-      this.firstButton.TabIndex = 2;
-      this.firstButton.Text = "First";
-      this.firstButton.UseVisualStyleBackColor = true;
-      this.firstButton.Click += new System.EventHandler(this.firstButton_Click);
-      // 
-      // previousButton
-      // 
-      this.previousButton.Location = new System.Drawing.Point(8, 104);
-      this.previousButton.Name = "previousButton";
-      this.previousButton.Size = new System.Drawing.Size(132, 23);
-      this.previousButton.TabIndex = 3;
-      this.previousButton.Text = "Previous";
-      this.previousButton.UseVisualStyleBackColor = true;
-      this.previousButton.Click += new System.EventHandler(this.previousButton_Click);
-      // 
-      // nextButton
-      // 
-      this.nextButton.Location = new System.Drawing.Point(8, 133);
-      this.nextButton.Name = "nextButton";
-      this.nextButton.Size = new System.Drawing.Size(132, 23);
-      this.nextButton.TabIndex = 4;
-      this.nextButton.Text = "Next";
-      this.nextButton.UseVisualStyleBackColor = true;
-      this.nextButton.Click += new System.EventHandler(this.nextButton_Click);
-      // 
-      // lastButton
-      // 
-      this.lastButton.Location = new System.Drawing.Point(8, 162);
-      this.lastButton.Name = "lastButton";
-      this.lastButton.Size = new System.Drawing.Size(132, 23);
-      this.lastButton.TabIndex = 5;
-      this.lastButton.Text = "Last";
-      this.lastButton.UseVisualStyleBackColor = true;
-      this.lastButton.Click += new System.EventHandler(this.lastButton_Click);
-      // 
-      // MainForm
+      // GeneralDemonstrationForm
       // 
       this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
       this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
       this.ClientSize = new System.Drawing.Size(759, 518);
       this.Controls.Add(this.splitContainer);
       this.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-      this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-      this.Name = "MainForm";
+      this.Name = "GeneralDemonstrationForm";
       this.Text = "Cyotek TabList Control Demonstration";
       this.splitContainer.Panel1.ResumeLayout(false);
       this.splitContainer.Panel2.ResumeLayout(false);

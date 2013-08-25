@@ -3,15 +3,22 @@ using System.Collections;
 
 namespace Cyotek.Windows.Forms
 {
+  // Cyotek TabList
+  // Copyright (c) 2012-2013 Cyotek.
+  // http://cyotek.com
+  // http://cyotek.com/blog/tag/tablist
+
+  // Licensed under the MIT License. See tablist-license.txt for the full text.
+
+  // If you use this control in your applications, attribution, donations or contributions are welcome.
+
   partial class TabList
   {
-    #region  Nested Classes
+    #region Nested Types
 
-
-    public class TabListPageCollection
-      : IList, ICollection, IEnumerable
+    public class TabListPageCollection : IList, ICollection, IEnumerable
     {
-      #region  Public Constructors
+      #region Constructors
 
       public TabListPageCollection(TabList owner)
       {
@@ -21,15 +28,52 @@ namespace Cyotek.Windows.Forms
         this.Owner = owner;
       }
 
-      #endregion  Public Constructors
+      #endregion
 
-      #region  Public Methods
+      #region Properties
+
+      public int Count
+      {
+        get { return this.Owner.TabListPageCount; }
+      }
+
+      public bool IsFixedSize
+      {
+        get { return false; }
+      }
+
+      public bool IsReadOnly
+      {
+        get { return false; }
+      }
+
+      public bool IsSynchronized
+      {
+        get { return false; }
+      }
+
+      public virtual TabListPage this[int index]
+      {
+        get { return this.Owner.GetTabListPages()[index]; }
+        set { this.Owner.SelectedIndex = index; }
+      }
+
+      public object SyncRoot
+      {
+        get { return this; }
+      }
+
+      protected TabList Owner { get; set; }
+
+      #endregion
+
+      #region Members
 
       public TabListPage Add(string text)
       {
         TabListPage page;
 
-        page = new TabListPage()
+        page = new TabListPage
         {
           Text = text
         };
@@ -120,34 +164,9 @@ namespace Cyotek.Windows.Forms
         this.Owner.Controls.RemoveAt(index);
       }
 
-      #endregion  Public Methods
+      #endregion
 
-      #region  Public Properties
-
-      public int Count
-      { get { return this.Owner.TabListPageCount; } }
-
-      public bool IsFixedSize
-      { get { return false; } }
-
-      public bool IsReadOnly
-      { get { return false; } }
-
-      public bool IsSynchronized
-      { get { return false; } }
-
-      public object SyncRoot
-      { get { return this; } }
-
-      public virtual TabListPage this[int index]
-      {
-        get { return this.Owner.GetTabListPages()[index]; }
-        set { this.Owner.SelectedIndex = index; }
-      }
-
-      #endregion  Public Properties
-
-      #region  Private Properties
+      #region IList Members
 
       object IList.this[int index]
       {
@@ -160,10 +179,6 @@ namespace Cyotek.Windows.Forms
           this[index] = (TabListPage)value;
         }
       }
-
-      #endregion  Private Properties
-
-      #region  Private Methods
 
       int IList.Add(object value)
       {
@@ -210,14 +225,9 @@ namespace Cyotek.Windows.Forms
           this.Remove((TabListPage)value);
       }
 
-      #endregion  Private Methods
-
-      #region  Protected Properties
-
-      protected TabList Owner { get; set; }
-
-      #endregion  Protected Properties
+      #endregion
     }
-    #endregion  Nested Classes
+
+    #endregion
   }
 }

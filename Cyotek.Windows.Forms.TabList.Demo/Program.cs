@@ -3,21 +3,30 @@ using System.Windows.Forms;
 
 namespace Cyotek.Windows.Forms.Demo
 {
-  static class Program
+  // Cyotek TabList
+  // Copyright (c) 2012-2013 Cyotek.
+  // http://cyotek.com
+  // http://cyotek.com/blog/tag/tablist
+
+  // Licensed under the MIT License. See tablist-license.txt for the full text.
+
+  // If you use this control in your applications, attribution, donations or contributions are welcome.
+
+  internal static class Program
   {
-    #region  Private Class Methods
+    #region Class Members
 
     /// <summary>
     /// The main entry point for the application.
     /// </summary>
     [STAThread]
-    static void Main()
+    private static void Main()
     {
       Application.EnableVisualStyles();
       Application.SetCompatibleTextRenderingDefault(false);
-      Application.Run(new MainForm());
+      Application.Run(new MainMenuForm());
     }
 
-    #endregion  Private Class Methods
+    #endregion
   }
 }

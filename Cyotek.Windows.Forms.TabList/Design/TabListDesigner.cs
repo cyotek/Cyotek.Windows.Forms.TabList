@@ -9,17 +9,28 @@ using System.Windows.Forms.Design;
 
 namespace Cyotek.Windows.Forms.Design
 {
+  // Cyotek TabList
+  // Copyright (c) 2012-2013 Cyotek.
+  // http://cyotek.com
+  // http://cyotek.com/blog/tag/tablist
+
+  // Licensed under the MIT License. See tablist-license.txt for the full text.
+
+  // If you use this control in your applications, attribution, donations or contributions are welcome.
+
   public class TabListDesigner : ParentControlDesigner
   {
-    #region  Private Member Declarations
+    #region Instance Fields
 
     private DesignerVerb _addVerb;
+
     private DesignerVerb _removeVerb;
+
     private DesignerVerbCollection _verbs;
 
-    #endregion  Private Member Declarations
+    #endregion
 
-    #region  Overriden Properties
+    #region Overridden Properties
 
     /// <summary>
     /// Gets a value indicating whether the <see cref="T:System.Windows.Forms.Design.ControlDesigner" /> will allow snapline alignment during a drag operation.
@@ -57,8 +68,14 @@ namespace Cyotek.Windows.Forms.Design
         {
           _verbs = new DesignerVerbCollection();
 
-          _addVerb = new DesignerVerb("Add TabListPage", this.AddVerbHandler) { Description = "Add a new TabListPage to the parent control." };
-          _removeVerb = new DesignerVerb("Remove TabListPage", this.RemoveVerbHandler) { Description = "Remove the currently selected TabListPage from the parent control." };
+          _addVerb = new DesignerVerb("Add TabListPage", this.AddVerbHandler)
+          {
+            Description = "Add a new TabListPage to the parent control."
+          };
+          _removeVerb = new DesignerVerb("Remove TabListPage", this.RemoveVerbHandler)
+          {
+            Description = "Remove the currently selected TabListPage from the parent control."
+          };
 
           _verbs.Add(_addVerb);
           _verbs.Add(_removeVerb);
@@ -68,9 +85,9 @@ namespace Cyotek.Windows.Forms.Design
       }
     }
 
-    #endregion  Overriden Properties
+    #endregion
 
-    #region  Public Overridden Methods
+    #region Overridden Members
 
     /// <summary>
     /// Indicates whether the control managed by the specified designer can be a child of the control managed by this designer.
@@ -124,10 +141,6 @@ namespace Cyotek.Windows.Forms.Design
       this.TabListControl.SelectedIndex = 0;
     }
 
-    #endregion  Public Overridden Methods
-
-    #region  Protected Overridden Methods
-
     /// <summary>
     /// Provides core functionality for all the <see cref="M:System.Windows.Forms.Design.ParentControlDesigner.CreateTool(System.Drawing.Design.ToolboxItem)" /> methods.
     /// </summary>
@@ -159,7 +172,7 @@ namespace Cyotek.Windows.Forms.Design
         childDesigner = (ParentControlDesigner)host.GetDesigner(control.SelectedPage);
 
         // add controls onto the TabListPage control instead of the TabList
-        ParentControlDesigner.InvokeCreateTool(childDesigner, tool);
+        InvokeCreateTool(childDesigner, tool);
       }
 
       return null;
@@ -253,157 +266,22 @@ namespace Cyotek.Windows.Forms.Design
       }
     }
 
-    #endregion  Protected Overridden Methods
+    #endregion
 
-    #region  Private Methods
-
-    /// <summary>
-    /// Called when the Add TabListPage verb is executed
-    /// </summary>
-    /// <param name="sender">The sender.</param>
-    /// <param name="e">The <see cref="EventArgs" /> instance containing the event data.</param>
-    private void AddVerbHandler(object sender, EventArgs e)
-    {
-      this.AddTabListPage();
-    }
-
-    /// <summary>
-    /// Gets the TabListPage that contains the specified component
-    /// </summary>
-    /// <param name="component">The component.</param>
-    /// <returns>The TabListPage that hosts the specified component, otherwise null</returns>
-    private TabListPage GetComponentOwner(object component)
-    {
-      TabListPage result;
-
-      if (component is Control)
-      {
-        Control parent;
-
-        parent = (Control)component;
-        while (parent != null && !(parent is TabListPage))
-          parent = parent.Parent;
-
-        result = (TabListPage)parent;
-      }
-      else
-        result = null;
-
-      return result;
-    }
-
-    /// <summary>
-    /// Gets the designer for the selected TabListPage
-    /// </summary>
-    /// <returns></returns>
-    private TabListPageDesigner GetSelectedTabListPageDesigner()
-    {
-      TabListPageDesigner designer;
-      TabListPage selectedPage;
-
-      selectedPage = this.TabListControl.SelectedPage;
-      designer = null;
-
-      if (selectedPage != null)
-      {
-        IDesignerHost host;
-
-        host = (IDesignerHost)this.GetService(typeof(IDesignerHost));
-        if (host != null)
-          designer = host.GetDesigner(selectedPage) as TabListPageDesigner;
-      }
-
-      return designer;
-    }
-
-    /// <summary>
-    /// Called when the component attached to this designer has changed
-    /// </summary>
-    /// <param name="sender">The sender.</param>
-    /// <param name="e">The <see cref="ComponentChangedEventArgs" /> instance containing the event data.</param>
-    private void OnComponentChanged(object sender, ComponentChangedEventArgs e)
-    {
-      // disable the Remove command if we dont' have anything we can actually remove
-      if (_removeVerb != null)
-        _removeVerb.Enabled = this.TabListControl.TabListPageCount > 0;
-    }
-
-    /// <summary>
-    /// Called when the SelectedIndex property of the TabList control being designed has changed
-    /// </summary>
-    /// <param name="sender">The sender.</param>
-    /// <param name="e">The <see cref="EventArgs" /> instance containing the event data.</param>
-    private void OnSelectedIndexChanged(object sender, EventArgs e)
-    {
-      ISelectionService service;
-
-      service = (ISelectionService)this.GetService(typeof(ISelectionService));
-      if (service != null)
-      {
-        // set the TabList control as the selected object. We need to do this as if the control is selected as a result
-        // of GetHitTest returning true, normal designer actions don't seem to take place
-        // Alternatively, we could select the selected TabListPage instead but might as well stick with the standard behaviour
-        service.SetSelectedComponents(new object[] { this.Control });
-      }
-    }
-
-    /// <summary>
-    /// Called when the selected components have changed
-    /// </summary>
-    /// <param name="sender">The sender.</param>
-    /// <param name="e">The <see cref="EventArgs" /> instance containing the event data.</param>
-    private void OnSelectionChanged(object sender, EventArgs e)
-    {
-      ISelectionService service;
-
-      service = (ISelectionService)this.GetService(typeof(ISelectionService));
-      if (service != null)
-      {
-        TabList control;
-
-        control = this.TabListControl;
-        foreach (object component in service.GetSelectedComponents())
-        {
-          TabListPage ownedPage;
-
-          // check to see if one of the selected controls is hosted on a TabListPage. If it is, 
-          // activate the page. This means, if for example, you select a control via the
-          // IDE's properties window, the relavent TabListPage will be activated
-
-          ownedPage = this.GetComponentOwner(component);
-          if (ownedPage != null && ownedPage.Parent == control)
-          {
-            control.SelectedPage = ownedPage;
-            break;
-          }
-        }
-      }
-    }
-
-    /// <summary>
-    /// Called when the Remove TabListPage verb is executed
-    /// </summary>
-    /// <param name="sender">The sender.</param>
-    /// <param name="e">The <see cref="EventArgs" /> instance containing the event data.</param>
-    private void RemoveVerbHandler(object sender, EventArgs e)
-    {
-      this.RemoveSelectedTabListPage();
-    }
-
-    #endregion  Private Methods
-
-    #region  Protected Properties
+    #region Properties
 
     /// <summary>
     /// Gets the TabList control currently being designed
     /// </summary>
     /// <value>The TabList control being designed.</value>
     protected TabList TabListControl
-    { get { return this.Control as TabList; } }
+    {
+      get { return this.Control as TabList; }
+    }
 
-    #endregion  Protected Properties
+    #endregion
 
-    #region  Protected Methods
+    #region Members
 
     /// <summary>
     /// Adds a new TabListPage to the control
@@ -500,6 +378,146 @@ namespace Cyotek.Windows.Forms.Design
       }
     }
 
-    #endregion  Protected Methods
+    /// <summary>
+    /// Called when the Add TabListPage verb is executed
+    /// </summary>
+    /// <param name="sender">The sender.</param>
+    /// <param name="e">The <see cref="EventArgs" /> instance containing the event data.</param>
+    private void AddVerbHandler(object sender, EventArgs e)
+    {
+      this.AddTabListPage();
+    }
+
+    /// <summary>
+    /// Gets the TabListPage that contains the specified component
+    /// </summary>
+    /// <param name="component">The component.</param>
+    /// <returns>The TabListPage that hosts the specified component, otherwise null</returns>
+    private TabListPage GetComponentOwner(object component)
+    {
+      TabListPage result;
+
+      if (component is Control)
+      {
+        Control parent;
+
+        parent = (Control)component;
+        while (parent != null && !(parent is TabListPage))
+          parent = parent.Parent;
+
+        result = (TabListPage)parent;
+      }
+      else
+        result = null;
+
+      return result;
+    }
+
+    /// <summary>
+    /// Gets the designer for the selected TabListPage
+    /// </summary>
+    /// <returns></returns>
+    private TabListPageDesigner GetSelectedTabListPageDesigner()
+    {
+      TabListPageDesigner designer;
+      TabListPage selectedPage;
+
+      selectedPage = this.TabListControl.SelectedPage;
+      designer = null;
+
+      if (selectedPage != null)
+      {
+        IDesignerHost host;
+
+        host = (IDesignerHost)this.GetService(typeof(IDesignerHost));
+        if (host != null)
+          designer = host.GetDesigner(selectedPage) as TabListPageDesigner;
+      }
+
+      return designer;
+    }
+
+    /// <summary>
+    /// Called when the Remove TabListPage verb is executed
+    /// </summary>
+    /// <param name="sender">The sender.</param>
+    /// <param name="e">The <see cref="EventArgs" /> instance containing the event data.</param>
+    private void RemoveVerbHandler(object sender, EventArgs e)
+    {
+      this.RemoveSelectedTabListPage();
+    }
+
+    #endregion
+
+    #region Event Handlers
+
+    /// <summary>
+    /// Called when the component attached to this designer has changed
+    /// </summary>
+    /// <param name="sender">The sender.</param>
+    /// <param name="e">The <see cref="ComponentChangedEventArgs" /> instance containing the event data.</param>
+    private void OnComponentChanged(object sender, ComponentChangedEventArgs e)
+    {
+      // disable the Remove command if we dont' have anything we can actually remove
+      if (_removeVerb != null)
+        _removeVerb.Enabled = this.TabListControl.TabListPageCount > 0;
+    }
+
+    /// <summary>
+    /// Called when the SelectedIndex property of the TabList control being designed has changed
+    /// </summary>
+    /// <param name="sender">The sender.</param>
+    /// <param name="e">The <see cref="EventArgs" /> instance containing the event data.</param>
+    private void OnSelectedIndexChanged(object sender, EventArgs e)
+    {
+      ISelectionService service;
+
+      service = (ISelectionService)this.GetService(typeof(ISelectionService));
+      if (service != null)
+      {
+        // set the TabList control as the selected object. We need to do this as if the control is selected as a result
+        // of GetHitTest returning true, normal designer actions don't seem to take place
+        // Alternatively, we could select the selected TabListPage instead but might as well stick with the standard behaviour
+        service.SetSelectedComponents(new object[]
+        {
+          this.Control
+        });
+      }
+    }
+
+    /// <summary>
+    /// Called when the selected components have changed
+    /// </summary>
+    /// <param name="sender">The sender.</param>
+    /// <param name="e">The <see cref="EventArgs" /> instance containing the event data.</param>
+    private void OnSelectionChanged(object sender, EventArgs e)
+    {
+      ISelectionService service;
+
+      service = (ISelectionService)this.GetService(typeof(ISelectionService));
+      if (service != null)
+      {
+        TabList control;
+
+        control = this.TabListControl;
+        foreach (object component in service.GetSelectedComponents())
+        {
+          TabListPage ownedPage;
+
+          // check to see if one of the selected controls is hosted on a TabListPage. If it is, 
+          // activate the page. This means, if for example, you select a control via the
+          // IDE's properties window, the relavent TabListPage will be activated
+
+          ownedPage = this.GetComponentOwner(component);
+          if (ownedPage != null && ownedPage.Parent == control)
+          {
+            control.SelectedPage = ownedPage;
+            break;
+          }
+        }
+      }
+    }
+
+    #endregion
   }
 }

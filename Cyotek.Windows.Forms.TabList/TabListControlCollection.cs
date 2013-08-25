@@ -3,25 +3,30 @@ using System.Windows.Forms;
 
 namespace Cyotek.Windows.Forms
 {
+  // Cyotek TabList
+  // Copyright (c) 2012-2013 Cyotek.
+  // http://cyotek.com
+  // http://cyotek.com/blog/tag/tablist
+
+  // Licensed under the MIT License. See tablist-license.txt for the full text.
+
+  // If you use this control in your applications, attribution, donations or contributions are welcome.
+
   partial class TabList
   {
-    #region  Nested Classes
+    #region Nested Types
 
-
-    public class TabListControlCollection
-      : Control.ControlCollection
+    public class TabListControlCollection : ControlCollection
     {
-      #region  Public Constructors
+      #region Constructors
 
       public TabListControlCollection(TabList owner)
         : base(owner)
-      {
+      { }
 
-      }
+      #endregion
 
-      #endregion  Public Constructors
-
-      #region  Public Overridden Methods
+      #region Overridden Members
 
       public override void Add(Control value)
       {
@@ -54,15 +59,18 @@ namespace Cyotek.Windows.Forms
         }
       }
 
-      #endregion  Public Overridden Methods
+      #endregion
 
-      #region  Protected Properties
+      #region Properties
 
       protected new TabList Owner
-      { get { return (TabList)base.Owner; } }
+      {
+        get { return (TabList)base.Owner; }
+      }
 
-      #endregion  Protected Properties
+      #endregion
     }
-    #endregion  Nested Classes
+
+    #endregion
   }
 }
