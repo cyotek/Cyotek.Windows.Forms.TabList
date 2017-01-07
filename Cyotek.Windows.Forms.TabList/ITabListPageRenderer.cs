@@ -13,9 +13,15 @@ namespace Cyotek.Windows.Forms
 
   public interface ITabListPageRenderer
   {
-    #region Members
+    #region Methods
+
+    Size GetPreferredSize(TabListPage page, Size proposedSize);
+
+    Point GetStartingPosition();
 
     void RenderHeader(Graphics g, TabListPage page, TabListPageState state);
+
+    void RenderList(Graphics g, Rectangle bounds);
 
     #endregion
   }

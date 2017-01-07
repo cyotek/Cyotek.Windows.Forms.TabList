@@ -30,6 +30,7 @@
     {
       this.generalDemoButton = new System.Windows.Forms.Button();
       this.groupBox1 = new Cyotek.Windows.Forms.GroupBox();
+      this.renderStylesDemoButton = new System.Windows.Forms.Button();
       this.groupBox1.SuspendLayout();
       this.SuspendLayout();
       // 
@@ -50,6 +51,7 @@
       this.groupBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+      this.groupBox1.Controls.Add(this.renderStylesDemoButton);
       this.groupBox1.Controls.Add(this.generalDemoButton);
       this.groupBox1.Location = new System.Drawing.Point(31, 65);
       this.groupBox1.Name = "groupBox1";
@@ -57,6 +59,18 @@
       this.groupBox1.TabIndex = 0;
       this.groupBox1.TabStop = false;
       this.groupBox1.Text = "Available Demonstrations";
+      // 
+      // renderStylesDemoButton
+      // 
+      this.renderStylesDemoButton.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+      this.renderStylesDemoButton.Location = new System.Drawing.Point(6, 55);
+      this.renderStylesDemoButton.Name = "renderStylesDemoButton";
+      this.renderStylesDemoButton.Size = new System.Drawing.Size(432, 27);
+      this.renderStylesDemoButton.TabIndex = 1;
+      this.renderStylesDemoButton.Text = "&Render Styles Demonstration";
+      this.renderStylesDemoButton.UseVisualStyleBackColor = true;
+      this.renderStylesDemoButton.Click += new System.EventHandler(this.renderStylesDemoButton_Click);
       // 
       // MainMenuForm
       // 
@@ -79,6 +93,7 @@
 
     private System.Windows.Forms.Button generalDemoButton;
     private GroupBox groupBox1;
+    private System.Windows.Forms.Button renderStylesDemoButton;
 
 
 

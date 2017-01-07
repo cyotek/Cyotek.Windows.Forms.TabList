@@ -1,13 +1,17 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2012
+# Visual Studio 14
+VisualStudioVersion = 14.0.25420.1
+MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cyotek.Windows.Forms.TabList", "Cyotek.Windows.Forms.TabList\Cyotek.Windows.Forms.TabList.csproj", "{D7519C01-B68B-4D40-AB96-409D6BC7372B}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cyotek.Windows.Forms.TabList.Demo", "Cyotek.Windows.Forms.TabList.Demo\Cyotek.Windows.Forms.TabList.Demo.csproj", "{9D3CA517-EC64-441D-A0EF-8418C317E2ED}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Files", "Solution Files", "{EF418F1C-7FAB-4245-B018-05D4D2BCA5CB}"
 	ProjectSection(SolutionItems) = preProject
+		build.cmd = build.cmd
 		changelog.md = changelog.md
+		push.cmd = push.cmd
 		readme.md = readme.md
 		tablist-license.txt = tablist-license.txt
 	EndProjectSection

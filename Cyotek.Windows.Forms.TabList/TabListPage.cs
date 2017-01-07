@@ -21,7 +21,7 @@ namespace Cyotek.Windows.Forms
   [DefaultProperty("Text")]
   public class TabListPage : Panel
   {
-    #region Constructors
+    #region Public Constructors
 
     public TabListPage()
     {
@@ -162,7 +162,7 @@ namespace Cyotek.Windows.Forms
 
     #endregion
 
-    #region Overridden Members
+    #region Overridden Methods
 
     protected override void OnFontChanged(EventArgs e)
     {
@@ -178,7 +178,7 @@ namespace Cyotek.Windows.Forms
 
     #endregion
 
-    #region Properties
+    #region Public Properties
 
     [EditorBrowsable(EditorBrowsableState.Never)]
     [Browsable(false)]
@@ -240,12 +240,14 @@ namespace Cyotek.Windows.Forms
 
     #endregion
 
-    #region Members
+    #region Private Members
 
     private void UpdateParent()
     {
       if (this.Parent != null && this.Parent is TabList)
+      {
         this.Owner.UpdatePage(this);
+      }
     }
 
     #endregion

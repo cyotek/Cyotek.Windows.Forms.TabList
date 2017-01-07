@@ -18,7 +18,7 @@ namespace Cyotek.Windows.Forms
 
     public class TabListControlCollection : ControlCollection
     {
-      #region Constructors
+      #region Public Constructors
 
       public TabListControlCollection(TabList owner)
         : base(owner)
@@ -26,14 +26,16 @@ namespace Cyotek.Windows.Forms
 
       #endregion
 
-      #region Overridden Members
+      #region Overridden Methods
 
       public override void Add(Control value)
       {
         TabListPage page;
 
         if (!(value is TabListPage))
+        {
           throw new ArgumentException("Only TabListPage controls can be hosted in this control.");
+        }
 
         page = (TabListPage)value;
         page.Visible = false; // all pages should be hidden by default
@@ -55,13 +57,15 @@ namespace Cyotek.Windows.Forms
           index = this.Owner.TabListPages.IndexOf((TabListPage)value);
 
           if (index != -1)
+          {
             this.Owner.RemovePageAt(index);
+          }
         }
       }
 
       #endregion
 
-      #region Properties
+      #region Protected Properties
 
       protected new TabList Owner
       {

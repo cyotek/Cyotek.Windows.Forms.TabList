@@ -24,7 +24,7 @@ namespace Cyotek.Windows.Forms.Design
 
     #endregion
 
-    #region Overridden Members
+    #region Overridden Methods
 
     public override bool CanBeParentedTo(IDesigner parentDesigner)
     {

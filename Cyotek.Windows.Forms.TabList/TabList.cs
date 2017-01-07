@@ -39,6 +39,8 @@ namespace Cyotek.Windows.Forms
 
     private bool _showTabList;
 
+    private Rectangle _tabListBounds;
+
     #endregion
 
     #region Static Constructors
@@ -50,7 +52,7 @@ namespace Cyotek.Windows.Forms
 
     #endregion
 
-    #region Constructors
+    #region Public Constructors
 
     public TabList()
     {
@@ -110,9 +112,13 @@ namespace Cyotek.Windows.Forms
 
           // to avoid calculating every time, calculate it only when it's need it and cache it like any normal property
           if (this.ShowTabList)
+          {
             leftMargin = this.HeaderSize.Width + this.Padding.Left + 1;
+          }
           else
+          {
             leftMargin = this.Padding.Left + 1;
+          }
           topMargin = this.Padding.Top + 1;
           rightMargin = this.Padding.Right + 1;
           bottomMargin = this.Padding.Bottom + 1;
@@ -134,7 +140,7 @@ namespace Cyotek.Windows.Forms
 
     #endregion
 
-    #region Overridden Members
+    #region Overridden Methods
 
     protected override ControlCollection CreateControlsInstance()
     {
@@ -217,7 +223,9 @@ namespace Cyotek.Windows.Forms
 
         index = this.GetItemAtPoint(e.Location);
         if (index != -1)
+        {
           this.SelectedIndex = index;
+        }
       }
     }
 
@@ -233,7 +241,9 @@ namespace Cyotek.Windows.Forms
       base.OnMouseMove(e);
 
       if (this.AllowTabSelection)
+      {
         this.HoverIndex = this.GetItemAtPoint(e.Location);
+      }
     }
 
     protected override void OnPaddingChanged(EventArgs e)
@@ -253,6 +263,10 @@ namespace Cyotek.Windows.Forms
 
         renderer = this.GetRenderer();
 
+        // paint the sidebar
+        renderer.RenderList(e.Graphics, this.TabListBounds);
+
+        // paint the pages
         for (int i = 0; i < this.TabListPageCount; i++)
         {
           TabListPageState state;
@@ -261,12 +275,18 @@ namespace Cyotek.Windows.Forms
           {
             state = TabListPageState.Selected;
             if (this.Focused)
+            {
               state |= TabListPageState.Focused;
+            }
           }
           else if (i == this.HoverIndex)
+          {
             state = TabListPageState.Hot;
+          }
           else
+          {
             state = TabListPageState.Normal;
+          }
 
           renderer.RenderHeader(e.Graphics, this.TabListPages[i], state);
         }
@@ -282,7 +302,7 @@ namespace Cyotek.Windows.Forms
 
     #endregion
 
-    #region Properties
+    #region Public Properties
 
     [Category("Behavior")]
     [DefaultValue(true)]
@@ -396,6 +416,21 @@ namespace Cyotek.Windows.Forms
     }
 
     [Browsable(false)]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+    public Rectangle TabListBounds
+    {
+      get
+      {
+        if (_tabListBounds.IsEmpty && this.ShowTabList)
+        {
+          _tabListBounds = new Rectangle(this.Padding.Left, this.Padding.Top, this.DisplayRectangle.Left - (this.Padding.Left + 1), this.ClientRectangle.Height - this.Padding.Vertical);
+        }
+
+        return _tabListBounds;
+      }
+    }
+
+    [Browsable(false)]
     public virtual int TabListPageCount { get; protected set; }
 
     [Category("Behavior")]
@@ -404,7 +439,7 @@ namespace Cyotek.Windows.Forms
 
     #endregion
 
-    #region Members
+    #region Public Members
 
     public virtual TabListPage HitTest(Point point)
     {
@@ -415,6 +450,121 @@ namespace Cyotek.Windows.Forms
       return index != -1 ? this.TabListPages[index] : null;
     }
 
+    #endregion
+
+    #region Internal Members
+
+    internal int AddPage(TabListPage page)
+    {
+      int index;
+
+      index = this.InsertPage(this.TabListPageCount, page);
+
+      if (this.SelectedIndex == -1)
+      {
+        this.SelectedIndex = index;
+      }
+
+      return index;
+    }
+
+    internal void ClearAllPages()
+    {
+      this.Controls.Clear();
+      _pages = null;
+      this.TabListPageCount = 0;
+    }
+
+    internal TabListPage[] GetTabListPages()
+    {
+      TabListPage[] copy;
+
+      copy = new TabListPage[this.TabListPageCount];
+
+      if (this.TabListPageCount > 0)
+      {
+        Array.Copy(_pages, copy, this.TabListPageCount);
+      }
+
+      return copy;
+    }
+
+    internal int InsertPage(int index, TabListPage page)
+    {
+      if (_pages == null)
+      {
+        _pages = new TabListPage[1];
+      }
+      else if (_pages.Length == this.TabListPageCount)
+      {
+        // no room left, so resize the array
+        TabListPage[] copy;
+
+        copy = new TabListPage[_pages.Length + 1];
+        Array.Copy(_pages, copy, _pages.Length);
+        _pages = copy;
+      }
+
+      // if this is an insert rather than append, move the array around
+      if (index < this.TabListPageCount)
+      {
+        Array.Copy(_pages, index, _pages, index + 1, _pages.Length - index);
+      }
+
+      // update the array and page count
+      _pages[index] = page;
+      this.TabListPageCount++;
+      this.UpdatePages();
+      this.UpdateSelectedPage();
+
+      // finally trigger a redraw of the control
+      this.Invalidate();
+
+      return index;
+    }
+
+    internal void RemovePageAt(int index)
+    {
+      int selectedIndex;
+
+      if ((index < 0) || (index >= this.TabListPageCount))
+      {
+        throw new ArgumentOutOfRangeException("index");
+      }
+
+      this.TabListPageCount--;
+
+      if (index < this.TabListPageCount)
+      {
+        Array.Copy(_pages, index + 1, _pages, index, this.TabListPageCount - index);
+      }
+
+      _pages[this.TabListPageCount] = null;
+
+      selectedIndex = this.SelectedIndex;
+      if (this.TabListPageCount == 0)
+      {
+        this.SelectedIndex = -1;
+      }
+      else if (index == selectedIndex || selectedIndex >= this.TabListPageCount)
+      {
+        this.SelectedIndex = 0;
+      }
+      this.UpdatePages();
+      this.UpdateSelectedPage();
+
+      this.Invalidate();
+    }
+
+    internal void UpdatePage(TabListPage page)
+    {
+      this.Invalidate();
+    }
+
+    #endregion
+
+    #region Protected Members
+
     protected virtual void CycleSelectedTab(int increment)
     {
       if (this.TabListPageCount != 0)
@@ -423,9 +573,13 @@ namespace Cyotek.Windows.Forms
 
         index = this.SelectedIndex + increment;
         if (index < 0 && increment == -1 || index >= this.TabListPageCount && increment != 1)
+        {
           index = this.TabListPageCount - 1;
+        }
         else if (index < 0 && increment != -1 || index >= this.TabListPageCount && increment == 1)
+        {
           index = 0;
+        }
 
         this.SelectedIndex = index;
       }
@@ -467,7 +621,9 @@ namespace Cyotek.Windows.Forms
       handler = this.AllowTabSelectionChanged;
 
       if (handler != null)
+      {
         handler(this, e);
+      }
     }
 
     protected virtual void OnHeaderSizeChanged(EventArgs e)
@@ -479,19 +635,24 @@ namespace Cyotek.Windows.Forms
       handler = this.HeaderSizeChanged;
 
       if (handler != null)
+      {
         handler(this, e);
+      }
     }
 
     protected virtual void OnRendererChanged(EventArgs e)
     {
       EventHandler handler;
 
+      this.UpdatePages();
       this.Invalidate();
 
       handler = this.RendererChanged;
 
       if (handler != null)
+      {
         handler(this, e);
+      }
     }
 
     protected virtual void OnSelectedIndexChanged(EventArgs e)
@@ -503,7 +664,9 @@ namespace Cyotek.Windows.Forms
       handler = this.SelectedIndexChanged;
 
       if (handler != null)
+      {
         handler(this, e);
+      }
     }
 
     /// <summary>
@@ -519,12 +682,15 @@ namespace Cyotek.Windows.Forms
       handler = this.ShowTabListChanged;
 
       if (handler != null)
+      {
         handler(this, e);
+      }
     }
 
     protected virtual void ResetSelectedPage()
     {
       _displayRectangle = Rectangle.Empty; // force the display rectangle to be recalculated
+      _tabListBounds = Rectangle.Empty;
       this.UpdateSelectedPage();
     }
 
@@ -538,14 +704,21 @@ namespace Cyotek.Windows.Forms
     {
       int y;
       int x;
+      Point defaultPosition;
+      ITabListPageRenderer renderer;
 
-      y = this.Padding.Top;
-      x = this.Padding.Left;
+      renderer = this.GetRenderer();
+      defaultPosition = renderer.GetStartingPosition();
+      y = defaultPosition.X + this.Padding.Top;
+      x = defaultPosition.Y + this.Padding.Left;
 
       foreach (TabListPage page in this.TabListPages)
       {
-        page.HeaderBounds = new Rectangle(new Point(x, y), this.HeaderSize);
-        y += this.HeaderSize.Height;
+        Size headerSize;
+
+        headerSize = renderer.GetPreferredSize(page, this.HeaderSize);
+        page.HeaderBounds = new Rectangle(new Point(x, y), headerSize);
+        y += headerSize.Height;
       }
     }
 
@@ -556,100 +729,11 @@ namespace Cyotek.Windows.Forms
         this.SelectedPage.Bounds = this.DisplayRectangle;
 
         for (int i = 0; i < this.TabListPageCount; i++)
+        {
           _pages[i].Visible = (i == this.SelectedIndex);
+        }
       }
 
-      this.Invalidate();
-    }
-
-    internal int AddPage(TabListPage page)
-    {
-      int index;
-
-      index = this.InsertPage(this.TabListPageCount, page);
-
-      if (this.SelectedIndex == -1)
-        this.SelectedIndex = index;
-
-      return index;
-    }
-
-    internal void ClearAllPages()
-    {
-      this.Controls.Clear();
-      _pages = null;
-      this.TabListPageCount = 0;
-    }
-
-    internal TabListPage[] GetTabListPages()
-    {
-      TabListPage[] copy;
-
-      copy = new TabListPage[this.TabListPageCount];
-
-      if (this.TabListPageCount > 0)
-        Array.Copy(_pages, copy, this.TabListPageCount);
-
-      return copy;
-    }
-
-    internal int InsertPage(int index, TabListPage page)
-    {
-      if (_pages == null)
-        _pages = new TabListPage[1];
-      else if (_pages.Length == this.TabListPageCount)
-      {
-        // no room left, so resize the array
-        TabListPage[] copy;
-
-        copy = new TabListPage[_pages.Length + 1];
-        Array.Copy(_pages, copy, _pages.Length);
-        _pages = copy;
-      }
-
-      // if this is an insert rather than append, move the array around
-      if (index < this.TabListPageCount)
-        Array.Copy(_pages, index, _pages, index + 1, _pages.Length - index);
-
-      // update the array and page count
-      _pages[index] = page;
-      this.TabListPageCount++;
-      this.UpdatePages();
-      this.UpdateSelectedPage();
-
-      // finally trigger a redraw of the control
-      this.Invalidate();
-
-      return index;
-    }
-
-    internal void RemovePageAt(int index)
-    {
-      int selectedIndex;
-
-      if ((index < 0) || (index >= this.TabListPageCount))
-        throw new ArgumentOutOfRangeException("index", "");
-
-      this.TabListPageCount--;
-
-      if (index < this.TabListPageCount)
-        Array.Copy(_pages, index + 1, _pages, index, this.TabListPageCount - index);
-
-      _pages[this.TabListPageCount] = null;
-
-      selectedIndex = this.SelectedIndex;
-      if (this.TabListPageCount == 0)
-        this.SelectedIndex = -1;
-      else if (index == selectedIndex || selectedIndex >= this.TabListPageCount)
-        this.SelectedIndex = 0;
-      this.UpdatePages();
-      this.UpdateSelectedPage();
-
-      this.Invalidate();
-    }
-
-    internal void UpdatePage(TabListPage page)
-    {
       this.Invalidate();
     }
 

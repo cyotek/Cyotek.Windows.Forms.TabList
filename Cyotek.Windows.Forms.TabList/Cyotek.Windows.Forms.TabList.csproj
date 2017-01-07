@@ -44,6 +44,7 @@
     <Reference Include="System.Windows.Forms" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ListBoxTabListPageRenderer.cs" />
     <Compile Include="DefaultTabListPageRenderer.cs" />
     <Compile Include="Design\TabListDesigner.cs" />
     <Compile Include="Design\TabListPageDesigner.cs" />

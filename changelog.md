@@ -1,5 +1,13 @@
 # TabList Change Log
 
+## 1.0.2.0 (WIP)
+### Changes and new features
+* Added `this[string]` indexer to the `TabPageList` collection
+* Added `RenderList`, `GetStartingPosition` and `GetPreferredSize` methods to `ITabListPageRenderer` to allow greater control over how headers are sized and positioned
+* Added new `ListBoxTabListPageRenderer` class. This renderer makes the tab list look like a list box.
+* Added new demonstration showing how to use different renderers to change the controls appearance
+* Added `ContainsKey` and `IndexOfKey` methods to `TabPageCollection`.
+
 ## 1.0.1.0
 ### Changes and new features
 * Added NuGet package

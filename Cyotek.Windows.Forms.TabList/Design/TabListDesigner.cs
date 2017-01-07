@@ -47,9 +47,13 @@ namespace Cyotek.Windows.Forms.Design
         designer = this.GetSelectedTabListPageDesigner();
 
         if (designer != null)
+        {
           result = designer.ParticipatesWithSnapLines;
+        }
         else
+        {
           result = true;
+        }
 
         return result;
       }
@@ -69,13 +73,13 @@ namespace Cyotek.Windows.Forms.Design
           _verbs = new DesignerVerbCollection();
 
           _addVerb = new DesignerVerb("Add TabListPage", this.AddVerbHandler)
-          {
-            Description = "Add a new TabListPage to the parent control."
-          };
+                     {
+                       Description = "Add a new TabListPage to the parent control."
+                     };
           _removeVerb = new DesignerVerb("Remove TabListPage", this.RemoveVerbHandler)
-          {
-            Description = "Remove the currently selected TabListPage from the parent control."
-          };
+                        {
+                          Description = "Remove the currently selected TabListPage from the parent control."
+                        };
 
           _verbs.Add(_addVerb);
           _verbs.Add(_removeVerb);
@@ -87,7 +91,7 @@ namespace Cyotek.Windows.Forms.Design
 
     #endregion
 
-    #region Overridden Members
+    #region Overridden Methods
 
     /// <summary>
     /// Indicates whether the control managed by the specified designer can be a child of the control managed by this designer.
@@ -114,17 +118,23 @@ namespace Cyotek.Windows.Forms.Design
       // attach an event so we can be notified when the selected components in the host change
       selectionService = (ISelectionService)this.GetService(typeof(ISelectionService));
       if (selectionService != null)
+      {
         selectionService.SelectionChanged += this.OnSelectionChanged;
+      }
 
       // attach an event to notify us of when a component has been modified
       changeService = (IComponentChangeService)this.GetService(typeof(IComponentChangeService));
       if (changeService != null)
+      {
         changeService.ComponentChanged += this.OnComponentChanged;
+      }
 
       // attach an event so we can tell when the SelectedIndex of the TabList control changes
       control = component as TabList;
       if (control != null)
+      {
         control.SelectedIndexChanged += this.OnSelectedIndexChanged;
+      }
     }
 
     /// <summary>
@@ -162,7 +172,9 @@ namespace Cyotek.Windows.Forms.Design
 
       // prevent controls from being created directly on the TabList
       if (control.SelectedPage == null)
+      {
         throw new ArgumentException(string.Format("Cannot add control '{0}', no page is selected.", tool.DisplayName));
+      }
 
       host = (IDesignerHost)this.GetService(typeof(IDesignerHost));
       if (host != null)
@@ -194,15 +206,21 @@ namespace Cyotek.Windows.Forms.Design
 
         selectionService = (ISelectionService)this.GetService(typeof(ISelectionService));
         if (selectionService != null)
+        {
           selectionService.SelectionChanged -= this.OnSelectionChanged;
+        }
 
         changeService = (IComponentChangeService)this.GetService(typeof(IComponentChangeService));
         if (changeService != null)
+        {
           changeService.ComponentChanged -= this.OnComponentChanged;
+        }
 
         control = this.TabListControl;
         if (control != null)
+        {
           control.SelectedIndexChanged -= this.OnSelectedIndexChanged;
+        }
       }
 
       base.Dispose(disposing);
@@ -268,7 +286,7 @@ namespace Cyotek.Windows.Forms.Design
 
     #endregion
 
-    #region Properties
+    #region Protected Properties
 
     /// <summary>
     /// Gets the TabList control currently being designed
@@ -281,7 +299,7 @@ namespace Cyotek.Windows.Forms.Design
 
     #endregion
 
-    #region Members
+    #region Protected Members
 
     /// <summary>
     /// Adds a new TabListPage to the control
@@ -378,6 +396,10 @@ namespace Cyotek.Windows.Forms.Design
       }
     }
 
+    #endregion
+
+    #region Private Members
+
     /// <summary>
     /// Called when the Add TabListPage verb is executed
     /// </summary>
@@ -403,12 +425,16 @@ namespace Cyotek.Windows.Forms.Design
 
         parent = (Control)component;
         while (parent != null && !(parent is TabListPage))
+        {
           parent = parent.Parent;
+        }
 
         result = (TabListPage)parent;
       }
       else
+      {
         result = null;
+      }
 
       return result;
     }
@@ -431,7 +457,9 @@ namespace Cyotek.Windows.Forms.Design
 
         host = (IDesignerHost)this.GetService(typeof(IDesignerHost));
         if (host != null)
+        {
           designer = host.GetDesigner(selectedPage) as TabListPageDesigner;
+        }
       }
 
       return designer;
@@ -460,7 +488,9 @@ namespace Cyotek.Windows.Forms.Design
     {
       // disable the Remove command if we dont' have anything we can actually remove
       if (_removeVerb != null)
+      {
         _removeVerb.Enabled = this.TabListControl.TabListPageCount > 0;
+      }
     }
 
     /// <summary>
@@ -479,9 +509,9 @@ namespace Cyotek.Windows.Forms.Design
         // of GetHitTest returning true, normal designer actions don't seem to take place
         // Alternatively, we could select the selected TabListPage instead but might as well stick with the standard behaviour
         service.SetSelectedComponents(new object[]
-        {
-          this.Control
-        });
+                                      {
+                                        this.Control
+                                      });
       }
     }
 

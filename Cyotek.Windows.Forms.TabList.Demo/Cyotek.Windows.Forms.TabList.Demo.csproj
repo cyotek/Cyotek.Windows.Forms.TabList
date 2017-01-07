@@ -43,8 +43,11 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+    <Reference Include="tblstdmo, Version=1.0.2.0, Culture=neutral, PublicKeyToken=58daa28b0b2de221" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AboutDialog.cs">
@@ -58,6 +61,30 @@
     </Compile>
     <Compile Include="BaseForm.designer.cs">
       <DependentUpon>BaseForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FakeOptionPage3.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="FakeOptionPage3.Designer.cs">
+      <DependentUpon>FakeOptionPage3.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FakeOptionPage2.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="FakeOptionPage2.Designer.cs">
+      <DependentUpon>FakeOptionPage2.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FakeOptionPage1.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="FakeOptionPage1.Designer.cs">
+      <DependentUpon>FakeOptionPage1.cs</DependentUpon>
+    </Compile>
+    <Compile Include="RendererDemonstrationForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="RendererDemonstrationForm.Designer.cs">
+      <DependentUpon>RendererDemonstrationForm.cs</DependentUpon>
     </Compile>
     <Compile Include="GeneralDemonstrationForm.cs">
       <SubType>Form</SubType>
@@ -81,11 +108,25 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <Compile Include="TypeInfo.cs" />
+    <Compile Include="WizardTabListPageRenderer.cs" />
     <EmbeddedResource Include="AboutDialog.resx">
       <DependentUpon>AboutDialog.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="BaseForm.resx">
       <DependentUpon>BaseForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FakeOptionPage3.resx">
+      <DependentUpon>FakeOptionPage3.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FakeOptionPage2.resx">
+      <DependentUpon>FakeOptionPage2.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FakeOptionPage1.resx">
+      <DependentUpon>FakeOptionPage1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="RendererDemonstrationForm.resx">
+      <DependentUpon>RendererDemonstrationForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="GeneralDemonstrationForm.resx">
       <DependentUpon>GeneralDemonstrationForm.cs</DependentUpon>

@@ -12,9 +12,19 @@ namespace Cyotek.Windows.Forms
 
   // If you use this control in your applications, attribution, donations or contributions are welcome.
 
-  public class DefaultTabListPageRenderer : TabListPageRenderer
+  public class ListBoxTabListPageRenderer : TabListPageRenderer
   {
     #region Overridden Methods
+
+    public override Size GetPreferredSize(TabListPage page, Size proposedSize)
+    {
+      return new Size(proposedSize.Width - 4, proposedSize.Height); // adjusted for border widths
+    }
+
+    public override Point GetStartingPosition()
+    {
+      return new Point(2, 2); // adjusted for border sizes
+    }
 
     public override void RenderHeader(Graphics g, TabListPage page, TabListPageState state)
     {
@@ -23,11 +33,8 @@ namespace Cyotek.Windows.Forms
       Rectangle fillBounds;
       Rectangle textRectangle;
       TextFormatFlags flags;
-      int arrowSize;
 
-      arrowSize = 6;
       fillBounds = page.HeaderBounds;
-      fillBounds.Width -= arrowSize;
       textRectangle = Rectangle.Inflate(fillBounds, -4, -4);
 
       // define the most appropriate colors
@@ -38,12 +45,12 @@ namespace Cyotek.Windows.Forms
       }
       else if ((state & TabListPageState.Hot) == TabListPageState.Hot)
       {
-        fillColor = SystemColors.ControlLightLight;
+        fillColor = SystemColors.ControlLight;
         textColor = page.Owner.ForeColor;
       }
       else
       {
-        fillColor = page.Owner.BackColor;
+        fillColor = SystemColors.Window;
         textColor = page.Owner.ForeColor;
       }
 
@@ -51,31 +58,6 @@ namespace Cyotek.Windows.Forms
       using (Brush brush = new SolidBrush(fillColor))
       {
         g.FillRectangle(brush, fillBounds);
-      }
-
-      // draw the selection arrow
-      if ((state & TabListPageState.Selected) == TabListPageState.Selected)
-      {
-        int y;
-        int x;
-        Point point1;
-        Point point2;
-        Point point3;
-
-        y = fillBounds.Top + ((fillBounds.Height - (arrowSize * 2)) / 2);
-        x = fillBounds.Right;
-
-        point1 = new Point(x, y);
-        point2 = new Point(x + arrowSize, y + arrowSize);
-        point3 = new Point(x, y + (arrowSize * 2));
-
-        using (Brush brush = new SolidBrush(fillColor))
-        {
-          g.FillPolygon(brush, new[]
-                               {
-                                 point1, point2, point3
-                               });
-        }
       }
 
       // draw the text
@@ -93,6 +75,15 @@ namespace Cyotek.Windows.Forms
 
         ControlPaint.DrawFocusRectangle(g, new Rectangle(textRectangle.X, textRectangle.Y, (int)textSize.Width + offset, (int)textSize.Height + offset), textColor, fillColor);
       }
+    }
+
+    public override void RenderList(Graphics g, Rectangle bounds)
+    {
+      // TODO: Paint using themes
+
+      g.FillRectangle(SystemBrushes.Window, new Rectangle(bounds.X, bounds.Y, bounds.Width + 1, bounds.Height + 1));
+
+      ControlPaint.DrawBorder3D(g, bounds);
     }
 
     #endregion

@@ -66,6 +66,11 @@ namespace Cyotek.Windows.Forms.Demo
       this.ShowDemo<GeneralDemonstrationForm>();
     }
 
+    private void renderStylesDemoButton_Click(object sender, EventArgs e)
+    {
+      this.ShowDemo<RendererDemonstrationForm>();
+    }
+
     #endregion
   }
 }

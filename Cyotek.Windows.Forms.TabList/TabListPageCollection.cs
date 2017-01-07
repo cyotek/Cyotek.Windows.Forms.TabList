@@ -16,21 +16,23 @@ namespace Cyotek.Windows.Forms
   {
     #region Nested Types
 
-    public class TabListPageCollection : IList, ICollection, IEnumerable
+    public class TabListPageCollection : IList
     {
-      #region Constructors
+      #region Public Constructors
 
       public TabListPageCollection(TabList owner)
       {
         if (owner == null)
+        {
           throw new ArgumentNullException("owner");
+        }
 
         this.Owner = owner;
       }
 
       #endregion
 
-      #region Properties
+      #region Public Properties
 
       public int Count
       {
@@ -58,25 +60,52 @@ namespace Cyotek.Windows.Forms
         set { this.Owner.SelectedIndex = index; }
       }
 
+      public TabListPage this[string name]
+      {
+        get
+        {
+          TabListPage[] pages;
+          TabListPage result;
+
+          pages = this.Owner.GetTabListPages();
+          result = null;
+
+          for (int i = 0; i < pages.Length; i++)
+          {
+            if (pages[i].Name == name)
+            {
+              result = pages[i];
+              break;
+            }
+          }
+
+          return result;
+        }
+      }
+
       public object SyncRoot
       {
         get { return this; }
       }
 
+      #endregion
+
+      #region Protected Properties
+
       protected TabList Owner { get; set; }
 
       #endregion
 
-      #region Members
+      #region Public Members
 
       public TabListPage Add(string text)
       {
         TabListPage page;
 
         page = new TabListPage
-        {
-          Text = text
-        };
+               {
+                 Text = text
+               };
 
         this.Add(page);
 
@@ -86,7 +115,9 @@ namespace Cyotek.Windows.Forms
       public void Add(TabListPage value)
       {
         if (value == null)
+        {
           throw new ArgumentNullException("value");
+        }
 
         this.Owner.Controls.Add(value);
       }
@@ -99,15 +130,24 @@ namespace Cyotek.Windows.Forms
       public bool Contains(TabListPage value)
       {
         if (value == null)
+        {
           throw new ArgumentNullException("value");
+        }
 
         return this.IndexOf(value) != -1;
+      }
+
+      public bool ContainsKey(string key)
+      {
+        return this.IndexOfKey(key) != -1;
       }
 
       public void CopyTo(Array array, int index)
       {
         if (this.Count != 0)
+        {
           Array.Copy(this.Owner.GetTabListPages(), 0, array, index, this.Count);
+        }
       }
 
       public IEnumerator GetEnumerator()
@@ -116,7 +156,9 @@ namespace Cyotek.Windows.Forms
 
         tabPages = this.Owner.GetTabListPages();
         if (tabPages == null)
+        {
           tabPages = new TabListPage[0];
+        }
 
         return tabPages.GetEnumerator();
       }
@@ -126,7 +168,9 @@ namespace Cyotek.Windows.Forms
         int index;
 
         if (value == null)
+        {
           throw new ArgumentNullException("value");
+        }
 
         index = -1;
         for (int i = 0; i < this.Count; i++)
@@ -141,10 +185,33 @@ namespace Cyotek.Windows.Forms
         return index;
       }
 
+      public virtual int IndexOfKey(string key)
+      {
+        int result;
+
+        result = -1;
+
+        if (!string.IsNullOrEmpty(key))
+        {
+          for (int i = 0; i < this.Count; i++)
+          {
+            if (this[i].Name == key)
+            {
+              result = i;
+              break;
+            }
+          }
+        }
+
+        return result;
+      }
+
       public void Insert(int index, TabListPage value)
       {
         if (value == null)
+        {
           throw new ArgumentNullException("value");
+        }
 
         this.Owner.InsertPage(index, value);
         this.Owner.Controls.Add(value);
@@ -154,7 +221,9 @@ namespace Cyotek.Windows.Forms
       public void Remove(TabListPage value)
       {
         if (value == null)
+        {
           throw new ArgumentNullException("value");
+        }
 
         this.Owner.Controls.Remove(value);
       }
@@ -174,7 +243,9 @@ namespace Cyotek.Windows.Forms
         set
         {
           if (!(value is TabListPage))
+          {
             throw new ArgumentException("Only controls of type TabListPage can be added to this collection.", "value");
+          }
 
           this[index] = (TabListPage)value;
         }
@@ -185,7 +256,9 @@ namespace Cyotek.Windows.Forms
         TabListPage page;
 
         if (!(value is TabListPage))
+        {
           throw new ArgumentException("value");
+        }
 
         page = (TabListPage)value;
 
@@ -204,9 +277,13 @@ namespace Cyotek.Windows.Forms
         int index;
 
         if (value is TabListPage)
+        {
           index = this.IndexOf((TabListPage)value);
+        }
         else
+        {
           index = -1;
+        }
 
         return index;
       }
@@ -214,7 +291,9 @@ namespace Cyotek.Windows.Forms
       void IList.Insert(int index, object value)
       {
         if (!(value is TabListPage))
+        {
           throw new ArgumentException("value");
+        }
 
         this.Insert(index, (TabListPage)value);
       }
@@ -222,7 +301,9 @@ namespace Cyotek.Windows.Forms
       void IList.Remove(object value)
       {
         if (value is TabListPage)
+        {
           this.Remove((TabListPage)value);
+        }
       }
 
       #endregion

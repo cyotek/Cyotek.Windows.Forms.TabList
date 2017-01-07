@@ -46,15 +46,30 @@ namespace Cyotek.Windows.Forms.Demo
       tabList.SelectedIndex = index;
     }
 
+    private void tabList_SelectedIndexChanged(object sender, EventArgs e)
+    {
+      selectionPropertyGrid.SelectedObject = tabList.SelectedPage;
+    }
+
     #endregion
 
     #region Event Handlers
+
+    private void aboutToolStripMenuItem_Click(object sender, EventArgs e)
+    {
+      AboutDialog.ShowAboutDialog();
+    }
 
     private void addPageButton_Click(object sender, EventArgs e)
     {
       TabListPage page;
 
       page = tabList.TabListPages.Add("test");
+    }
+
+    private void closeToolStripMenuItem_Click(object sender, EventArgs e)
+    {
+      this.Close();
     }
 
     private void firstButton_Click(object sender, EventArgs e)
@@ -85,11 +100,6 @@ namespace Cyotek.Windows.Forms.Demo
 
       if (page != null)
         tabList.TabListPages.Remove(page);
-    }
-
-    private void tabList_SelectedIndexChanged(object sender, EventArgs e)
-    {
-      selectionPropertyGrid.SelectedObject = tabList.SelectedPage;
     }
 
     #endregion
