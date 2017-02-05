@@ -9,8 +9,8 @@ The `TabList` is a multi-paged container control similar to the standard `TabCon
 
 ## License
 
-The `TabList` control is licensed under the MIT License. See `tablist-license.txt` for the full text. 
+The `TabList` control is licensed under the MIT License. See `LICENSE.txt` for the full text. 
 
 ## Further Reading
 
-For more information, see the article [creating a multi-paged container control with design time support](http://cyotek.com/blog/creating-a-multi-paged-container-control-with-design-time-support) at cyotek.com.
+For more information, see the article [creating a multi-paged container control with design time support](https://www.cyotek.com/blog/creating-a-multi-paged-container-control-with-design-time-support) at cyotek.com.
