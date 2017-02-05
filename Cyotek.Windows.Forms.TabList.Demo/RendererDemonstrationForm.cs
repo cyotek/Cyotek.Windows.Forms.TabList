@@ -7,10 +7,10 @@ namespace Cyotek.Windows.Forms.Demo
 {
   // Cyotek TabList
   // Copyright (c) 2012-2013 Cyotek.
-  // http://cyotek.com
-  // http://cyotek.com/blog/tag/tablist
+  // https://www.cyotek.com
+  // https://www.cyotek.com/blog/tag/tablist
 
-  // Licensed under the MIT License. See tablist-license.txt for the full text.
+  // Licensed under the MIT License. See LICENSE.txt for the full text.
 
   // If you use this control in your applications, attribution, donations or contributions are welcome.
 
@@ -20,12 +20,12 @@ namespace Cyotek.Windows.Forms.Demo
 
     public RendererDemonstrationForm()
     {
-      InitializeComponent();
+      this.InitializeComponent();
     }
 
     #endregion
 
-    #region Overridden Members
+    #region Methods
 
     protected override void OnLoad(EventArgs e)
     {
@@ -46,10 +46,10 @@ namespace Cyotek.Windows.Forms.Demo
           text = type.Name;
 
           renderStyleToolStripComboBox.Items.Add(new TypeInfo
-          {
-            Name = text,
-            FullName = type.AssemblyQualifiedName
-          });
+                                                 {
+                                                   Name = text,
+                                                   FullName = type.AssemblyQualifiedName
+                                                 });
 
           // make sure the control is wide enough
           textWidth = TextRenderer.MeasureText(text, renderStyleToolStripComboBox.Font).Width + SystemInformation.VerticalScrollBarWidth + 6;
@@ -61,10 +61,6 @@ namespace Cyotek.Windows.Forms.Demo
       if (renderStyleToolStripComboBox.Items.Count != 0)
         renderStyleToolStripComboBox.SelectedIndex = 0;
     }
-
-    #endregion
-
-    #region Event Handlers
 
     private void aboutToolStripMenuItem_Click(object sender, EventArgs e)
     {

@@ -2,10 +2,10 @@
 <!--
   // Cyotek TabList
   // Copyright (c) 2012-2013 Cyotek.
-  // http://cyotek.com
-  // http://cyotek.com/blog/tag/tablist
+  // https://www.cyotek.com
+  // https://www.cyotek.com/blog/tag/tablist
 
-  // Licensed under the MIT License. See tablist-license.txt for the full text.
+  // Licensed under the MIT License. See LICENSE.txt for the full text.
 
   // If you use this control in your applications, attribution, donations or contributions are welcome.
 -->
@@ -16,16 +16,16 @@
     <title>Cyotek TabList Control</title>
     <authors>Cyotek</authors>
     <owners>Cyotek</owners>
-    <licenseUrl>http://static.cyotek.com/files/productlicenses/tablist-license.txt</licenseUrl>
-    <projectUrl>http://cyotek.com/blog/tag/tablist</projectUrl>
+    <licenseUrl>http://static.cyotek.com/files/productlicenses/LICENSE.txt</licenseUrl>
+    <projectUrl>https://www.cyotek.com/blog/tag/tablist</projectUrl>
     <iconUrl>http://static.cyotek.com/files/packageicons/tablist-32x32.png</iconUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
-    <description>The TabList is a multi-paged container control similar to the standard TabControl but designed to look like the Project Properties of Visual Studio 2012 and 2013.</description>
-    <summary>The TabList is a multi-paged container control similar to the standard TabControl but designed to look like the Project Properties of Visual Studio 2012 and 2013.</summary>
+    <description>The TabList is a multi-paged container control for Windows Forms similar to the standard TabControl but designed to look like the Project Properties editor of Visual Studio 2012 onwards.</description>
+    <summary>A multi-paged container control for Windows Forms similar that looks like the Project Properties editor of Visual Studio 2012 onwards.</summary>
     <releaseNotes />
-    <copyright>Copyright 2012-2013 Cyotek.</copyright>
+    <copyright>$copyright$</copyright>
     <language>en-GB</language>
-    <tags>tablist tabcontrol form control cyotek</tags>
+    <tags>tablist tabcontrol form control cyotek winforms</tags>
     <frameworkAssemblies>
       <frameworkAssembly assemblyName="System.Windows.Forms" targetFramework="" />
       <frameworkAssembly assemblyName="System.Drawing" targetFramework="" />

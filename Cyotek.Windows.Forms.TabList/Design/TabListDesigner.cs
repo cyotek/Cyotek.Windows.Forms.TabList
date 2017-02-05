@@ -11,16 +11,16 @@ namespace Cyotek.Windows.Forms.Design
 {
   // Cyotek TabList
   // Copyright (c) 2012-2013 Cyotek.
-  // http://cyotek.com
-  // http://cyotek.com/blog/tag/tablist
+  // https://www.cyotek.com
+  // https://www.cyotek.com/blog/tag/tablist
 
-  // Licensed under the MIT License. See tablist-license.txt for the full text.
+  // Licensed under the MIT License. See LICENSE.txt for the full text.
 
   // If you use this control in your applications, attribution, donations or contributions are welcome.
 
   public class TabListDesigner : ParentControlDesigner
   {
-    #region Instance Fields
+    #region Fields
 
     private DesignerVerb _addVerb;
 
@@ -30,7 +30,7 @@ namespace Cyotek.Windows.Forms.Design
 
     #endregion
 
-    #region Overridden Properties
+    #region Properties
 
     /// <summary>
     /// Gets a value indicating whether the <see cref="T:System.Windows.Forms.Design.ControlDesigner" /> will allow snapline alignment during a drag operation.
@@ -89,9 +89,18 @@ namespace Cyotek.Windows.Forms.Design
       }
     }
 
+    /// <summary>
+    /// Gets the TabList control currently being designed
+    /// </summary>
+    /// <value>The TabList control being designed.</value>
+    protected TabList TabListControl
+    {
+      get { return this.Control as TabList; }
+    }
+
     #endregion
 
-    #region Overridden Methods
+    #region Methods
 
     /// <summary>
     /// Indicates whether the control managed by the specified designer can be a child of the control managed by this designer.
@@ -149,6 +158,54 @@ namespace Cyotek.Windows.Forms.Design
       this.AddTabListPage();
       this.AddTabListPage();
       this.TabListControl.SelectedIndex = 0;
+    }
+
+    /// <summary>
+    /// Adds a new TabListPage to the control
+    /// </summary>
+    protected virtual void AddTabListPage()
+    {
+      TabList control;
+      IDesignerHost host;
+
+      control = this.TabListControl;
+      host = (IDesignerHost)this.GetService(typeof(IDesignerHost));
+
+      if (host != null)
+      {
+        using (DesignerTransaction transaction = host.CreateTransaction(string.Format("Add TabListPage to '{0}'", control.Name)))
+        {
+          try
+          {
+            TabListPage page;
+            MemberDescriptor controlsProperty;
+
+            page = (TabListPage)host.CreateComponent(typeof(TabListPage));
+            controlsProperty = TypeDescriptor.GetProperties(control)["Controls"];
+
+            // tell the designer we're about to start making changes
+            this.RaiseComponentChanging(controlsProperty);
+
+            // set the text to match the name
+            page.Text = page.Name;
+
+            // add the new control to the parent, and set it to be the active page
+            control.Controls.Add(page);
+            control.SelectedIndex = control.TabListPageCount - 1;
+
+            // inform the designer we're finished making changes
+            this.RaiseComponentChanged(controlsProperty, null, null);
+
+            // commit the transaction
+            transaction.Commit();
+          }
+          catch
+          {
+            transaction.Cancel();
+            throw;
+          }
+        }
+      }
     }
 
     /// <summary>
@@ -261,95 +318,6 @@ namespace Cyotek.Windows.Forms.Design
     }
 
     /// <summary>
-    /// Processes Windows messages and optionally routes them to the control.
-    /// </summary>
-    /// <param name="m">The <see cref="T:System.Windows.Forms.Message" /> to process.</param>
-    protected override void WndProc(ref Message m)
-    {
-      switch (m.Msg)
-      {
-        case 0x7b: // WM_CONTEXTMENU
-          Point position;
-
-          // For some reason the context menu is no longer displayed when right clicking the control
-          // By hooking into the WM_CONTEXTMENU context message we can display the menu ourselves
-
-          position = Cursor.Position;
-
-          this.OnContextMenu(position.X, position.Y);
-          break;
-        default:
-          base.WndProc(ref m);
-          break;
-      }
-    }
-
-    #endregion
-
-    #region Protected Properties
-
-    /// <summary>
-    /// Gets the TabList control currently being designed
-    /// </summary>
-    /// <value>The TabList control being designed.</value>
-    protected TabList TabListControl
-    {
-      get { return this.Control as TabList; }
-    }
-
-    #endregion
-
-    #region Protected Members
-
-    /// <summary>
-    /// Adds a new TabListPage to the control
-    /// </summary>
-    protected virtual void AddTabListPage()
-    {
-      TabList control;
-      IDesignerHost host;
-
-      control = this.TabListControl;
-      host = (IDesignerHost)this.GetService(typeof(IDesignerHost));
-
-      if (host != null)
-      {
-        using (DesignerTransaction transaction = host.CreateTransaction(string.Format("Add TabListPage to '{0}'", control.Name)))
-        {
-          try
-          {
-            TabListPage page;
-            MemberDescriptor controlsProperty;
-
-            page = (TabListPage)host.CreateComponent(typeof(TabListPage));
-            controlsProperty = TypeDescriptor.GetProperties(control)["Controls"];
-
-            // tell the designer we're about to start making changes
-            this.RaiseComponentChanging(controlsProperty);
-
-            // set the text to match the name
-            page.Text = page.Name;
-
-            // add the new control to the parent, and set it to be the active page
-            control.Controls.Add(page);
-            control.SelectedIndex = control.TabListPageCount - 1;
-
-            // inform the designer we're finished making changes
-            this.RaiseComponentChanged(controlsProperty, null, null);
-
-            // commit the transaction
-            transaction.Commit();
-          }
-          catch
-          {
-            transaction.Cancel();
-            throw;
-          }
-        }
-      }
-    }
-
-    /// <summary>
     /// Removes the selected TabListPage from the control
     /// </summary>
     protected virtual void RemoveSelectedTabListPage()
@@ -396,9 +364,29 @@ namespace Cyotek.Windows.Forms.Design
       }
     }
 
-    #endregion
+    /// <summary>
+    /// Processes Windows messages and optionally routes them to the control.
+    /// </summary>
+    /// <param name="m">The <see cref="T:System.Windows.Forms.Message" /> to process.</param>
+    protected override void WndProc(ref Message m)
+    {
+      switch (m.Msg)
+      {
+        case 0x7b: // WM_CONTEXTMENU
+          Point position;
 
-    #region Private Members
+          // For some reason the context menu is no longer displayed when right clicking the control
+          // By hooking into the WM_CONTEXTMENU context message we can display the menu ourselves
+
+          position = Cursor.Position;
+
+          this.OnContextMenu(position.X, position.Y);
+          break;
+        default:
+          base.WndProc(ref m);
+          break;
+      }
+    }
 
     /// <summary>
     /// Called when the Add TabListPage verb is executed
@@ -466,20 +454,6 @@ namespace Cyotek.Windows.Forms.Design
     }
 
     /// <summary>
-    /// Called when the Remove TabListPage verb is executed
-    /// </summary>
-    /// <param name="sender">The sender.</param>
-    /// <param name="e">The <see cref="EventArgs" /> instance containing the event data.</param>
-    private void RemoveVerbHandler(object sender, EventArgs e)
-    {
-      this.RemoveSelectedTabListPage();
-    }
-
-    #endregion
-
-    #region Event Handlers
-
-    /// <summary>
     /// Called when the component attached to this designer has changed
     /// </summary>
     /// <param name="sender">The sender.</param>
@@ -534,7 +508,7 @@ namespace Cyotek.Windows.Forms.Design
         {
           TabListPage ownedPage;
 
-          // check to see if one of the selected controls is hosted on a TabListPage. If it is, 
+          // check to see if one of the selected controls is hosted on a TabListPage. If it is,
           // activate the page. This means, if for example, you select a control via the
           // IDE's properties window, the relavent TabListPage will be activated
 
@@ -546,6 +520,16 @@ namespace Cyotek.Windows.Forms.Design
           }
         }
       }
+    }
+
+    /// <summary>
+    /// Called when the Remove TabListPage verb is executed
+    /// </summary>
+    /// <param name="sender">The sender.</param>
+    /// <param name="e">The <see cref="EventArgs" /> instance containing the event data.</param>
+    private void RemoveVerbHandler(object sender, EventArgs e)
+    {
+      this.RemoveSelectedTabListPage();
     }
 
     #endregion

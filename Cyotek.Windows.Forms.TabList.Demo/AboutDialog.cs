@@ -4,15 +4,18 @@ using System.Drawing;
 using System.IO;
 using System.Reflection;
 using System.Windows.Forms;
+using CommonMark;
+using Cyotek.Windows.Forms.Demo.Properties;
+using TheArtOfDev.HtmlRenderer.WinForms;
 
 namespace Cyotek.Windows.Forms.Demo
 {
   // Cyotek TabList
   // Copyright (c) 2012-2013 Cyotek.
-  // http://cyotek.com
-  // http://cyotek.com/blog/tag/tablist
+  // https://www.cyotek.com
+  // https://www.cyotek.com/blog/tag/tablist
 
-  // Licensed under the MIT License. See tablist-license.txt for the full text.
+  // Licensed under the MIT License. See LICENSE.txt for the full text.
 
   // If you use this control in your applications, attribution, donations or contributions are welcome.
 
@@ -27,17 +30,28 @@ namespace Cyotek.Windows.Forms.Demo
 
     #endregion
 
-    #region Class Members
+    #region Static Methods
 
     internal static void ShowAboutDialog()
     {
       using (Form dialog = new AboutDialog())
+      {
         dialog.ShowDialog();
+      }
     }
 
     #endregion
 
-    #region Overridden Members
+    #region Properties
+
+    protected TabControl TabControl
+    {
+      get { return docsTabControl; }
+    }
+
+    #endregion
+
+    #region Methods
 
     protected override void OnLoad(EventArgs e)
     {
@@ -58,70 +72,105 @@ namespace Cyotek.Windows.Forms.Demo
         versionLabel.Text = string.Format("Version {0}", info.FileVersion);
         copyrightLabel.Text = info.LegalCopyright;
 
-        this.AddReadme("changelog.md");
-        this.AddReadme("readme.md");
+        this.AddReadme("CHANGELOG.md");
+        this.AddReadme("README.md");
         //this.AddReadme("acknowledgements.md");
-        this.AddReadme("tablist-license.txt");
+        this.AddReadme("LICENSE.txt");
+
+        this.LoadDocumentForTab(docsTabControl.SelectedTab);
       }
     }
 
-    #endregion
-
-    #region Properties
-
-    protected TabControl TabControl
+    protected override void OnResize(EventArgs e)
     {
-      get { return docsTabControl; }
+      base.OnResize(e);
+
+      if (docsTabControl != null)
+      {
+        docsTabControl.SetBounds(docsTabControl.Left, docsTabControl.Top, this.ClientSize.Width - docsTabControl.Left * 2, this.ClientSize.Height - (docsTabControl.Top + footerGroupBox.Height + docsTabControl.Left));
+      }
     }
-
-    #endregion
-
-    #region Members
 
     private void AddReadme(string fileName)
     {
-      TabPage page;
-      TextBox textBox;
-      string fullPath;
-
-      fullPath = Path.GetFullPath(Path.Combine(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"..\..\..\"), fileName));
-
-      page = new TabPage
-      {
-        UseVisualStyleBackColor = true,
-        Padding = new Padding(9),
-        ToolTipText = fullPath,
-        Text = fileName
-      };
-
-      textBox = new TextBox
-      {
-        ReadOnly = true,
-        Multiline = true,
-        WordWrap = true,
-        ScrollBars = ScrollBars.Vertical,
-        Dock = DockStyle.Fill,
-        Text = File.Exists(fullPath) ? File.ReadAllText(fullPath) : string.Format("Cannot find file '{0}'", fullPath)
-      };
-
-      page.Controls.Add(textBox);
-
-      docsTabControl.TabPages.Add(page);
+      docsTabControl.TabPages.Add(new TabPage
+                                  {
+                                    UseVisualStyleBackColor = true,
+                                    Padding = new Padding(9),
+                                    ToolTipText = this.GetFullReadmePath(fileName),
+                                    Text = fileName,
+                                    Tag = fileName
+                                  });
     }
-
-    #endregion
-
-    #region Event Handlers
 
     private void closeButton_Click(object sender, EventArgs e)
     {
       this.Close();
     }
 
+    private void docsTabControl_Selecting(object sender, TabControlCancelEventArgs e)
+    {
+      this.LoadDocumentForTab(e.TabPage);
+    }
+
     private void footerGroupBox_Paint(object sender, PaintEventArgs e)
     {
       e.Graphics.DrawLine(SystemPens.ControlDark, 0, 0, footerGroupBox.Width, 0);
       e.Graphics.DrawLine(SystemPens.ControlLightLight, 0, 1, footerGroupBox.Width, 1);
+    }
+
+    private string GetFullReadmePath(string fileName)
+    {
+      return Path.GetFullPath(Path.Combine(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"..\..\..\"), fileName));
+    }
+
+    private void LoadDocumentForTab(TabPage page)
+    {
+      if (page != null && page.Controls.Count == 0 && page.Tag != null)
+      {
+        Control documentView;
+        string fullPath;
+        string text;
+
+        Cursor.Current = Cursors.WaitCursor;
+
+        Debug.Print("Loading readme: {0}", page.Tag);
+
+        fullPath = this.GetFullReadmePath(page.Tag.ToString());
+        text = File.Exists(fullPath) ? File.ReadAllText(fullPath) : string.Format("Cannot find file '{0}'", fullPath);
+
+        if (text.IndexOf('\n') != -1 && text.IndexOf('\r') == -1)
+        {
+          text = text.Replace("\n", "\r\n");
+        }
+
+        switch (Path.GetExtension(fullPath))
+        {
+          case ".md":
+            documentView = new HtmlPanel
+                           {
+                             Dock = DockStyle.Fill,
+                             BaseStylesheet = Resources.CSS,
+                             Text = string.Concat("<html><body>", CommonMarkConverter.Convert(text), "</body></html>") // HACK: HTML panel screws up rendering if a <body> tag isn't present
+                           };
+            break;
+          default:
+            documentView = new TextBox
+                           {
+                             ReadOnly = true,
+                             Multiline = true,
+                             WordWrap = true,
+                             ScrollBars = ScrollBars.Vertical,
+                             Dock = DockStyle.Fill,
+                             Text = text
+                           };
+            break;
+        }
+
+        page.Controls.Add(documentView);
+
+        Cursor.Current = Cursors.Default;
+      }
     }
 
     private void webLinkLabel_Click(object sender, EventArgs e)
@@ -132,7 +181,7 @@ namespace Cyotek.Windows.Forms.Demo
       }
       catch (Exception ex)
       {
-        MessageBox.Show(string.Format("Unable to start the specified URI.\n\n{0}", ex.Message), Text, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+        MessageBox.Show(string.Format("Unable to start the specified URI.\n\n{0}", ex.Message), this.Text, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
       }
     }
 

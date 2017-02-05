@@ -6,10 +6,10 @@ namespace Cyotek.Windows.Forms.Demo
 {
   // Cyotek TabList
   // Copyright (c) 2012-2013 Cyotek.
-  // http://cyotek.com
-  // http://cyotek.com/blog/tag/tablist
+  // https://www.cyotek.com
+  // https://www.cyotek.com/blog/tag/tablist
 
-  // Licensed under the MIT License. See tablist-license.txt for the full text.
+  // Licensed under the MIT License. See LICENSE.txt for the full text.
 
   // If you use this control in your applications, attribution, donations or contributions are welcome.
 
@@ -24,18 +24,7 @@ namespace Cyotek.Windows.Forms.Demo
 
     #endregion
 
-    #region Overridden Members
-
-    protected override void OnLoad(EventArgs e)
-    {
-      this.Font = SystemFonts.MessageBoxFont;
-
-      base.OnLoad(e);
-    }
-
-    #endregion
-
-    #region Members
+    #region Methods
 
     protected string FormatPoint(Point point)
     {
@@ -45,6 +34,13 @@ namespace Cyotek.Windows.Forms.Demo
     protected string FormatRectangle(RectangleF rect)
     {
       return string.Format("X:{0}, Y:{1}, W:{2}, H:{3}", (int)rect.X, (int)rect.Y, (int)rect.Width, (int)rect.Height);
+    }
+
+    protected override void OnLoad(EventArgs e)
+    {
+      this.Font = SystemFonts.MessageBoxFont;
+
+      base.OnLoad(e);
     }
 
     #endregion

@@ -5,16 +5,16 @@ namespace Cyotek.Windows.Forms
 {
   // Cyotek TabList
   // Copyright (c) 2012-2013 Cyotek.
-  // http://cyotek.com
-  // http://cyotek.com/blog/tag/tablist
+  // https://www.cyotek.com
+  // https://www.cyotek.com/blog/tag/tablist
 
-  // Licensed under the MIT License. See tablist-license.txt for the full text.
+  // Licensed under the MIT License. See LICENSE.txt for the full text.
 
   // If you use this control in your applications, attribution, donations or contributions are welcome.
 
   public class DefaultTabListPageRenderer : TabListPageRenderer
   {
-    #region Overridden Methods
+    #region Methods
 
     public override void RenderHeader(Graphics g, TabListPage page, TabListPageState state)
     {
@@ -62,18 +62,20 @@ namespace Cyotek.Windows.Forms
         Point point2;
         Point point3;
 
-        y = fillBounds.Top + ((fillBounds.Height - (arrowSize * 2)) / 2);
+        y = fillBounds.Top + (fillBounds.Height - arrowSize * 2) / 2;
         x = fillBounds.Right;
 
         point1 = new Point(x, y);
         point2 = new Point(x + arrowSize, y + arrowSize);
-        point3 = new Point(x, y + (arrowSize * 2));
+        point3 = new Point(x, y + arrowSize * 2);
 
         using (Brush brush = new SolidBrush(fillColor))
         {
           g.FillPolygon(brush, new[]
                                {
-                                 point1, point2, point3
+                                 point1,
+                                 point2,
+                                 point3
                                });
         }
       }

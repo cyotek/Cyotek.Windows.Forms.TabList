@@ -8,10 +8,10 @@ namespace Cyotek.Windows.Forms
 {
   // Cyotek TabList
   // Copyright (c) 2012-2013 Cyotek.
-  // http://cyotek.com
-  // http://cyotek.com/blog/tag/tablist
+  // https://www.cyotek.com
+  // https://www.cyotek.com/blog/tag/tablist
 
-  // Licensed under the MIT License. See tablist-license.txt for the full text.
+  // Licensed under the MIT License. See LICENSE.txt for the full text.
 
   // If you use this control in your applications, attribution, donations or contributions are welcome.
 
@@ -21,7 +21,7 @@ namespace Cyotek.Windows.Forms
   [DefaultProperty("Text")]
   public class TabListPage : Panel
   {
-    #region Public Constructors
+    #region Constructors
 
     public TabListPage()
     {
@@ -98,7 +98,7 @@ namespace Cyotek.Windows.Forms
 
     #endregion
 
-    #region Overridden Properties
+    #region Properties
 
     [EditorBrowsable(EditorBrowsableState.Never)]
     [Browsable(false)]
@@ -135,51 +135,6 @@ namespace Cyotek.Windows.Forms
       set { base.Dock = value; }
     }
 
-    [Browsable(false)]
-    [DefaultValue(typeof(Size), "0, 0")]
-    [EditorBrowsable(EditorBrowsableState.Never)]
-    public override Size MaximumSize
-    {
-      get { return base.MaximumSize; }
-      set { base.MaximumSize = value; }
-    }
-
-    [Browsable(false)]
-    [EditorBrowsable(EditorBrowsableState.Never)]
-    public override Size MinimumSize
-    {
-      get { return base.MinimumSize; }
-      set { base.MinimumSize = value; }
-    }
-
-    [Browsable(true)]
-    [EditorBrowsable(EditorBrowsableState.Always)]
-    public override string Text
-    {
-      get { return base.Text; }
-      set { base.Text = value; }
-    }
-
-    #endregion
-
-    #region Overridden Methods
-
-    protected override void OnFontChanged(EventArgs e)
-    {
-      base.OnFontChanged(e);
-      this.UpdateParent();
-    }
-
-    protected override void OnTextChanged(EventArgs e)
-    {
-      base.OnTextChanged(e);
-      this.UpdateParent();
-    }
-
-    #endregion
-
-    #region Public Properties
-
     [EditorBrowsable(EditorBrowsableState.Never)]
     [Browsable(false)]
     public new bool Enabled
@@ -199,6 +154,23 @@ namespace Cyotek.Windows.Forms
     {
       get { return base.Location; }
       set { base.Location = value; }
+    }
+
+    [Browsable(false)]
+    [DefaultValue(typeof(Size), "0, 0")]
+    [EditorBrowsable(EditorBrowsableState.Never)]
+    public override Size MaximumSize
+    {
+      get { return base.MaximumSize; }
+      set { base.MaximumSize = value; }
+    }
+
+    [Browsable(false)]
+    [EditorBrowsable(EditorBrowsableState.Never)]
+    public override Size MinimumSize
+    {
+      get { return base.MinimumSize; }
+      set { base.MinimumSize = value; }
     }
 
     [Browsable(false)]
@@ -230,6 +202,14 @@ namespace Cyotek.Windows.Forms
       set { base.TabStop = value; }
     }
 
+    [Browsable(true)]
+    [EditorBrowsable(EditorBrowsableState.Always)]
+    public override string Text
+    {
+      get { return base.Text; }
+      set { base.Text = value; }
+    }
+
     [Browsable(false)]
     [EditorBrowsable(EditorBrowsableState.Never)]
     public new bool Visible
@@ -240,7 +220,19 @@ namespace Cyotek.Windows.Forms
 
     #endregion
 
-    #region Private Members
+    #region Methods
+
+    protected override void OnFontChanged(EventArgs e)
+    {
+      base.OnFontChanged(e);
+      this.UpdateParent();
+    }
+
+    protected override void OnTextChanged(EventArgs e)
+    {
+      base.OnTextChanged(e);
+      this.UpdateParent();
+    }
 
     private void UpdateParent()
     {

@@ -5,7 +5,7 @@ namespace Cyotek.Windows.Forms.Demo
 {
   internal class WizardTabListPageRenderer : TabListPageRenderer
   {
-    #region Overridden Members
+    #region Methods
 
     public override void RenderHeader(Graphics g, TabListPage page, TabListPageState state)
     {

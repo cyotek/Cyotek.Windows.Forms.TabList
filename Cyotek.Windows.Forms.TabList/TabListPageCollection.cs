@@ -5,20 +5,20 @@ namespace Cyotek.Windows.Forms
 {
   // Cyotek TabList
   // Copyright (c) 2012-2013 Cyotek.
-  // http://cyotek.com
-  // http://cyotek.com/blog/tag/tablist
+  // https://www.cyotek.com
+  // https://www.cyotek.com/blog/tag/tablist
 
-  // Licensed under the MIT License. See tablist-license.txt for the full text.
+  // Licensed under the MIT License. See LICENSE.txt for the full text.
 
   // If you use this control in your applications, attribution, donations or contributions are welcome.
 
   partial class TabList
   {
-    #region Nested Types
+    #region Nested type: TabListPageCollection
 
     public class TabListPageCollection : IList
     {
-      #region Public Constructors
+      #region Constructors
 
       public TabListPageCollection(TabList owner)
       {
@@ -32,27 +32,7 @@ namespace Cyotek.Windows.Forms
 
       #endregion
 
-      #region Public Properties
-
-      public int Count
-      {
-        get { return this.Owner.TabListPageCount; }
-      }
-
-      public bool IsFixedSize
-      {
-        get { return false; }
-      }
-
-      public bool IsReadOnly
-      {
-        get { return false; }
-      }
-
-      public bool IsSynchronized
-      {
-        get { return false; }
-      }
+      #region Properties
 
       public virtual TabListPage this[int index]
       {
@@ -83,20 +63,11 @@ namespace Cyotek.Windows.Forms
         }
       }
 
-      public object SyncRoot
-      {
-        get { return this; }
-      }
-
-      #endregion
-
-      #region Protected Properties
-
       protected TabList Owner { get; set; }
 
       #endregion
 
-      #region Public Members
+      #region Methods
 
       public TabListPage Add(string text)
       {
@@ -122,11 +93,6 @@ namespace Cyotek.Windows.Forms
         this.Owner.Controls.Add(value);
       }
 
-      public void Clear()
-      {
-        this.Owner.ClearAllPages();
-      }
-
       public bool Contains(TabListPage value)
       {
         if (value == null)
@@ -140,27 +106,6 @@ namespace Cyotek.Windows.Forms
       public bool ContainsKey(string key)
       {
         return this.IndexOfKey(key) != -1;
-      }
-
-      public void CopyTo(Array array, int index)
-      {
-        if (this.Count != 0)
-        {
-          Array.Copy(this.Owner.GetTabListPages(), 0, array, index, this.Count);
-        }
-      }
-
-      public IEnumerator GetEnumerator()
-      {
-        TabListPage[] tabPages;
-
-        tabPages = this.Owner.GetTabListPages();
-        if (tabPages == null)
-        {
-          tabPages = new TabListPage[0];
-        }
-
-        return tabPages.GetEnumerator();
       }
 
       public int IndexOf(TabListPage value)
@@ -228,14 +173,9 @@ namespace Cyotek.Windows.Forms
         this.Owner.Controls.Remove(value);
       }
 
-      public void RemoveAt(int index)
-      {
-        this.Owner.Controls.RemoveAt(index);
-      }
-
       #endregion
 
-      #region IList Members
+      #region IList Interface
 
       object IList.this[int index]
       {
@@ -249,6 +189,37 @@ namespace Cyotek.Windows.Forms
 
           this[index] = (TabListPage)value;
         }
+      }
+
+      public void Clear()
+      {
+        this.Owner.ClearAllPages();
+      }
+
+      public void CopyTo(Array array, int index)
+      {
+        if (this.Count != 0)
+        {
+          Array.Copy(this.Owner.GetTabListPages(), 0, array, index, this.Count);
+        }
+      }
+
+      public IEnumerator GetEnumerator()
+      {
+        TabListPage[] tabPages;
+
+        tabPages = this.Owner.GetTabListPages();
+        if (tabPages == null)
+        {
+          tabPages = new TabListPage[0];
+        }
+
+        return tabPages.GetEnumerator();
+      }
+
+      public void RemoveAt(int index)
+      {
+        this.Owner.Controls.RemoveAt(index);
       }
 
       int IList.Add(object value)
@@ -304,6 +275,31 @@ namespace Cyotek.Windows.Forms
         {
           this.Remove((TabListPage)value);
         }
+      }
+
+      public int Count
+      {
+        get { return this.Owner.TabListPageCount; }
+      }
+
+      public bool IsFixedSize
+      {
+        get { return false; }
+      }
+
+      public bool IsReadOnly
+      {
+        get { return false; }
+      }
+
+      public bool IsSynchronized
+      {
+        get { return false; }
+      }
+
+      public object SyncRoot
+      {
+        get { return this; }
       }
 
       #endregion

@@ -28,6 +28,7 @@ namespace Cyotek.Windows.Forms.Demo
     /// </summary>
     private void InitializeComponent()
     {
+      this.components = new System.ComponentModel.Container();
       this.closeButton = new System.Windows.Forms.Button();
       this.nameLabel = new System.Windows.Forms.Label();
       this.versionLabel = new System.Windows.Forms.Label();
@@ -36,6 +37,7 @@ namespace Cyotek.Windows.Forms.Demo
       this.footerGroupBox = new System.Windows.Forms.Panel();
       this.webLinkLabel = new System.Windows.Forms.LinkLabel();
       this.docsTabControl = new System.Windows.Forms.TabControl();
+      this.toolTip = new System.Windows.Forms.ToolTip(this.components);
       ((System.ComponentModel.ISupportInitialize)(this.iconPictureBox)).BeginInit();
       this.footerGroupBox.SuspendLayout();
       this.SuspendLayout();
@@ -87,7 +89,7 @@ namespace Cyotek.Windows.Forms.Demo
       // 
       // iconPictureBox
       // 
-      this.iconPictureBox.Image = global::Cyotek.Windows.Forms.Demo.Properties.Resources.Logo32;
+      this.iconPictureBox.Image = global::Cyotek.Windows.Forms.Demo.Properties.Resources.Icon;
       this.iconPictureBox.Location = new System.Drawing.Point(12, 12);
       this.iconPictureBox.Name = "iconPictureBox";
       this.iconPictureBox.Size = new System.Drawing.Size(32, 32);
@@ -114,23 +116,22 @@ namespace Cyotek.Windows.Forms.Demo
       this.webLinkLabel.ForeColor = System.Drawing.SystemColors.HotTrack;
       this.webLinkLabel.Location = new System.Drawing.Point(12, 16);
       this.webLinkLabel.Name = "webLinkLabel";
-      this.webLinkLabel.Size = new System.Drawing.Size(99, 15);
+      this.webLinkLabel.Size = new System.Drawing.Size(139, 15);
       this.webLinkLabel.TabIndex = 0;
       this.webLinkLabel.TabStop = true;
       this.webLinkLabel.Tag = "www.cyotek.com";
-      this.webLinkLabel.Text = "www.cyotek.com";
+      this.webLinkLabel.Text = "https://www.cyotek.com";
+      this.toolTip.SetToolTip(this.webLinkLabel, "Visit the Cyotek website for development topics and code");
       this.webLinkLabel.Click += new System.EventHandler(this.webLinkLabel_Click);
       // 
       // docsTabControl
       // 
-      this.docsTabControl.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
       this.docsTabControl.Location = new System.Drawing.Point(12, 77);
       this.docsTabControl.Name = "docsTabControl";
       this.docsTabControl.SelectedIndex = 0;
       this.docsTabControl.Size = new System.Drawing.Size(591, 365);
       this.docsTabControl.TabIndex = 3;
+      this.docsTabControl.Selecting += new System.Windows.Forms.TabControlCancelEventHandler(this.docsTabControl_Selecting);
       // 
       // AboutDialog
       // 
@@ -169,5 +170,6 @@ namespace Cyotek.Windows.Forms.Demo
     private System.Windows.Forms.Panel footerGroupBox;
     private System.Windows.Forms.LinkLabel webLinkLabel;
     private System.Windows.Forms.TabControl docsTabControl;
+    private System.Windows.Forms.ToolTip toolTip;
   }
 }

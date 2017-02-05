@@ -5,16 +5,16 @@ namespace Cyotek.Windows.Forms.Demo
 {
   // Cyotek TabList
   // Copyright (c) 2012-2013 Cyotek.
-  // http://cyotek.com
-  // http://cyotek.com/blog/tag/tablist
+  // https://www.cyotek.com
+  // https://www.cyotek.com/blog/tag/tablist
 
-  // Licensed under the MIT License. See tablist-license.txt for the full text.
+  // Licensed under the MIT License. See LICENSE.txt for the full text.
 
   // If you use this control in your applications, attribution, donations or contributions are welcome.
 
   internal static class Program
   {
-    #region Class Members
+    #region Static Methods
 
     /// <summary>
     /// The main entry point for the application.

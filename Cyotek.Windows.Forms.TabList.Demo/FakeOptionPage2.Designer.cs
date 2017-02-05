@@ -47,7 +47,7 @@
       // 
       this.groupBox3.Controls.Add(this.textBox1);
       this.groupBox3.Dock = System.Windows.Forms.DockStyle.Fill;
-      this.groupBox3.Image = global::Cyotek.Windows.Forms.Demo.Properties.Resources.Logo32;
+      this.groupBox3.Image = global::Cyotek.Windows.Forms.Demo.Properties.Resources.Icon;
       this.groupBox3.Location = new System.Drawing.Point(0, 94);
       this.groupBox3.Name = "groupBox3";
       this.groupBox3.Size = new System.Drawing.Size(410, 213);
@@ -73,7 +73,7 @@
       this.groupBox2.Controls.Add(this.radioButton2);
       this.groupBox2.Controls.Add(this.radioButton1);
       this.groupBox2.Dock = System.Windows.Forms.DockStyle.Top;
-      this.groupBox2.Image = global::Cyotek.Windows.Forms.Demo.Properties.Resources.Logo32;
+      this.groupBox2.Image = global::Cyotek.Windows.Forms.Demo.Properties.Resources.Icon;
       this.groupBox2.Location = new System.Drawing.Point(0, 0);
       this.groupBox2.Name = "groupBox2";
       this.groupBox2.Size = new System.Drawing.Size(410, 94);
@@ -120,7 +120,7 @@
       this.groupBox1.Controls.Add(this.checkBox2);
       this.groupBox1.Controls.Add(this.checkBox1);
       this.groupBox1.Dock = System.Windows.Forms.DockStyle.Bottom;
-      this.groupBox1.Image = global::Cyotek.Windows.Forms.Demo.Properties.Resources.Logo32;
+      this.groupBox1.Image = global::Cyotek.Windows.Forms.Demo.Properties.Resources.Icon;
       this.groupBox1.Location = new System.Drawing.Point(0, 307);
       this.groupBox1.Name = "groupBox1";
       this.groupBox1.Size = new System.Drawing.Size(410, 94);

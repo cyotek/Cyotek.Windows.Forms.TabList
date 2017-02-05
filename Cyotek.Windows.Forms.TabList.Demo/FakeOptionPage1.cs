@@ -8,7 +8,7 @@ namespace Cyotek.Windows.Forms.Demo
 
     public FakeOptionPage1()
     {
-      InitializeComponent();
+      this.InitializeComponent();
     }
 
     #endregion

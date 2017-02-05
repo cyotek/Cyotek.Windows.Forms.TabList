@@ -5,10 +5,10 @@ namespace Cyotek.Windows.Forms.Demo
 {
   // Cyotek TabList
   // Copyright (c) 2012-2013 Cyotek.
-  // http://cyotek.com
-  // http://cyotek.com/blog/tag/tablist
+  // https://www.cyotek.com
+  // https://www.cyotek.com/blog/tag/tablist
 
-  // Licensed under the MIT License. See tablist-license.txt for the full text.
+  // Licensed under the MIT License. See LICENSE.txt for the full text.
 
   // If you use this control in your applications, attribution, donations or contributions are welcome.
 
@@ -18,12 +18,12 @@ namespace Cyotek.Windows.Forms.Demo
 
     public MainMenuForm()
     {
-      InitializeComponent();
+      this.InitializeComponent();
     }
 
     #endregion
 
-    #region Overridden Members
+    #region Methods
 
     protected override void OnLoad(EventArgs e)
     {
@@ -32,14 +32,14 @@ namespace Cyotek.Windows.Forms.Demo
       base.OnLoad(e);
 
       demoPage = new TabPage
-      {
-        UseVisualStyleBackColor = true,
-        Padding = new Padding(9),
-        Text = "Demonstrations"
-      };
+                 {
+                   UseVisualStyleBackColor = true,
+                   Padding = new Padding(9),
+                   Text = "Demonstrations"
+                 };
 
-      groupBox1.Dock = DockStyle.Fill;
-      demoPage.Controls.Add(groupBox1);
+      demoGroupBox.Dock = DockStyle.Fill;
+      demoPage.Controls.Add(demoGroupBox);
 
       this.TabControl.TabPages.Insert(0, demoPage);
       this.TabControl.SelectedTab = demoPage;
@@ -47,26 +47,33 @@ namespace Cyotek.Windows.Forms.Demo
       this.Text = "Cyotek TabList Control for Windows Forms";
     }
 
-    #endregion
-
-    #region Members
-
-    private void ShowDemo<T>() where T : Form
+    /// <summary>
+    /// Raises the <see cref="E:System.Windows.Forms.Form.Shown"/> event.
+    /// </summary>
+    /// <param name="e">A <see cref="T:System.EventArgs"/> that contains the event data. </param>
+    protected override void OnShown(EventArgs e)
     {
-      using (Form dialog = Activator.CreateInstance<T>())
-        dialog.ShowDialog(this);
+      base.OnShown(e);
+
+      generalDemoButton.Focus();
     }
-
-    #endregion
-
-    #region Event Handlers
 
     private void generalDemoButton_Click(object sender, EventArgs e)
     {
       this.ShowDemo<GeneralDemonstrationForm>();
     }
 
-    private void renderStylesDemoButton_Click(object sender, EventArgs e)
+    private void ShowDemo<T>() where T : Form, new()
+    {
+      Cursor.Current = Cursors.WaitCursor;
+
+      using (Form form = new T())
+      {
+        form.ShowDialog(this);
+      }
+    }
+
+    private void themeDemoButton_Click(object sender, EventArgs e)
     {
       this.ShowDemo<RendererDemonstrationForm>();
     }
