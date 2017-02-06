@@ -10,7 +10,7 @@ using System.Windows.Forms.Design;
 namespace Cyotek.Windows.Forms.Design
 {
   // Cyotek TabList
-  // Copyright (c) 2012-2013 Cyotek.
+  // Copyright (c) 2012-2017 Cyotek.
   // https://www.cyotek.com
   // https://www.cyotek.com/blog/tag/tablist
 
@@ -24,7 +24,11 @@ namespace Cyotek.Windows.Forms.Design
 
     private DesignerVerb _addVerb;
 
+    private DesignerVerb _dockVerb;
+
     private DesignerVerb _removeVerb;
+
+    private DesignerVerb _undockVerb;
 
     private DesignerVerbCollection _verbs;
 
@@ -46,14 +50,7 @@ namespace Cyotek.Windows.Forms.Design
 
         designer = this.GetSelectedTabListPageDesigner();
 
-        if (designer != null)
-        {
-          result = designer.ParticipatesWithSnapLines;
-        }
-        else
-        {
-          result = true;
-        }
+        result = designer == null || designer.ParticipatesWithSnapLines;
 
         return result;
       }
@@ -70,6 +67,10 @@ namespace Cyotek.Windows.Forms.Design
       {
         if (_verbs == null)
         {
+          Control control;
+
+          control = this.Control;
+
           _verbs = new DesignerVerbCollection();
 
           _addVerb = new DesignerVerb("Add TabListPage", this.AddVerbHandler)
@@ -80,9 +81,21 @@ namespace Cyotek.Windows.Forms.Design
                         {
                           Description = "Remove the currently selected TabListPage from the parent control."
                         };
+          _dockVerb = new DesignerVerb("Dock in Parent Container", this.DockVerbHandler)
+                      {
+                        Description = "Dock the TabList to fill its parent control.",
+                        Visible = control.Dock != DockStyle.Fill
+                      };
+          _undockVerb = new DesignerVerb("Undock in Parent Container", this.UndockVerbHandler)
+                        {
+                          Description = "Undock the TabList to no longer fill its parent control.",
+                          Visible = control.Dock == DockStyle.Fill
+                        };
 
           _verbs.Add(_addVerb);
           _verbs.Add(_removeVerb);
+          _verbs.Add(_dockVerb);
+          _verbs.Add(_undockVerb);
         }
 
         return _verbs;
@@ -173,7 +186,7 @@ namespace Cyotek.Windows.Forms.Design
 
       if (host != null)
       {
-        using (DesignerTransaction transaction = host.CreateTransaction(string.Format("Add TabListPage to '{0}'", control.Name)))
+        using (DesignerTransaction transaction = host.CreateTransaction($"Add TabListPage to '{control.Name}'"))
         {
           try
           {
@@ -230,7 +243,7 @@ namespace Cyotek.Windows.Forms.Design
       // prevent controls from being created directly on the TabList
       if (control.SelectedPage == null)
       {
-        throw new ArgumentException(string.Format("Cannot add control '{0}', no page is selected.", tool.DisplayName));
+        throw new ArgumentException($"Cannot add control '{tool.DisplayName}', no page is selected.");
       }
 
       host = (IDesignerHost)this.GetService(typeof(IDesignerHost));
@@ -314,7 +327,7 @@ namespace Cyotek.Windows.Forms.Design
       base.OnPaintAdornments(pe);
 
       // outline the control at design time as we don't have any borders
-      ControlPaint.DrawFocusRectangle(pe.Graphics, this.Control.ClientRectangle);
+      NativeMethods.DrawFocusRectangle(pe.Graphics, this.Control.ClientRectangle);
     }
 
     /// <summary>
@@ -334,7 +347,7 @@ namespace Cyotek.Windows.Forms.Design
 
         if (host != null)
         {
-          using (DesignerTransaction transaction = host.CreateTransaction(string.Format("Remove TabListPage from '{0}'", control.Name)))
+          using (DesignerTransaction transaction = host.CreateTransaction($"Remove TabListPage from '{control.Name}'"))
           {
             try
             {
@@ -372,7 +385,7 @@ namespace Cyotek.Windows.Forms.Design
     {
       switch (m.Msg)
       {
-        case 0x7b: // WM_CONTEXTMENU
+        case NativeMethods.WM_CONTEXTMENU:
           Point position;
 
           // For some reason the context menu is no longer displayed when right clicking the control
@@ -398,6 +411,11 @@ namespace Cyotek.Windows.Forms.Design
       this.AddTabListPage();
     }
 
+    private void DockVerbHandler(object sender, EventArgs e)
+    {
+      this.Control.Dock = DockStyle.Fill;
+    }
+
     /// <summary>
     /// Gets the TabListPage that contains the specified component
     /// </summary>
@@ -406,12 +424,16 @@ namespace Cyotek.Windows.Forms.Design
     private TabListPage GetComponentOwner(object component)
     {
       TabListPage result;
+      Control control;
 
-      if (component is Control)
+      control = component as Control;
+
+      if (control != null)
       {
         Control parent;
 
-        parent = (Control)component;
+        parent = control;
+
         while (parent != null && !(parent is TabListPage))
         {
           parent = parent.Parent;
@@ -460,10 +482,21 @@ namespace Cyotek.Windows.Forms.Design
     /// <param name="e">The <see cref="ComponentChangedEventArgs" /> instance containing the event data.</param>
     private void OnComponentChanged(object sender, ComponentChangedEventArgs e)
     {
-      // disable the Remove command if we dont' have anything we can actually remove
+      TabList control;
+
+      control = this.TabListControl;
+
+      // disable the Remove command if we don't have anything we can actually remove
       if (_removeVerb != null)
       {
-        _removeVerb.Enabled = this.TabListControl.TabListPageCount > 0;
+        _removeVerb.Enabled = control.TabListPageCount > 0;
+      }
+
+      // can't be both docked and undocked, so hide verbs as appropriate
+      if (_dockVerb != null && _undockVerb != null)
+      {
+        _dockVerb.Visible = control.Dock != DockStyle.Fill;
+        _undockVerb.Visible = !_dockVerb.Visible;
       }
     }
 
@@ -477,16 +510,14 @@ namespace Cyotek.Windows.Forms.Design
       ISelectionService service;
 
       service = (ISelectionService)this.GetService(typeof(ISelectionService));
-      if (service != null)
-      {
-        // set the TabList control as the selected object. We need to do this as if the control is selected as a result
-        // of GetHitTest returning true, normal designer actions don't seem to take place
-        // Alternatively, we could select the selected TabListPage instead but might as well stick with the standard behaviour
-        service.SetSelectedComponents(new object[]
-                                      {
-                                        this.Control
-                                      });
-      }
+
+      // set the TabList control as the selected object. We need to do this as if the control is selected as a result
+      // of GetHitTest returning true, normal designer actions don't seem to take place
+      // Alternatively, we could select the selected TabListPage instead but might as well stick with the standard behaviour
+      service?.SetSelectedComponents(new object[]
+                                     {
+                                       this.Control
+                                     });
     }
 
     /// <summary>
@@ -504,6 +535,8 @@ namespace Cyotek.Windows.Forms.Design
         TabList control;
 
         control = this.TabListControl;
+
+        // ReSharper disable once HeapView.ObjectAllocation.Possible
         foreach (object component in service.GetSelectedComponents())
         {
           TabListPage ownedPage;
@@ -530,6 +563,11 @@ namespace Cyotek.Windows.Forms.Design
     private void RemoveVerbHandler(object sender, EventArgs e)
     {
       this.RemoveSelectedTabListPage();
+    }
+
+    private void UndockVerbHandler(object sender, EventArgs e)
+    {
+      this.Control.Dock = DockStyle.None;
     }
 
     #endregion

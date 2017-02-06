@@ -28,7 +28,7 @@ namespace Cyotek.Windows.Forms.Design
 
     public override bool CanBeParentedTo(IDesigner parentDesigner)
     {
-      return parentDesigner != null && parentDesigner.Component is TabList;
+      return parentDesigner?.Component is TabList;
     }
 
     protected override void OnPaintAdornments(PaintEventArgs pe)
@@ -38,7 +38,7 @@ namespace Cyotek.Windows.Forms.Design
       if (!(this.Control is Panel) || ((Panel)this.Control).BorderStyle == BorderStyle.None)
       {
         // outline the control at design time if we don't have any borders
-        ControlPaint.DrawFocusRectangle(pe.Graphics, this.Control.ClientRectangle);
+        NativeMethods.DrawFocusRectangle(pe.Graphics, this.Control.ClientRectangle);
       }
     }
 
