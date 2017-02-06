@@ -6,7 +6,7 @@ using System.Windows.Forms;
 namespace Cyotek.Windows.Forms.Demo
 {
   // Cyotek TabList
-  // Copyright (c) 2012-2013 Cyotek.
+  // Copyright (c) 2012-2017 Cyotek.
   // https://www.cyotek.com
   // https://www.cyotek.com/blog/tag/tablist
 

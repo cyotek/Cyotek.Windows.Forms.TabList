@@ -32,6 +32,7 @@
       this.generalDemoButton = new System.Windows.Forms.Button();
       this.themeDemoButton = new System.Windows.Forms.Button();
       this.demoGroupBox = new Cyotek.Windows.Forms.GroupBox();
+      this.tabControlDemoButton = new System.Windows.Forms.Button();
       this.demoGroupBox.SuspendLayout();
       this.SuspendLayout();
       // 
@@ -55,7 +56,7 @@
       this.themeDemoButton.Name = "themeDemoButton";
       this.themeDemoButton.Size = new System.Drawing.Size(432, 27);
       this.themeDemoButton.TabIndex = 1;
-      this.themeDemoButton.Text = "&Pixel Grid Demonstration";
+      this.themeDemoButton.Text = "&Themes Demonstration";
       this.themeDemoButton.UseVisualStyleBackColor = true;
       this.themeDemoButton.Click += new System.EventHandler(this.themeDemoButton_Click);
       // 
@@ -64,6 +65,7 @@
       this.demoGroupBox.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+      this.demoGroupBox.Controls.Add(this.tabControlDemoButton);
       this.demoGroupBox.Controls.Add(this.generalDemoButton);
       this.demoGroupBox.Controls.Add(this.themeDemoButton);
       this.demoGroupBox.Location = new System.Drawing.Point(31, 65);
@@ -72,6 +74,18 @@
       this.demoGroupBox.TabIndex = 0;
       this.demoGroupBox.TabStop = false;
       this.demoGroupBox.Text = "Available Demonstrations";
+      // 
+      // tabControlDemoButton
+      // 
+      this.tabControlDemoButton.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+      this.tabControlDemoButton.Location = new System.Drawing.Point(6, 89);
+      this.tabControlDemoButton.Name = "tabControlDemoButton";
+      this.tabControlDemoButton.Size = new System.Drawing.Size(432, 27);
+      this.tabControlDemoButton.TabIndex = 2;
+      this.tabControlDemoButton.Text = "Tab&Control Host Painting Demonstration";
+      this.tabControlDemoButton.UseVisualStyleBackColor = true;
+      this.tabControlDemoButton.Click += new System.EventHandler(this.tabControlDemoButton_Click);
       // 
       // MainMenuForm
       // 
@@ -96,9 +110,7 @@
     private System.Windows.Forms.Button generalDemoButton;
     private System.Windows.Forms.Button themeDemoButton;
     private GroupBox demoGroupBox;
-
-
-
+    private System.Windows.Forms.Button tabControlDemoButton;
   }
 }
 

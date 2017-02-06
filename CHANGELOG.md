@@ -1,6 +1,21 @@
 # TabList Change Log
 
-## 1.0.2.0 (WIP)
+## 1.3.0
+### Added
+* Designer now supports **Dock in Parent Container** and **Undock in Parent Container** commands
+
+### Changed
+* Now uses semantic versioning
+
+### Removed
+* Removed the explicit implementation of `ITabListPageRenderer` from `TabListPageRenderer` as it added nothing over the implicit
+
+### Fixed
+* Focus rectangles are now drawn using the Win32 `DrawFocusRect` API rather than the utterly awful .NET implementation
+* Correct background wasn't painted when a `TabList` was hosted inside a `TabControl`
+* Demonstration program is now a little more robust
+
+## 1.0.2.0
 ### Added
 * Added `this[string]` indexer to the `TabPageList` collection
 * Added `RenderList`, `GetStartingPosition` and `GetPreferredSize` methods to `ITabListPageRenderer` to allow greater control over how headers are sized and positioned

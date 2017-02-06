@@ -67,9 +67,9 @@ namespace Cyotek.Windows.Forms.Demo
         info = FileVersionInfo.GetVersionInfo(assembly.Location);
         title = info.ProductName;
 
-        this.Text = string.Format("About {0}", title);
+        this.Text = $"About {title}";
         nameLabel.Text = title;
-        versionLabel.Text = string.Format("Version {0}", info.FileVersion);
+        versionLabel.Text = $"Version {info.FileVersion}";
         copyrightLabel.Text = info.LegalCopyright;
 
         this.AddReadme("CHANGELOG.md");
@@ -137,7 +137,7 @@ namespace Cyotek.Windows.Forms.Demo
         Debug.Print("Loading readme: {0}", page.Tag);
 
         fullPath = this.GetFullReadmePath(page.Tag.ToString());
-        text = File.Exists(fullPath) ? File.ReadAllText(fullPath) : string.Format("Cannot find file '{0}'", fullPath);
+        text = File.Exists(fullPath) ? File.ReadAllText(fullPath) : $"Cannot find file '{fullPath}'";
 
         if (text.IndexOf('\n') != -1 && text.IndexOf('\r') == -1)
         {
@@ -181,7 +181,7 @@ namespace Cyotek.Windows.Forms.Demo
       }
       catch (Exception ex)
       {
-        MessageBox.Show(string.Format("Unable to start the specified URI.\n\n{0}", ex.Message), this.Text, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+        MessageBox.Show($"Unable to start the specified URI.\n\n{ex.Message}", this.Text, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
       }
     }
 

@@ -1,6 +1,6 @@
 ﻿namespace Cyotek.Windows.Forms.Demo
 {
-  partial class RendererDemonstrationForm
+  partial class TabControlHostDemonstrationForm
   {
     /// <summary>
     /// Required designer variable.
@@ -34,8 +34,8 @@
       this.closeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
       this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
       this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-      this.toolStrip1 = new System.Windows.Forms.ToolStrip();
-      this.renderStyleToolStripComboBox = new System.Windows.Forms.ToolStripComboBox();
+      this.tabControl = new System.Windows.Forms.TabControl();
+      this.tabPage = new System.Windows.Forms.TabPage();
       this.tabList = new Cyotek.Windows.Forms.TabList();
       this.tabListPage1 = new Cyotek.Windows.Forms.TabListPage();
       this.fakeOptionPage11 = new Cyotek.Windows.Forms.Demo.FakeOptionPage1();
@@ -44,7 +44,8 @@
       this.tabListPage3 = new Cyotek.Windows.Forms.TabListPage();
       this.fakeOptionPage31 = new Cyotek.Windows.Forms.Demo.FakeOptionPage3();
       this.menuStrip1.SuspendLayout();
-      this.toolStrip1.SuspendLayout();
+      this.tabControl.SuspendLayout();
+      this.tabPage.SuspendLayout();
       this.tabList.SuspendLayout();
       this.tabListPage1.SuspendLayout();
       this.tabListPage2.SuspendLayout();
@@ -53,10 +54,10 @@
       // 
       // statusStrip1
       // 
-      this.statusStrip1.Location = new System.Drawing.Point(0, 451);
+      this.statusStrip1.Location = new System.Drawing.Point(0, 483);
       this.statusStrip1.Name = "statusStrip1";
-      this.statusStrip1.Size = new System.Drawing.Size(523, 22);
-      this.statusStrip1.TabIndex = 5;
+      this.statusStrip1.Size = new System.Drawing.Size(773, 22);
+      this.statusStrip1.TabIndex = 7;
       this.statusStrip1.Text = "statusStrip1";
       // 
       // menuStrip1
@@ -66,8 +67,8 @@
             this.helpToolStripMenuItem});
       this.menuStrip1.Location = new System.Drawing.Point(0, 0);
       this.menuStrip1.Name = "menuStrip1";
-      this.menuStrip1.Size = new System.Drawing.Size(523, 24);
-      this.menuStrip1.TabIndex = 4;
+      this.menuStrip1.Size = new System.Drawing.Size(773, 24);
+      this.menuStrip1.TabIndex = 6;
       this.menuStrip1.Text = "menuStrip1";
       // 
       // fileToolStripMenuItem
@@ -101,24 +102,26 @@
       this.aboutToolStripMenuItem.Text = "&About...";
       this.aboutToolStripMenuItem.Click += new System.EventHandler(this.aboutToolStripMenuItem_Click);
       // 
-      // toolStrip1
+      // tabControl
       // 
-      this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.renderStyleToolStripComboBox});
-      this.toolStrip1.Location = new System.Drawing.Point(0, 24);
-      this.toolStrip1.Name = "toolStrip1";
-      this.toolStrip1.Size = new System.Drawing.Size(523, 25);
-      this.toolStrip1.TabIndex = 6;
-      this.toolStrip1.Text = "toolStrip1";
+      this.tabControl.Controls.Add(this.tabPage);
+      this.tabControl.Dock = System.Windows.Forms.DockStyle.Fill;
+      this.tabControl.Location = new System.Drawing.Point(0, 24);
+      this.tabControl.Name = "tabControl";
+      this.tabControl.SelectedIndex = 0;
+      this.tabControl.Size = new System.Drawing.Size(773, 459);
+      this.tabControl.TabIndex = 8;
       // 
-      // renderStyleToolStripComboBox
+      // tabPage
       // 
-      this.renderStyleToolStripComboBox.AutoSize = false;
-      this.renderStyleToolStripComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-      this.renderStyleToolStripComboBox.Name = "renderStyleToolStripComboBox";
-      this.renderStyleToolStripComboBox.Size = new System.Drawing.Size(121, 23);
-      this.renderStyleToolStripComboBox.Sorted = true;
-      this.renderStyleToolStripComboBox.SelectedIndexChanged += new System.EventHandler(this.renderStyleToolStripComboBox_SelectedIndexChanged);
+      this.tabPage.Controls.Add(this.tabList);
+      this.tabPage.Location = new System.Drawing.Point(4, 22);
+      this.tabPage.Name = "tabPage";
+      this.tabPage.Padding = new System.Windows.Forms.Padding(12);
+      this.tabPage.Size = new System.Drawing.Size(765, 433);
+      this.tabPage.TabIndex = 0;
+      this.tabPage.Text = "Options";
+      this.tabPage.UseVisualStyleBackColor = true;
       // 
       // tabList
       // 
@@ -126,17 +129,17 @@
       this.tabList.Controls.Add(this.tabListPage2);
       this.tabList.Controls.Add(this.tabListPage3);
       this.tabList.Dock = System.Windows.Forms.DockStyle.Fill;
-      this.tabList.Location = new System.Drawing.Point(0, 49);
+      this.tabList.Location = new System.Drawing.Point(12, 12);
       this.tabList.Name = "tabList";
-      this.tabList.Size = new System.Drawing.Size(523, 402);
-      this.tabList.TabIndex = 1;
+      this.tabList.Size = new System.Drawing.Size(741, 409);
+      this.tabList.TabIndex = 2;
       // 
       // tabListPage1
       // 
       this.tabListPage1.Controls.Add(this.fakeOptionPage11);
       this.tabListPage1.Dock = System.Windows.Forms.DockStyle.Fill;
       this.tabListPage1.Name = "tabListPage1";
-      this.tabListPage1.Size = new System.Drawing.Size(365, 394);
+      this.tabListPage1.Size = new System.Drawing.Size(583, 401);
       this.tabListPage1.TabIndex = 0;
       this.tabListPage1.Text = "Options";
       // 
@@ -145,7 +148,7 @@
       this.fakeOptionPage11.Dock = System.Windows.Forms.DockStyle.Fill;
       this.fakeOptionPage11.Location = new System.Drawing.Point(0, 0);
       this.fakeOptionPage11.Name = "fakeOptionPage11";
-      this.fakeOptionPage11.Size = new System.Drawing.Size(365, 394);
+      this.fakeOptionPage11.Size = new System.Drawing.Size(583, 401);
       this.fakeOptionPage11.TabIndex = 0;
       // 
       // tabListPage2
@@ -182,22 +185,20 @@
       this.fakeOptionPage31.Size = new System.Drawing.Size(42, 192);
       this.fakeOptionPage31.TabIndex = 0;
       // 
-      // RendererDemonstrationForm
+      // TabControlHostDemonstrationForm
       // 
       this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
       this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-      this.ClientSize = new System.Drawing.Size(523, 473);
-      this.Controls.Add(this.tabList);
-      this.Controls.Add(this.toolStrip1);
+      this.ClientSize = new System.Drawing.Size(773, 505);
+      this.Controls.Add(this.tabControl);
       this.Controls.Add(this.statusStrip1);
       this.Controls.Add(this.menuStrip1);
-      this.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-      this.Name = "RendererDemonstrationForm";
-      this.Text = "Render Style Demonstration";
+      this.Name = "TabControlHostDemonstrationForm";
+      this.Text = "TabControl Host Demonstration";
       this.menuStrip1.ResumeLayout(false);
       this.menuStrip1.PerformLayout();
-      this.toolStrip1.ResumeLayout(false);
-      this.toolStrip1.PerformLayout();
+      this.tabControl.ResumeLayout(false);
+      this.tabPage.ResumeLayout(false);
       this.tabList.ResumeLayout(false);
       this.tabListPage1.ResumeLayout(false);
       this.tabListPage2.ResumeLayout(false);
@@ -209,21 +210,20 @@
 
     #endregion
 
-    private TabList tabList;
     private System.Windows.Forms.StatusStrip statusStrip1;
     private System.Windows.Forms.MenuStrip menuStrip1;
     private System.Windows.Forms.ToolStripMenuItem fileToolStripMenuItem;
     private System.Windows.Forms.ToolStripMenuItem closeToolStripMenuItem;
     private System.Windows.Forms.ToolStripMenuItem helpToolStripMenuItem;
     private System.Windows.Forms.ToolStripMenuItem aboutToolStripMenuItem;
-    private System.Windows.Forms.ToolStrip toolStrip1;
-    private System.Windows.Forms.ToolStripComboBox renderStyleToolStripComboBox;
+    private System.Windows.Forms.TabControl tabControl;
+    private System.Windows.Forms.TabPage tabPage;
+    private TabList tabList;
     private TabListPage tabListPage1;
-    private TabListPage tabListPage2;
-    private TabListPage tabListPage3;
     private FakeOptionPage1 fakeOptionPage11;
+    private TabListPage tabListPage2;
     private FakeOptionPage2 fakeOptionPage21;
+    private TabListPage tabListPage3;
     private FakeOptionPage3 fakeOptionPage31;
   }
 }
-

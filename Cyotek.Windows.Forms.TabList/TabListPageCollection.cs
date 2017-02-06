@@ -24,7 +24,7 @@ namespace Cyotek.Windows.Forms
       {
         if (owner == null)
         {
-          throw new ArgumentNullException("owner");
+          throw new ArgumentNullException(nameof(owner));
         }
 
         this.Owner = owner;
@@ -87,7 +87,7 @@ namespace Cyotek.Windows.Forms
       {
         if (value == null)
         {
-          throw new ArgumentNullException("value");
+          throw new ArgumentNullException(nameof(value));
         }
 
         this.Owner.Controls.Add(value);
@@ -97,7 +97,7 @@ namespace Cyotek.Windows.Forms
       {
         if (value == null)
         {
-          throw new ArgumentNullException("value");
+          throw new ArgumentNullException(nameof(value));
         }
 
         return this.IndexOf(value) != -1;
@@ -114,7 +114,7 @@ namespace Cyotek.Windows.Forms
 
         if (value == null)
         {
-          throw new ArgumentNullException("value");
+          throw new ArgumentNullException(nameof(value));
         }
 
         index = -1;
@@ -155,7 +155,7 @@ namespace Cyotek.Windows.Forms
       {
         if (value == null)
         {
-          throw new ArgumentNullException("value");
+          throw new ArgumentNullException(nameof(value));
         }
 
         this.Owner.InsertPage(index, value);
@@ -167,7 +167,7 @@ namespace Cyotek.Windows.Forms
       {
         if (value == null)
         {
-          throw new ArgumentNullException("value");
+          throw new ArgumentNullException(nameof(value));
         }
 
         this.Owner.Controls.Remove(value);
@@ -184,7 +184,7 @@ namespace Cyotek.Windows.Forms
         {
           if (!(value is TabListPage))
           {
-            throw new ArgumentException("Only controls of type TabListPage can be added to this collection.", "value");
+            throw new ArgumentException("Only controls of type TabListPage can be added to this collection.", nameof(value));
           }
 
           this[index] = (TabListPage)value;

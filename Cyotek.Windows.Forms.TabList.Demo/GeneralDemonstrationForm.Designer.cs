@@ -29,18 +29,20 @@
     private void InitializeComponent()
     {
       this.splitContainer = new System.Windows.Forms.SplitContainer();
-      this.viewsTabList = new Cyotek.Windows.Forms.TabList();
-      this.controlTabListPage = new Cyotek.Windows.Forms.TabListPage();
-      this.controlPropertyGrid = new System.Windows.Forms.PropertyGrid();
-      this.pageTabListPage = new Cyotek.Windows.Forms.TabListPage();
-      this.selectionPropertyGrid = new System.Windows.Forms.PropertyGrid();
-      this.miscTabListPage = new Cyotek.Windows.Forms.TabListPage();
-      this.lastButton = new System.Windows.Forms.Button();
-      this.nextButton = new System.Windows.Forms.Button();
-      this.previousButton = new System.Windows.Forms.Button();
+      this.tableLayoutPanel = new System.Windows.Forms.TableLayoutPanel();
+      this.panel1 = new System.Windows.Forms.Panel();
+      this.groupBox1 = new Cyotek.Windows.Forms.GroupBox();
       this.firstButton = new System.Windows.Forms.Button();
-      this.removePageButton = new System.Windows.Forms.Button();
+      this.nextButton = new System.Windows.Forms.Button();
+      this.lastButton = new System.Windows.Forms.Button();
+      this.previousButton = new System.Windows.Forms.Button();
+      this.tabPagesGroupBox = new Cyotek.Windows.Forms.GroupBox();
       this.addPageButton = new System.Windows.Forms.Button();
+      this.removePageButton = new System.Windows.Forms.Button();
+      this.pageGroupBox = new Cyotek.Windows.Forms.GroupBox();
+      this.pagePropertyGrid = new System.Windows.Forms.PropertyGrid();
+      this.controlPropertiesGroupBox = new Cyotek.Windows.Forms.GroupBox();
+      this.controlPropertyGrid = new System.Windows.Forms.PropertyGrid();
       this.tabList = new Cyotek.Windows.Forms.TabList();
       this.tabListPage1 = new Cyotek.Windows.Forms.TabListPage();
       this.fakeOptionPage11 = new Cyotek.Windows.Forms.Demo.FakeOptionPage1();
@@ -57,10 +59,12 @@
       this.splitContainer.Panel1.SuspendLayout();
       this.splitContainer.Panel2.SuspendLayout();
       this.splitContainer.SuspendLayout();
-      this.viewsTabList.SuspendLayout();
-      this.controlTabListPage.SuspendLayout();
-      this.pageTabListPage.SuspendLayout();
-      this.miscTabListPage.SuspendLayout();
+      this.tableLayoutPanel.SuspendLayout();
+      this.panel1.SuspendLayout();
+      this.groupBox1.SuspendLayout();
+      this.tabPagesGroupBox.SuspendLayout();
+      this.pageGroupBox.SuspendLayout();
+      this.controlPropertiesGroupBox.SuspendLayout();
       this.tabList.SuspendLayout();
       this.tabListPage1.SuspendLayout();
       this.tabListPage2.SuspendLayout();
@@ -77,137 +81,171 @@
       // 
       // splitContainer.Panel1
       // 
-      this.splitContainer.Panel1.Controls.Add(this.viewsTabList);
+      this.splitContainer.Panel1.Controls.Add(this.tableLayoutPanel);
       // 
       // splitContainer.Panel2
       // 
       this.splitContainer.Panel2.Controls.Add(this.tabList);
-      this.splitContainer.Size = new System.Drawing.Size(759, 472);
-      this.splitContainer.SplitterDistance = 400;
+      this.splitContainer.Size = new System.Drawing.Size(784, 515);
+      this.splitContainer.SplitterDistance = 300;
       this.splitContainer.TabIndex = 1;
       // 
-      // viewsTabList
+      // tableLayoutPanel
       // 
-      this.viewsTabList.Controls.Add(this.controlTabListPage);
-      this.viewsTabList.Controls.Add(this.pageTabListPage);
-      this.viewsTabList.Controls.Add(this.miscTabListPage);
-      this.viewsTabList.Dock = System.Windows.Forms.DockStyle.Fill;
-      this.viewsTabList.Location = new System.Drawing.Point(0, 0);
-      this.viewsTabList.Name = "viewsTabList";
-      this.viewsTabList.Size = new System.Drawing.Size(400, 472);
-      this.viewsTabList.TabIndex = 0;
+      this.tableLayoutPanel.ColumnCount = 1;
+      this.tableLayoutPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+      this.tableLayoutPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 36F));
+      this.tableLayoutPanel.Controls.Add(this.panel1, 0, 2);
+      this.tableLayoutPanel.Controls.Add(this.pageGroupBox, 0, 1);
+      this.tableLayoutPanel.Controls.Add(this.controlPropertiesGroupBox, 0, 0);
+      this.tableLayoutPanel.Dock = System.Windows.Forms.DockStyle.Fill;
+      this.tableLayoutPanel.Location = new System.Drawing.Point(0, 0);
+      this.tableLayoutPanel.Name = "tableLayoutPanel";
+      this.tableLayoutPanel.RowCount = 3;
+      this.tableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 33.33333F));
+      this.tableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 33.33333F));
+      this.tableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 33.33333F));
+      this.tableLayoutPanel.Size = new System.Drawing.Size(300, 515);
+      this.tableLayoutPanel.TabIndex = 0;
       // 
-      // controlTabListPage
+      // panel1
       // 
-      this.controlTabListPage.Controls.Add(this.controlPropertyGrid);
-      this.controlTabListPage.Dock = System.Windows.Forms.DockStyle.Fill;
-      this.controlTabListPage.Name = "controlTabListPage";
-      this.controlTabListPage.Padding = new System.Windows.Forms.Padding(3);
-      this.controlTabListPage.Size = new System.Drawing.Size(242, 464);
-      this.controlTabListPage.TabIndex = 0;
-      this.controlTabListPage.Text = "Control";
+      this.panel1.Controls.Add(this.groupBox1);
+      this.panel1.Controls.Add(this.tabPagesGroupBox);
+      this.panel1.Dock = System.Windows.Forms.DockStyle.Fill;
+      this.panel1.Location = new System.Drawing.Point(3, 345);
+      this.panel1.Name = "panel1";
+      this.panel1.Size = new System.Drawing.Size(294, 167);
+      this.panel1.TabIndex = 0;
       // 
-      // controlPropertyGrid
+      // groupBox1
       // 
-      this.controlPropertyGrid.Dock = System.Windows.Forms.DockStyle.Fill;
-      this.controlPropertyGrid.Location = new System.Drawing.Point(3, 3);
-      this.controlPropertyGrid.Name = "controlPropertyGrid";
-      this.controlPropertyGrid.SelectedObject = this.tabList;
-      this.controlPropertyGrid.Size = new System.Drawing.Size(236, 458);
-      this.controlPropertyGrid.TabIndex = 1;
+      this.groupBox1.Controls.Add(this.firstButton);
+      this.groupBox1.Controls.Add(this.nextButton);
+      this.groupBox1.Controls.Add(this.lastButton);
+      this.groupBox1.Controls.Add(this.previousButton);
+      this.groupBox1.Dock = System.Windows.Forms.DockStyle.Top;
+      this.groupBox1.Location = new System.Drawing.Point(0, 57);
+      this.groupBox1.Name = "groupBox1";
+      this.groupBox1.Size = new System.Drawing.Size(294, 88);
+      this.groupBox1.TabIndex = 1;
+      this.groupBox1.TabStop = false;
+      this.groupBox1.Text = "SelectedPage";
       // 
-      // pageTabListPage
+      // firstButton
       // 
-      this.pageTabListPage.Controls.Add(this.selectionPropertyGrid);
-      this.pageTabListPage.Dock = System.Windows.Forms.DockStyle.Fill;
-      this.pageTabListPage.Name = "pageTabListPage";
-      this.pageTabListPage.Padding = new System.Windows.Forms.Padding(3);
-      this.pageTabListPage.Size = new System.Drawing.Size(49, 222);
-      this.pageTabListPage.TabIndex = 1;
-      this.pageTabListPage.Text = "Selected TabListPage";
-      // 
-      // selectionPropertyGrid
-      // 
-      this.selectionPropertyGrid.Dock = System.Windows.Forms.DockStyle.Fill;
-      this.selectionPropertyGrid.Location = new System.Drawing.Point(3, 3);
-      this.selectionPropertyGrid.Name = "selectionPropertyGrid";
-      this.selectionPropertyGrid.Size = new System.Drawing.Size(43, 216);
-      this.selectionPropertyGrid.TabIndex = 1;
-      // 
-      // miscTabListPage
-      // 
-      this.miscTabListPage.Controls.Add(this.lastButton);
-      this.miscTabListPage.Controls.Add(this.nextButton);
-      this.miscTabListPage.Controls.Add(this.previousButton);
-      this.miscTabListPage.Controls.Add(this.firstButton);
-      this.miscTabListPage.Controls.Add(this.removePageButton);
-      this.miscTabListPage.Controls.Add(this.addPageButton);
-      this.miscTabListPage.Dock = System.Windows.Forms.DockStyle.Fill;
-      this.miscTabListPage.Name = "miscTabListPage";
-      this.miscTabListPage.Padding = new System.Windows.Forms.Padding(3);
-      this.miscTabListPage.Size = new System.Drawing.Size(49, 222);
-      this.miscTabListPage.TabIndex = 2;
-      this.miscTabListPage.Text = "Misc";
-      // 
-      // lastButton
-      // 
-      this.lastButton.Location = new System.Drawing.Point(12, 249);
-      this.lastButton.Name = "lastButton";
-      this.lastButton.Size = new System.Drawing.Size(210, 36);
-      this.lastButton.TabIndex = 5;
-      this.lastButton.Text = "Last";
-      this.lastButton.UseVisualStyleBackColor = true;
-      this.lastButton.Click += new System.EventHandler(this.lastButton_Click);
+      this.firstButton.Location = new System.Drawing.Point(10, 23);
+      this.firstButton.Name = "firstButton";
+      this.firstButton.Size = new System.Drawing.Size(75, 23);
+      this.firstButton.TabIndex = 0;
+      this.firstButton.Text = "First";
+      this.firstButton.UseVisualStyleBackColor = true;
+      this.firstButton.Click += new System.EventHandler(this.firstButton_Click);
       // 
       // nextButton
       // 
-      this.nextButton.Location = new System.Drawing.Point(12, 204);
+      this.nextButton.Location = new System.Drawing.Point(9, 52);
       this.nextButton.Name = "nextButton";
-      this.nextButton.Size = new System.Drawing.Size(210, 36);
-      this.nextButton.TabIndex = 4;
+      this.nextButton.Size = new System.Drawing.Size(75, 23);
+      this.nextButton.TabIndex = 2;
       this.nextButton.Text = "Next";
       this.nextButton.UseVisualStyleBackColor = true;
       this.nextButton.Click += new System.EventHandler(this.nextButton_Click);
       // 
+      // lastButton
+      // 
+      this.lastButton.Location = new System.Drawing.Point(91, 23);
+      this.lastButton.Name = "lastButton";
+      this.lastButton.Size = new System.Drawing.Size(75, 23);
+      this.lastButton.TabIndex = 1;
+      this.lastButton.Text = "Last";
+      this.lastButton.UseVisualStyleBackColor = true;
+      this.lastButton.Click += new System.EventHandler(this.lastButton_Click);
+      // 
       // previousButton
       // 
-      this.previousButton.Location = new System.Drawing.Point(12, 159);
+      this.previousButton.Location = new System.Drawing.Point(90, 52);
       this.previousButton.Name = "previousButton";
-      this.previousButton.Size = new System.Drawing.Size(210, 36);
+      this.previousButton.Size = new System.Drawing.Size(75, 23);
       this.previousButton.TabIndex = 3;
       this.previousButton.Text = "Previous";
       this.previousButton.UseVisualStyleBackColor = true;
       this.previousButton.Click += new System.EventHandler(this.previousButton_Click);
       // 
-      // firstButton
+      // tabPagesGroupBox
       // 
-      this.firstButton.Location = new System.Drawing.Point(12, 115);
-      this.firstButton.Name = "firstButton";
-      this.firstButton.Size = new System.Drawing.Size(210, 36);
-      this.firstButton.TabIndex = 2;
-      this.firstButton.Text = "First";
-      this.firstButton.UseVisualStyleBackColor = true;
-      this.firstButton.Click += new System.EventHandler(this.firstButton_Click);
-      // 
-      // removePageButton
-      // 
-      this.removePageButton.Location = new System.Drawing.Point(12, 53);
-      this.removePageButton.Name = "removePageButton";
-      this.removePageButton.Size = new System.Drawing.Size(210, 36);
-      this.removePageButton.TabIndex = 1;
-      this.removePageButton.Text = "Remove Selected Page";
-      this.removePageButton.UseVisualStyleBackColor = true;
-      this.removePageButton.Click += new System.EventHandler(this.removePageButton_Click);
+      this.tabPagesGroupBox.Controls.Add(this.addPageButton);
+      this.tabPagesGroupBox.Controls.Add(this.removePageButton);
+      this.tabPagesGroupBox.Dock = System.Windows.Forms.DockStyle.Top;
+      this.tabPagesGroupBox.Location = new System.Drawing.Point(0, 0);
+      this.tabPagesGroupBox.Name = "tabPagesGroupBox";
+      this.tabPagesGroupBox.Size = new System.Drawing.Size(294, 57);
+      this.tabPagesGroupBox.TabIndex = 0;
+      this.tabPagesGroupBox.TabStop = false;
+      this.tabPagesGroupBox.Text = "TabPages Collection";
       // 
       // addPageButton
       // 
-      this.addPageButton.Location = new System.Drawing.Point(12, 9);
+      this.addPageButton.Location = new System.Drawing.Point(10, 23);
       this.addPageButton.Name = "addPageButton";
-      this.addPageButton.Size = new System.Drawing.Size(210, 36);
+      this.addPageButton.Size = new System.Drawing.Size(75, 23);
       this.addPageButton.TabIndex = 0;
-      this.addPageButton.Text = "Add Page";
+      this.addPageButton.Text = "&Add";
       this.addPageButton.UseVisualStyleBackColor = true;
       this.addPageButton.Click += new System.EventHandler(this.addPageButton_Click);
+      // 
+      // removePageButton
+      // 
+      this.removePageButton.Location = new System.Drawing.Point(91, 23);
+      this.removePageButton.Name = "removePageButton";
+      this.removePageButton.Size = new System.Drawing.Size(75, 23);
+      this.removePageButton.TabIndex = 1;
+      this.removePageButton.Text = "&Remove";
+      this.removePageButton.UseVisualStyleBackColor = true;
+      this.removePageButton.Click += new System.EventHandler(this.removePageButton_Click);
+      // 
+      // pageGroupBox
+      // 
+      this.pageGroupBox.Controls.Add(this.pagePropertyGrid);
+      this.pageGroupBox.Dock = System.Windows.Forms.DockStyle.Fill;
+      this.pageGroupBox.Location = new System.Drawing.Point(3, 174);
+      this.pageGroupBox.Name = "pageGroupBox";
+      this.pageGroupBox.Size = new System.Drawing.Size(294, 165);
+      this.pageGroupBox.TabIndex = 1;
+      this.pageGroupBox.TabStop = false;
+      this.pageGroupBox.Text = "TabListPage Properties";
+      // 
+      // pagePropertyGrid
+      // 
+      this.pagePropertyGrid.Dock = System.Windows.Forms.DockStyle.Fill;
+      this.pagePropertyGrid.HelpVisible = false;
+      this.pagePropertyGrid.Location = new System.Drawing.Point(3, 17);
+      this.pagePropertyGrid.Name = "pagePropertyGrid";
+      this.pagePropertyGrid.Size = new System.Drawing.Size(288, 145);
+      this.pagePropertyGrid.TabIndex = 0;
+      this.pagePropertyGrid.ToolbarVisible = false;
+      // 
+      // controlPropertiesGroupBox
+      // 
+      this.controlPropertiesGroupBox.Controls.Add(this.controlPropertyGrid);
+      this.controlPropertiesGroupBox.Dock = System.Windows.Forms.DockStyle.Fill;
+      this.controlPropertiesGroupBox.Location = new System.Drawing.Point(3, 3);
+      this.controlPropertiesGroupBox.Name = "controlPropertiesGroupBox";
+      this.controlPropertiesGroupBox.Size = new System.Drawing.Size(294, 165);
+      this.controlPropertiesGroupBox.TabIndex = 0;
+      this.controlPropertiesGroupBox.TabStop = false;
+      this.controlPropertiesGroupBox.Text = "TabList Properties";
+      // 
+      // controlPropertyGrid
+      // 
+      this.controlPropertyGrid.Dock = System.Windows.Forms.DockStyle.Fill;
+      this.controlPropertyGrid.HelpVisible = false;
+      this.controlPropertyGrid.Location = new System.Drawing.Point(3, 17);
+      this.controlPropertyGrid.Name = "controlPropertyGrid";
+      this.controlPropertyGrid.SelectedObject = this.tabList;
+      this.controlPropertyGrid.Size = new System.Drawing.Size(288, 145);
+      this.controlPropertyGrid.TabIndex = 0;
+      this.controlPropertyGrid.ToolbarVisible = false;
       // 
       // tabList
       // 
@@ -217,15 +255,16 @@
       this.tabList.Dock = System.Windows.Forms.DockStyle.Fill;
       this.tabList.Location = new System.Drawing.Point(0, 0);
       this.tabList.Name = "tabList";
-      this.tabList.Size = new System.Drawing.Size(355, 472);
-      this.tabList.TabIndex = 2;
+      this.tabList.Size = new System.Drawing.Size(480, 515);
+      this.tabList.TabIndex = 0;
+      this.tabList.SelectedIndexChanged += new System.EventHandler(this.tabList_SelectedIndexChanged);
       // 
       // tabListPage1
       // 
       this.tabListPage1.Controls.Add(this.fakeOptionPage11);
       this.tabListPage1.Dock = System.Windows.Forms.DockStyle.Fill;
       this.tabListPage1.Name = "tabListPage1";
-      this.tabListPage1.Size = new System.Drawing.Size(197, 464);
+      this.tabListPage1.Size = new System.Drawing.Size(322, 507);
       this.tabListPage1.TabIndex = 0;
       this.tabListPage1.Text = "Options";
       // 
@@ -234,7 +273,7 @@
       this.fakeOptionPage11.Dock = System.Windows.Forms.DockStyle.Fill;
       this.fakeOptionPage11.Location = new System.Drawing.Point(0, 0);
       this.fakeOptionPage11.Name = "fakeOptionPage11";
-      this.fakeOptionPage11.Size = new System.Drawing.Size(197, 464);
+      this.fakeOptionPage11.Size = new System.Drawing.Size(322, 507);
       this.fakeOptionPage11.TabIndex = 0;
       // 
       // tabListPage2
@@ -242,7 +281,7 @@
       this.tabListPage2.Controls.Add(this.fakeOptionPage21);
       this.tabListPage2.Dock = System.Windows.Forms.DockStyle.Fill;
       this.tabListPage2.Name = "tabListPage2";
-      this.tabListPage2.Size = new System.Drawing.Size(49, 222);
+      this.tabListPage2.Size = new System.Drawing.Size(322, 507);
       this.tabListPage2.TabIndex = 1;
       this.tabListPage2.Text = "More Options";
       // 
@@ -251,7 +290,7 @@
       this.fakeOptionPage21.Dock = System.Windows.Forms.DockStyle.Fill;
       this.fakeOptionPage21.Location = new System.Drawing.Point(0, 0);
       this.fakeOptionPage21.Name = "fakeOptionPage21";
-      this.fakeOptionPage21.Size = new System.Drawing.Size(49, 222);
+      this.fakeOptionPage21.Size = new System.Drawing.Size(322, 507);
       this.fakeOptionPage21.TabIndex = 0;
       // 
       // tabListPage3
@@ -259,7 +298,7 @@
       this.tabListPage3.Controls.Add(this.fakeOptionPage31);
       this.tabListPage3.Dock = System.Windows.Forms.DockStyle.Fill;
       this.tabListPage3.Name = "tabListPage3";
-      this.tabListPage3.Size = new System.Drawing.Size(49, 222);
+      this.tabListPage3.Size = new System.Drawing.Size(322, 507);
       this.tabListPage3.TabIndex = 2;
       this.tabListPage3.Text = "Advanced Options";
       // 
@@ -268,7 +307,7 @@
       this.fakeOptionPage31.Dock = System.Windows.Forms.DockStyle.Fill;
       this.fakeOptionPage31.Location = new System.Drawing.Point(0, 0);
       this.fakeOptionPage31.Name = "fakeOptionPage31";
-      this.fakeOptionPage31.Size = new System.Drawing.Size(49, 222);
+      this.fakeOptionPage31.Size = new System.Drawing.Size(322, 507);
       this.fakeOptionPage31.TabIndex = 0;
       // 
       // menuStrip1
@@ -278,8 +317,8 @@
             this.helpToolStripMenuItem});
       this.menuStrip1.Location = new System.Drawing.Point(0, 0);
       this.menuStrip1.Name = "menuStrip1";
-      this.menuStrip1.Size = new System.Drawing.Size(759, 24);
-      this.menuStrip1.TabIndex = 2;
+      this.menuStrip1.Size = new System.Drawing.Size(784, 24);
+      this.menuStrip1.TabIndex = 0;
       this.menuStrip1.Text = "menuStrip1";
       // 
       // fileToolStripMenuItem
@@ -315,31 +354,33 @@
       // 
       // statusStrip1
       // 
-      this.statusStrip1.Location = new System.Drawing.Point(0, 496);
+      this.statusStrip1.Location = new System.Drawing.Point(0, 539);
       this.statusStrip1.Name = "statusStrip1";
-      this.statusStrip1.Size = new System.Drawing.Size(759, 22);
-      this.statusStrip1.TabIndex = 3;
+      this.statusStrip1.Size = new System.Drawing.Size(784, 22);
+      this.statusStrip1.TabIndex = 2;
       this.statusStrip1.Text = "statusStrip1";
       // 
       // GeneralDemonstrationForm
       // 
       this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
       this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-      this.ClientSize = new System.Drawing.Size(759, 518);
+      this.ClientSize = new System.Drawing.Size(784, 561);
       this.Controls.Add(this.splitContainer);
       this.Controls.Add(this.statusStrip1);
       this.Controls.Add(this.menuStrip1);
       this.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
       this.MainMenuStrip = this.menuStrip1;
       this.Name = "GeneralDemonstrationForm";
-      this.Text = "Cyotek TabList Control Demonstration";
+      this.Text = "General Demonstration";
       this.splitContainer.Panel1.ResumeLayout(false);
       this.splitContainer.Panel2.ResumeLayout(false);
       this.splitContainer.ResumeLayout(false);
-      this.viewsTabList.ResumeLayout(false);
-      this.controlTabListPage.ResumeLayout(false);
-      this.pageTabListPage.ResumeLayout(false);
-      this.miscTabListPage.ResumeLayout(false);
+      this.tableLayoutPanel.ResumeLayout(false);
+      this.panel1.ResumeLayout(false);
+      this.groupBox1.ResumeLayout(false);
+      this.tabPagesGroupBox.ResumeLayout(false);
+      this.pageGroupBox.ResumeLayout(false);
+      this.controlPropertiesGroupBox.ResumeLayout(false);
       this.tabList.ResumeLayout(false);
       this.tabListPage1.ResumeLayout(false);
       this.tabListPage2.ResumeLayout(false);
@@ -354,12 +395,8 @@
     #endregion
 
     private System.Windows.Forms.SplitContainer splitContainer;
-    private TabList viewsTabList;
-    private TabListPage controlTabListPage;
     private System.Windows.Forms.PropertyGrid controlPropertyGrid;
-    private TabListPage pageTabListPage;
-    private System.Windows.Forms.PropertyGrid selectionPropertyGrid;
-    private TabListPage miscTabListPage;
+    private System.Windows.Forms.PropertyGrid pagePropertyGrid;
     private System.Windows.Forms.Button removePageButton;
     private System.Windows.Forms.Button addPageButton;
     private System.Windows.Forms.Button firstButton;
@@ -379,9 +416,12 @@
     private FakeOptionPage2 fakeOptionPage21;
     private TabListPage tabListPage3;
     private FakeOptionPage3 fakeOptionPage31;
-
-
-
+    private System.Windows.Forms.TableLayoutPanel tableLayoutPanel;
+    private System.Windows.Forms.Panel panel1;
+    private GroupBox pageGroupBox;
+    private GroupBox controlPropertiesGroupBox;
+    private GroupBox groupBox1;
+    private GroupBox tabPagesGroupBox;
   }
 }
 

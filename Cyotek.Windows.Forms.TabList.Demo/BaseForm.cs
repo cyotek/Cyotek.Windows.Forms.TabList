@@ -26,21 +26,68 @@ namespace Cyotek.Windows.Forms.Demo
 
     #region Methods
 
+    protected void FillTabList(TabList control)
+    {
+      control.TabListPages.Clear();
+      control.TabListPages.Add(this.CreateDemoTabPage1());
+      control.TabListPages.Add(this.CreateDemoTabPage2());
+      control.TabListPages.Add(this.CreateDemoTabPage3());
+    }
+
     protected string FormatPoint(Point point)
     {
-      return string.Format("X:{0}, Y:{1}", point.X, point.Y);
+      return $"X:{point.X}, Y:{point.Y}";
     }
 
     protected string FormatRectangle(RectangleF rect)
     {
-      return string.Format("X:{0}, Y:{1}, W:{2}, H:{3}", (int)rect.X, (int)rect.Y, (int)rect.Width, (int)rect.Height);
+      return $"X:{(int)rect.X}, Y:{(int)rect.Y}, W:{(int)rect.Width}, H:{(int)rect.Height}";
     }
 
     protected override void OnLoad(EventArgs e)
     {
-      this.Font = SystemFonts.MessageBoxFont;
-
       base.OnLoad(e);
+
+      if (!this.DesignMode)
+      {
+        this.Font = SystemFonts.MessageBoxFont;
+      }
+    }
+
+    private TabListPage CreateDemoTabPage1()
+    {
+      TabListPage page;
+
+      page = new TabListPage
+             {
+               Text = "Options 1"
+             };
+
+      return page;
+    }
+
+    private TabListPage CreateDemoTabPage2()
+    {
+      TabListPage page;
+
+      page = new TabListPage
+             {
+               Text = "Options 2"
+             };
+
+      return page;
+    }
+
+    private TabListPage CreateDemoTabPage3()
+    {
+      TabListPage page;
+
+      page = new TabListPage
+             {
+               Text = "Advanced"
+             };
+
+      return page;
     }
 
     #endregion

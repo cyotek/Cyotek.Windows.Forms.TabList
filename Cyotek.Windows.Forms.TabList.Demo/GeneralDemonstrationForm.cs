@@ -1,9 +1,11 @@
 ﻿using System;
+using System.Media;
+using System.Windows.Forms;
 
 namespace Cyotek.Windows.Forms.Demo
 {
   // Cyotek TabList
-  // Copyright (c) 2012-2013 Cyotek.
+  // Copyright (c) 2012-2017 Cyotek.
   // https://www.cyotek.com
   // https://www.cyotek.com/blog/tag/tablist
 
@@ -13,6 +15,12 @@ namespace Cyotek.Windows.Forms.Demo
 
   internal partial class GeneralDemonstrationForm : BaseForm
   {
+    #region Fields
+
+    private int _counter;
+
+    #endregion
+
     #region Constructors
 
     public GeneralDemonstrationForm()
@@ -28,8 +36,9 @@ namespace Cyotek.Windows.Forms.Demo
     {
       base.OnLoad(e);
 
-      selectionPropertyGrid.SelectedObject = tabList.SelectedPage;
-      viewsTabList.SelectedPage = pageTabListPage;
+      _counter = tabList.TabListPageCount;
+
+      pagePropertyGrid.SelectedObject = tabList.SelectedPage;
     }
 
     private void aboutToolStripMenuItem_Click(object sender, EventArgs e)
@@ -41,7 +50,11 @@ namespace Cyotek.Windows.Forms.Demo
     {
       TabListPage page;
 
-      page = tabList.TabListPages.Add("test");
+      _counter++;
+
+      page = tabList.TabListPages.Add("New Page " + _counter);
+
+      tabList.SelectedPage = page;
     }
 
     private void closeToolStripMenuItem_Click(object sender, EventArgs e)
@@ -75,23 +88,27 @@ namespace Cyotek.Windows.Forms.Demo
 
       page = tabList.SelectedPage;
 
-      if (page != null)
+      if (page != null && MessageBox.Show($"Are you sure you want to remove page '{page.Text}'?", "Remove Page", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+      {
         tabList.TabListPages.Remove(page);
+      }
     }
 
     private void SelectTab(int index)
     {
-      if (index < 0)
-        index = 0;
-      else if (index > tabList.TabListPageCount - 1)
-        index = tabList.TabListPageCount - 1;
-
-      tabList.SelectedIndex = index;
+      if (index >= 0 && index < tabList.TabListPageCount)
+      {
+        tabList.SelectedIndex = index;
+      }
+      else
+      {
+        SystemSounds.Beep.Play();
+      }
     }
 
     private void tabList_SelectedIndexChanged(object sender, EventArgs e)
     {
-      selectionPropertyGrid.SelectedObject = tabList.SelectedPage;
+      pagePropertyGrid.SelectedObject = tabList.SelectedPage;
     }
 
     #endregion

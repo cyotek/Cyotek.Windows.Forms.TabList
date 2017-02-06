@@ -119,6 +119,12 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <Compile Include="TabControlHostDemonstrationForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="TabControlHostDemonstrationForm.Designer.cs">
+      <DependentUpon>TabControlHostDemonstrationForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="TypeInfo.cs" />
     <Compile Include="WizardTabListPageRenderer.cs" />
     <EmbeddedResource Include="AboutDialog.resx">
@@ -148,6 +154,9 @@
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="TabControlHostDemonstrationForm.resx">
+      <DependentUpon>TabControlHostDemonstrationForm.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
