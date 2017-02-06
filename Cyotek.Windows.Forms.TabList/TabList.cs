@@ -41,6 +41,8 @@ namespace Cyotek.Windows.Forms
 
     private Rectangle _tabListBounds;
 
+    private TabListPageCollection _tabListPages;
+
     #endregion
 
     #region Static Constructors
@@ -56,18 +58,18 @@ namespace Cyotek.Windows.Forms
 
     public TabList()
     {
-      // ReSharper disable DoNotCallOverridableMethodsInConstructor
-      this.TabListPages = new TabListPageCollection(this);
-      this.SelectedIndex = -1;
-      this.HoverIndex = -1;
-      this.HeaderSize = new Size(150, 25);
+      _tabListPages = new TabListPageCollection(this);
+      _selectedIndex = -1;
+      _hoverIndex = -1;
+      _headerSize = new Size(150, 25);
+      _showTabList = true;
+      _allowTabSelection = true;
+
+      this.SetStyle(ControlStyles.AllPaintingInWmPaint | ControlStyles.ResizeRedraw | ControlStyles.OptimizedDoubleBuffer | ControlStyles.UserMouse | ControlStyles.SupportsTransparentBackColor, true);
+      this.UpdateFocusStyle();
+
       this.Size = new Size(200, 200); // the default size is tiny!
       this.Padding = new Padding(3);
-      this.DoubleBuffered = true;
-      this.ShowTabList = true;
-      this.AllowTabSelection = true;
-      this.SetStyles();
-      // ReSharper restore DoNotCallOverridableMethodsInConstructor
     }
 
     #endregion
@@ -221,8 +223,8 @@ namespace Cyotek.Windows.Forms
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
     public virtual TabListPage SelectedPage
     {
-      get { return this.SelectedIndex != -1 ? this.TabListPages[this.SelectedIndex] : null; }
-      set { this.SelectedIndex = this.TabListPages.IndexOf(value); }
+      get { return this.SelectedIndex != -1 ? _tabListPages[this.SelectedIndex] : null; }
+      set { this.SelectedIndex = _tabListPages.IndexOf(value); }
     }
 
     [Category("Appearance")]
@@ -261,7 +263,11 @@ namespace Cyotek.Windows.Forms
 
     [Category("Behavior")]
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-    public virtual TabListPageCollection TabListPages { get; protected set; }
+    public virtual TabListPageCollection TabListPages
+    {
+      get { return _tabListPages; }
+      protected set { _tabListPages = value; }
+    }
 
     [Browsable(false)]
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
@@ -281,7 +287,7 @@ namespace Cyotek.Windows.Forms
 
       index = this.GetItemAtPoint(point);
 
-      return index != -1 ? this.TabListPages[index] : null;
+      return index != -1 ? _tabListPages[index] : null;
     }
 
     protected override ControlCollection CreateControlsInstance()
@@ -317,7 +323,7 @@ namespace Cyotek.Windows.Forms
 
       for (int i = 0; i < this.TabListPageCount; i++)
       {
-        if (this.TabListPages[i].HeaderBounds.Contains(point))
+        if (_tabListPages[i].HeaderBounds.Contains(point))
         {
           result = i;
           break;
@@ -358,7 +364,7 @@ namespace Cyotek.Windows.Forms
     {
       EventHandler handler;
 
-      this.SetStyles();
+      this.UpdateFocusStyle();
 
       handler = this.AllowTabSelectionChanged;
 
@@ -505,7 +511,7 @@ namespace Cyotek.Windows.Forms
             state = TabListPageState.Normal;
           }
 
-          renderer.RenderHeader(e.Graphics, this.TabListPages[i], state);
+          renderer.RenderHeader(e.Graphics, _tabListPages[i], state);
         }
       }
     }
@@ -571,12 +577,6 @@ namespace Cyotek.Windows.Forms
       this.UpdateSelectedPage();
     }
 
-    protected virtual void SetStyles()
-    {
-      this.SetStyle(ControlStyles.AllPaintingInWmPaint | ControlStyles.ResizeRedraw | ControlStyles.OptimizedDoubleBuffer | ControlStyles.UserMouse, true);
-      this.SetStyle(ControlStyles.Selectable, this.AllowTabSelection);
-    }
-
     protected virtual void UpdatePages()
     {
       int y;
@@ -589,7 +589,7 @@ namespace Cyotek.Windows.Forms
       y = defaultPosition.X + this.Padding.Top;
       x = defaultPosition.Y + this.Padding.Left;
 
-      foreach (TabListPage page in this.TabListPages)
+      foreach (TabListPage page in _tabListPages)
       {
         Size headerSize;
 
@@ -689,7 +689,7 @@ namespace Cyotek.Windows.Forms
 
       if (index < 0 || index >= this.TabListPageCount)
       {
-        throw new ArgumentOutOfRangeException("index");
+        throw new ArgumentOutOfRangeException(nameof(index));
       }
 
       this.TabListPageCount--;
@@ -719,6 +719,11 @@ namespace Cyotek.Windows.Forms
     internal void UpdatePage(TabListPage page)
     {
       this.Invalidate();
+    }
+
+    private void UpdateFocusStyle()
+    {
+      this.SetStyle(ControlStyles.Selectable, _allowTabSelection);
     }
 
     #endregion

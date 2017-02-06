@@ -73,7 +73,7 @@ namespace Cyotek.Windows.Forms
         textSize = TextRenderer.MeasureText(g, page.Text, page.Font, textRectangle.Size, flags);
         offset = 2;
 
-        ControlPaint.DrawFocusRectangle(g, new Rectangle(textRectangle.X, textRectangle.Y, (int)textSize.Width + offset, (int)textSize.Height + offset), textColor, fillColor);
+        NativeMethods.DrawFocusRectangle(g, textRectangle.X, textRectangle.Y, (int)textSize.Width + offset, (int)textSize.Height + offset);
       }
     }
 

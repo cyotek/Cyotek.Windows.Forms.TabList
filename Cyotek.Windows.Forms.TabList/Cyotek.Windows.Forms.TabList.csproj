@@ -49,6 +49,7 @@
     <Compile Include="Design\TabListDesigner.cs" />
     <Compile Include="Design\TabListPageDesigner.cs" />
     <Compile Include="ITabListPageRenderer.cs" />
+    <Compile Include="NativeMethods.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TabList.cs">
       <SubType>Component</SubType>

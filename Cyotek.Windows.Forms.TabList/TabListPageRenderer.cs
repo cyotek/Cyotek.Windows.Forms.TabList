@@ -3,7 +3,7 @@
 namespace Cyotek.Windows.Forms
 {
   // Cyotek TabList
-  // Copyright (c) 2012-2013 Cyotek.
+  // Copyright (c) 2012-2017 Cyotek.
   // https://www.cyotek.com
   // https://www.cyotek.com/blog/tag/tablist
 
@@ -19,7 +19,7 @@ namespace Cyotek.Windows.Forms
 
     #endregion
 
-    #region Methods
+    #region ITabListPageRenderer Interface
 
     public virtual Size GetPreferredSize(TabListPage page, Size proposedSize)
     {
@@ -36,30 +36,6 @@ namespace Cyotek.Windows.Forms
     public virtual void RenderList(Graphics g, Rectangle bounds)
     {
       // empty implementation
-    }
-
-    #endregion
-
-    #region ITabListPageRenderer Interface
-
-    Size ITabListPageRenderer.GetPreferredSize(TabListPage page, Size proposedSize)
-    {
-      return this.GetPreferredSize(page, proposedSize);
-    }
-
-    Point ITabListPageRenderer.GetStartingPosition()
-    {
-      return this.GetStartingPosition();
-    }
-
-    void ITabListPageRenderer.RenderHeader(Graphics g, TabListPage page, TabListPageState state)
-    {
-      this.RenderHeader(g, page, state);
-    }
-
-    void ITabListPageRenderer.RenderList(Graphics g, Rectangle bounds)
-    {
-      this.RenderList(g, bounds);
     }
 
     #endregion
