@@ -134,10 +134,8 @@
       // tabListPage1
       // 
       this.tabListPage1.Controls.Add(this.fakeOptionPage11);
-      this.tabListPage1.Dock = System.Windows.Forms.DockStyle.Fill;
       this.tabListPage1.Name = "tabListPage1";
       this.tabListPage1.Size = new System.Drawing.Size(365, 394);
-      this.tabListPage1.TabIndex = 0;
       this.tabListPage1.Text = "Options";
       // 
       // fakeOptionPage11
@@ -151,10 +149,8 @@
       // tabListPage2
       // 
       this.tabListPage2.Controls.Add(this.fakeOptionPage21);
-      this.tabListPage2.Dock = System.Windows.Forms.DockStyle.Fill;
       this.tabListPage2.Name = "tabListPage2";
-      this.tabListPage2.Size = new System.Drawing.Size(42, 192);
-      this.tabListPage2.TabIndex = 1;
+      this.tabListPage2.Size = new System.Drawing.Size(365, 394);
       this.tabListPage2.Text = "More Options";
       // 
       // fakeOptionPage21
@@ -162,16 +158,14 @@
       this.fakeOptionPage21.Dock = System.Windows.Forms.DockStyle.Fill;
       this.fakeOptionPage21.Location = new System.Drawing.Point(0, 0);
       this.fakeOptionPage21.Name = "fakeOptionPage21";
-      this.fakeOptionPage21.Size = new System.Drawing.Size(42, 192);
+      this.fakeOptionPage21.Size = new System.Drawing.Size(365, 394);
       this.fakeOptionPage21.TabIndex = 0;
       // 
       // tabListPage3
       // 
       this.tabListPage3.Controls.Add(this.fakeOptionPage31);
-      this.tabListPage3.Dock = System.Windows.Forms.DockStyle.Fill;
       this.tabListPage3.Name = "tabListPage3";
-      this.tabListPage3.Size = new System.Drawing.Size(42, 192);
-      this.tabListPage3.TabIndex = 2;
+      this.tabListPage3.Size = new System.Drawing.Size(365, 394);
       this.tabListPage3.Text = "Advanced Options";
       // 
       // fakeOptionPage31
@@ -179,7 +173,7 @@
       this.fakeOptionPage31.Dock = System.Windows.Forms.DockStyle.Fill;
       this.fakeOptionPage31.Location = new System.Drawing.Point(0, 0);
       this.fakeOptionPage31.Name = "fakeOptionPage31";
-      this.fakeOptionPage31.Size = new System.Drawing.Size(42, 192);
+      this.fakeOptionPage31.Size = new System.Drawing.Size(365, 394);
       this.fakeOptionPage31.TabIndex = 0;
       // 
       // RendererDemonstrationForm

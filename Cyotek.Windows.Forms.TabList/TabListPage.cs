@@ -7,7 +7,7 @@ using Cyotek.Windows.Forms.Design;
 namespace Cyotek.Windows.Forms
 {
   // Cyotek TabList
-  // Copyright (c) 2012-2013 Cyotek.
+  // Copyright (c) 2012-2017 Cyotek.
   // https://www.cyotek.com
   // https://www.cyotek.com/blog/tag/tablist
 
@@ -25,7 +25,7 @@ namespace Cyotek.Windows.Forms
 
     public TabListPage()
     {
-      this.Dock = DockStyle.Fill;
+
     }
 
     #endregion
@@ -102,6 +102,7 @@ namespace Cyotek.Windows.Forms
 
     [EditorBrowsable(EditorBrowsableState.Never)]
     [Browsable(false)]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
     public override AnchorStyles Anchor
     {
       get { return base.Anchor; }
@@ -129,14 +130,16 @@ namespace Cyotek.Windows.Forms
 
     [EditorBrowsable(EditorBrowsableState.Never)]
     [Browsable(false)]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
     public override DockStyle Dock
     {
-      get { return base.Dock; }
-      set { base.Dock = value; }
+      get { return DockStyle.None; }
+      set {  }
     }
 
     [EditorBrowsable(EditorBrowsableState.Never)]
     [Browsable(false)]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
     public new bool Enabled
     {
       get { return base.Enabled; }
@@ -159,6 +162,7 @@ namespace Cyotek.Windows.Forms
     [Browsable(false)]
     [DefaultValue(typeof(Size), "0, 0")]
     [EditorBrowsable(EditorBrowsableState.Never)]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
     public override Size MaximumSize
     {
       get { return base.MaximumSize; }
@@ -167,6 +171,7 @@ namespace Cyotek.Windows.Forms
 
     [Browsable(false)]
     [EditorBrowsable(EditorBrowsableState.Never)]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
     public override Size MinimumSize
     {
       get { return base.MinimumSize; }
@@ -176,11 +181,12 @@ namespace Cyotek.Windows.Forms
     [Browsable(false)]
     public TabList Owner
     {
-      get { return (TabList)this.Parent; }
+      get { return this.Parent as TabList; }
     }
 
     [Browsable(false)]
     [EditorBrowsable(EditorBrowsableState.Never)]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
     public new Size PreferredSize
     {
       get { return base.PreferredSize; }
@@ -188,6 +194,7 @@ namespace Cyotek.Windows.Forms
 
     [EditorBrowsable(EditorBrowsableState.Never)]
     [Browsable(false)]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
     public new int TabIndex
     {
       get { return base.TabIndex; }
@@ -196,6 +203,7 @@ namespace Cyotek.Windows.Forms
 
     [Browsable(false)]
     [EditorBrowsable(EditorBrowsableState.Never)]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
     public new bool TabStop
     {
       get { return base.TabStop; }
@@ -212,6 +220,7 @@ namespace Cyotek.Windows.Forms
 
     [Browsable(false)]
     [EditorBrowsable(EditorBrowsableState.Never)]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
     public new bool Visible
     {
       get { return base.Visible; }
@@ -247,10 +256,7 @@ namespace Cyotek.Windows.Forms
 
     private void UpdateParent()
     {
-      if (this.Parent != null && this.Parent is TabList)
-      {
-        this.Owner.UpdatePage(this);
-      }
+      this.Owner?.UpdatePage(this);
     }
 
     #endregion

@@ -46,12 +46,14 @@ namespace Cyotek.Windows.Forms.Demo
 
     protected override void OnLoad(EventArgs e)
     {
-      base.OnLoad(e);
-
       if (!this.DesignMode)
       {
+        // change the font first, otherwise forms
+        // aren't centered correctly
         this.Font = SystemFonts.MessageBoxFont;
       }
+
+      base.OnLoad(e);
     }
 
     private TabListPage CreateDemoTabPage1()

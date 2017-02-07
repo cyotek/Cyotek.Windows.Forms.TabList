@@ -195,7 +195,7 @@ namespace Cyotek.Windows.Forms
           int bottomMargin;
 
           // to avoid calculating every time, calculate it only when it's need it and cache it like any normal property
-          if (this.ShowTabList)
+          if (_showTabList)
           {
             leftMargin = this.HeaderSize.Width + this.Padding.Left + 1;
           }
@@ -300,7 +300,7 @@ namespace Cyotek.Windows.Forms
       get { return _showTabList; }
       set
       {
-        if (this.ShowTabList != value)
+        if (_showTabList != value)
         {
           _showTabList = value;
 
@@ -315,7 +315,7 @@ namespace Cyotek.Windows.Forms
     {
       get
       {
-        if (_tabListBounds.IsEmpty && this.ShowTabList)
+        if (_tabListBounds.IsEmpty && _showTabList)
         {
           _tabListBounds = new Rectangle(this.Padding.Left, this.Padding.Top, this.DisplayRectangle.Left - (this.Padding.Left + 1), this.ClientRectangle.Height - this.Padding.Vertical);
         }
@@ -494,7 +494,7 @@ namespace Cyotek.Windows.Forms
     {
       base.OnKeyDown(e);
 
-      if (this.ShowTabList)
+      if (_showTabList)
       {
         // allow keyboard navigation, if any tabs are present
         if (_tabListPageCount != 0)
@@ -576,7 +576,7 @@ namespace Cyotek.Windows.Forms
     {
       base.OnPaint(e);
 
-      if (this.ShowTabList)
+      if (_showTabList)
       {
         ITabListPageRenderer renderer;
 
@@ -728,7 +728,19 @@ namespace Cyotek.Windows.Forms
 
         for (int i = 0; i < _tabListPageCount; i++)
         {
-          _pages[i].Visible = i == _selectedIndex;
+          TabListPage page;
+
+          page = _pages[i];
+
+          if (i == _selectedIndex)
+          {
+            page.Bounds = this.DisplayRectangle;
+            page.Visible = true;
+          }
+          else
+          {
+            page.Visible = false;
+          }
         }
       }
 
