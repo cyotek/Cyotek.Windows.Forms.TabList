@@ -194,7 +194,7 @@ namespace Cyotek.Windows.Forms.Design
             MemberDescriptor controlsProperty;
 
             page = (TabListPage)host.CreateComponent(typeof(TabListPage));
-            controlsProperty = TypeDescriptor.GetProperties(control)["Controls"];
+            controlsProperty = TypeDescriptor.GetProperties(control)[nameof(control.Controls)];
 
             // tell the designer we're about to start making changes
             this.RaiseComponentChanging(controlsProperty);
@@ -353,7 +353,7 @@ namespace Cyotek.Windows.Forms.Design
             {
               MemberDescriptor controlsProperty;
 
-              controlsProperty = TypeDescriptor.GetProperties(control)["Controls"];
+              controlsProperty = TypeDescriptor.GetProperties(control)[nameof(control.Controls)];
 
               // inform the designer we're about to make changes
               this.RaiseComponentChanging(controlsProperty);
@@ -361,7 +361,7 @@ namespace Cyotek.Windows.Forms.Design
               // remove the tab page
               host.DestroyComponent(control.SelectedPage);
 
-              // tell the designer w're finished making changes
+              // tell the designer we're finished making changes
               this.RaiseComponentChanged(controlsProperty, null, null);
 
               // commit the transaction
@@ -413,7 +413,7 @@ namespace Cyotek.Windows.Forms.Design
 
     private void DockVerbHandler(object sender, EventArgs e)
     {
-      this.Control.Dock = DockStyle.Fill;
+      this.SetDock(DockStyle.Fill);
     }
 
     /// <summary>
@@ -466,6 +466,7 @@ namespace Cyotek.Windows.Forms.Design
         IDesignerHost host;
 
         host = (IDesignerHost)this.GetService(typeof(IDesignerHost));
+
         if (host != null)
         {
           designer = host.GetDesigner(selectedPage) as TabListPageDesigner;
@@ -496,7 +497,7 @@ namespace Cyotek.Windows.Forms.Design
       if (_dockVerb != null && _undockVerb != null)
       {
         _dockVerb.Visible = control.Dock != DockStyle.Fill;
-        _undockVerb.Visible = !_dockVerb.Visible;
+        _undockVerb.Visible = control.Dock == DockStyle.Fill;
       }
     }
 
@@ -565,9 +566,53 @@ namespace Cyotek.Windows.Forms.Design
       this.RemoveSelectedTabListPage();
     }
 
+    private void SetDock(DockStyle style)
+    {
+      Control control;
+
+      control = this.Control;
+
+      if (control != null)
+      {
+        IDesignerHost host;
+
+        host = (IDesignerHost)this.GetService(typeof(IDesignerHost));
+
+        if (host != null)
+        {
+          using (DesignerTransaction transaction = host.CreateTransaction($"Update dock mode for '{control.Name}'"))
+          {
+            try
+            {
+              MemberDescriptor dockProperty;
+
+              dockProperty = TypeDescriptor.GetProperties(control)[nameof(control.Dock)];
+
+              // inform the designer we're about to make changes
+              this.RaiseComponentChanging(dockProperty);
+
+              // apply the change
+              control.Dock = style;
+
+              // tell the designer we're finished making changes
+              this.RaiseComponentChanged(dockProperty, null, null);
+
+              // commit the transaction
+              transaction.Commit();
+            }
+            catch
+            {
+              transaction.Cancel();
+              throw;
+            }
+          }
+        }
+      }
+    }
+
     private void UndockVerbHandler(object sender, EventArgs e)
     {
-      this.Control.Dock = DockStyle.None;
+      this.SetDock(DockStyle.None);
     }
 
     #endregion
