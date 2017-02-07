@@ -21,6 +21,20 @@ namespace Cyotek.Windows.Forms
   [DefaultEvent("SelectedIndexChanged")]
   public partial class TabList : Control
   {
+    #region Constants
+
+    private static readonly object _eventAllowTabSelectionChanged = new object();
+
+    private static readonly object _eventHeaderSizeChanged = new object();
+
+    private static readonly object _eventRendererChanged = new object();
+
+    private static readonly object _eventSelectedIndexChanged = new object();
+
+    private static readonly object _eventShowTabListChanged = new object();
+
+    #endregion
+
     #region Fields
 
     private bool _allowTabSelection;
@@ -41,9 +55,9 @@ namespace Cyotek.Windows.Forms
 
     private Rectangle _tabListBounds;
 
-    private TabListPageCollection _tabListPages;
-
     private int _tabListPageCount;
+
+    private TabListPageCollection _tabListPages;
 
     #endregion
 
@@ -78,26 +92,40 @@ namespace Cyotek.Windows.Forms
 
     #region Events
 
-    /// <summary>
-    /// Occurs when the AllowTabSelection property value changes
-    /// </summary>
     [Category("Property Changed")]
-    public event EventHandler AllowTabSelectionChanged;
+    public event EventHandler AllowTabSelectionChanged
+    {
+      add { this.Events.AddHandler(_eventAllowTabSelectionChanged, value); }
+      remove { this.Events.RemoveHandler(_eventAllowTabSelectionChanged, value); }
+    }
 
     [Category("Property Changed")]
-    public event EventHandler HeaderSizeChanged;
+    public event EventHandler HeaderSizeChanged
+    {
+      add { this.Events.AddHandler(_eventHeaderSizeChanged, value); }
+      remove { this.Events.RemoveHandler(_eventHeaderSizeChanged, value); }
+    }
 
     [Category("Property Changed")]
-    public event EventHandler RendererChanged;
+    public event EventHandler RendererChanged
+    {
+      add { this.Events.AddHandler(_eventRendererChanged, value); }
+      remove { this.Events.RemoveHandler(_eventRendererChanged, value); }
+    }
 
     [Category("Property Changed")]
-    public event EventHandler SelectedIndexChanged;
+    public event EventHandler SelectedIndexChanged
+    {
+      add { this.Events.AddHandler(_eventSelectedIndexChanged, value); }
+      remove { this.Events.RemoveHandler(_eventSelectedIndexChanged, value); }
+    }
 
-    /// <summary>
-    /// Occurs when the ShowTabList property value changes
-    /// </summary>
     [Category("Property Changed")]
-    public event EventHandler ShowTabListChanged;
+    public event EventHandler ShowTabListChanged
+    {
+      add { this.Events.AddHandler(_eventShowTabListChanged, value); }
+      remove { this.Events.RemoveHandler(_eventShowTabListChanged, value); }
+    }
 
     #endregion
 
@@ -373,12 +401,9 @@ namespace Cyotek.Windows.Forms
 
       this.UpdateFocusStyle();
 
-      handler = this.AllowTabSelectionChanged;
+      handler = (EventHandler)this.Events[_eventAllowTabSelectionChanged];
 
-      if (handler != null)
-      {
-        handler(this, e);
-      }
+      handler?.Invoke(this, e);
     }
 
     protected override void OnGotFocus(EventArgs e)
@@ -388,18 +413,19 @@ namespace Cyotek.Windows.Forms
       this.Invalidate();
     }
 
+    /// <summary>
+    /// Raises the <see cref="HeaderSizeChanged" /> event.
+    /// </summary>
+    /// <param name="e">The <see cref="EventArgs" /> instance containing the event data.</param>
     protected virtual void OnHeaderSizeChanged(EventArgs e)
     {
       EventHandler handler;
 
       this.ResetSelectedPage();
 
-      handler = this.HeaderSizeChanged;
+      handler = (EventHandler)this.Events[_eventHeaderSizeChanged];
 
-      if (handler != null)
-      {
-        handler(this, e);
-      }
+      handler?.Invoke(this, e);
     }
 
     protected override void OnKeyDown(KeyEventArgs e)
@@ -523,6 +549,10 @@ namespace Cyotek.Windows.Forms
       }
     }
 
+    /// <summary>
+    /// Raises the <see cref="RendererChanged" /> event.
+    /// </summary>
+    /// <param name="e">The <see cref="EventArgs" /> instance containing the event data.</param>
     protected virtual void OnRendererChanged(EventArgs e)
     {
       EventHandler handler;
@@ -530,12 +560,9 @@ namespace Cyotek.Windows.Forms
       this.UpdatePages();
       this.Invalidate();
 
-      handler = this.RendererChanged;
+      handler = (EventHandler)this.Events[_eventRendererChanged];
 
-      if (handler != null)
-      {
-        handler(this, e);
-      }
+      handler?.Invoke(this, e);
     }
 
     protected override void OnResize(EventArgs e)
@@ -545,18 +572,19 @@ namespace Cyotek.Windows.Forms
       this.ResetSelectedPage();
     }
 
+    /// <summary>
+    /// Raises the <see cref="SelectedIndexChanged" /> event.
+    /// </summary>
+    /// <param name="e">The <see cref="EventArgs" /> instance containing the event data.</param>
     protected virtual void OnSelectedIndexChanged(EventArgs e)
     {
       EventHandler handler;
 
       this.UpdateSelectedPage();
 
-      handler = this.SelectedIndexChanged;
+      handler = (EventHandler)this.Events[_eventSelectedIndexChanged];
 
-      if (handler != null)
-      {
-        handler(this, e);
-      }
+      handler?.Invoke(this, e);
     }
 
     /// <summary>
@@ -569,12 +597,9 @@ namespace Cyotek.Windows.Forms
 
       this.ResetSelectedPage();
 
-      handler = this.ShowTabListChanged;
+      handler = (EventHandler)this.Events[_eventShowTabListChanged];
 
-      if (handler != null)
-      {
-        handler(this, e);
-      }
+      handler?.Invoke(this, e);
     }
 
     protected virtual void ResetSelectedPage()

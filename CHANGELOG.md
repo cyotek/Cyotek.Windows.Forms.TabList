@@ -14,6 +14,7 @@
 * Removed public `IsReadOnly`, `IsFixedSize`, `IsSynchronized` and `SyncRoot` properties, these are now available only via explicit interface casting 
 
 ### Fixed
+* Unused events now have no additional overhead
 * Focus rectangles are now drawn using the Win32 `DrawFocusRect` API rather than the utterly awful .NET implementation
 * Correct background wasn't painted when a `TabList` was hosted inside a `TabControl`
 * Demonstration program is now a little more robust
