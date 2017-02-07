@@ -189,25 +189,7 @@ namespace Cyotek.Windows.Forms
       {
         if (_displayRectangle.IsEmpty)
         {
-          int leftMargin;
-          int topMargin;
-          int rightMargin;
-          int bottomMargin;
-
-          // to avoid calculating every time, calculate it only when it's need it and cache it like any normal property
-          if (_showTabList)
-          {
-            leftMargin = this.HeaderSize.Width + this.Padding.Left + 1;
-          }
-          else
-          {
-            leftMargin = this.Padding.Left + 1;
-          }
-          topMargin = this.Padding.Top + 1;
-          rightMargin = this.Padding.Right + 1;
-          bottomMargin = this.Padding.Bottom + 1;
-
-          _displayRectangle = new Rectangle(leftMargin, topMargin, this.ClientSize.Width - (leftMargin + rightMargin), this.ClientSize.Height - (topMargin + bottomMargin));
+          _displayRectangle = this.GetDisplayRectangle();
         }
 
         return _displayRectangle;
@@ -317,7 +299,11 @@ namespace Cyotek.Windows.Forms
       {
         if (_tabListBounds.IsEmpty && _showTabList)
         {
-          _tabListBounds = new Rectangle(this.Padding.Left, this.Padding.Top, this.DisplayRectangle.Left - (this.Padding.Left + 1), this.ClientRectangle.Height - this.Padding.Vertical);
+          Padding padding;
+
+          padding = this.Padding;
+
+          _tabListBounds = new Rectangle(padding.Left, padding.Top, this.DisplayRectangle.Left - (padding.Left + 1), this.ClientRectangle.Height - padding.Vertical);
         }
 
         return _tabListBounds;
@@ -704,11 +690,14 @@ namespace Cyotek.Windows.Forms
       int x;
       Point defaultPosition;
       ITabListPageRenderer renderer;
+      Padding padding;
 
       renderer = this.GetRenderer();
+      padding = this.Padding;
+
       defaultPosition = renderer.GetStartingPosition();
-      y = defaultPosition.X + this.Padding.Top;
-      x = defaultPosition.Y + this.Padding.Left;
+      y = defaultPosition.X + padding.Top;
+      x = defaultPosition.Y + padding.Left;
 
       foreach (TabListPage page in _tabListPages)
       {
@@ -851,9 +840,38 @@ namespace Cyotek.Windows.Forms
       this.Invalidate();
     }
 
+    // ReSharper disable once UnusedParameter.Global
     internal void UpdatePage(TabListPage page)
     {
       this.Invalidate();
+    }
+
+    private Rectangle GetDisplayRectangle()
+    {
+      Size size;
+      Padding padding;
+      int leftMargin;
+      int topMargin;
+      int rightMargin;
+      int bottomMargin;
+
+      size = this.ClientSize;
+      padding = this.Padding;
+
+      // to avoid calculating every time, calculate it only when it's need it and cache it like any normal property
+      if (_showTabList)
+      {
+        leftMargin = this.HeaderSize.Width + padding.Left + 1;
+      }
+      else
+      {
+        leftMargin = padding.Left + 1;
+      }
+      topMargin = padding.Top + 1;
+      rightMargin = padding.Right + 1;
+      bottomMargin = padding.Bottom + 1;
+
+      return new Rectangle(leftMargin, topMargin, size.Width - (leftMargin + rightMargin), size.Height - (topMargin + bottomMargin));
     }
 
     private void ProcessTabChange(int index)

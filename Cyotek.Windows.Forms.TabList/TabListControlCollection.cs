@@ -16,11 +16,11 @@ namespace Cyotek.Windows.Forms
   {
     #region Nested type: TabListControlCollection
 
-    public class TabListControlCollection : ControlCollection
+    public sealed class TabListControlCollection : ControlCollection
     {
       #region Constructors
 
-      public TabListControlCollection(TabList owner)
+      internal TabListControlCollection(Control owner)
         : base(owner)
       { }
 
@@ -28,9 +28,9 @@ namespace Cyotek.Windows.Forms
 
       #region Properties
 
-      protected new TabList Owner
+      private TabList TabList
       {
-        get { return (TabList)base.Owner; }
+        get { return (TabList)this.Owner; }
       }
 
       #endregion
@@ -41,33 +41,39 @@ namespace Cyotek.Windows.Forms
       {
         TabListPage page;
 
-        if (!(value is TabListPage))
+        page = value as TabListPage;
+
+        if (page == null)
         {
           throw new ArgumentException("Only TabListPage controls can be hosted in this control.");
         }
 
-        page = (TabListPage)value;
         page.Visible = false; // all pages should be hidden by default
-        page.Bounds = this.Owner.DisplayRectangle;
 
         base.Add(page);
 
-        this.Owner.AddPage(page);
+        this.TabList.AddPage(page);
       }
 
       public override void Remove(Control value)
       {
+        TabListPage page;
+
+        page = value as TabListPage;
+
         base.Remove(value);
 
-        if (value is TabListPage)
+        if (page != null)
         {
+          TabList owner;
           int index;
 
-          index = this.Owner.TabListPages.IndexOf((TabListPage)value);
+          owner = this.TabList;
+          index = owner.TabListPages.IndexOf(page);
 
           if (index != -1)
           {
-            this.Owner.RemovePageAt(index);
+            owner.RemovePageAt(index);
           }
         }
       }

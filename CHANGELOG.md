@@ -11,7 +11,7 @@
 
 ### Removed
 * Removed the explicit implementation of `ITabListPageRenderer` from `TabListPageRenderer` as it added nothing over the implicit
-* `TabListPageCollection` is now sealed and is without a public constructor
+* The `TabListPageCollection` and `TabListControlCollection` classes are now sealed and without public constructors
 * Removed public `IsReadOnly`, `IsFixedSize`, `IsSynchronized` and `SyncRoot` properties, these are now available only via explicit interface casting 
 
 ### Fixed
