@@ -222,6 +222,17 @@ namespace Cyotek.Windows.Forms
 
     #region Methods
 
+    /// <summary>
+    /// Convert this object into a string representation.
+    /// </summary>
+    /// <returns>
+    /// A string that represents this object.
+    /// </returns>
+    public override string ToString()
+    {
+      return "TabListPage: {" + this.Text + "}";
+    }
+
     protected override void OnFontChanged(EventArgs e)
     {
       base.OnFontChanged(e);
