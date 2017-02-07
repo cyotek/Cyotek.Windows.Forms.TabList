@@ -58,7 +58,7 @@ namespace Cyotek.Windows.Forms
       RECT rect;
       IntPtr hDC;
 
-      rect = new RECT(x, y, x + w - 1, y + h - 1);
+      rect = new RECT(x, y, x + w , y + h);
 
       hDC = g.GetHdc();
       try

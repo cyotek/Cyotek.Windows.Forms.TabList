@@ -67,13 +67,7 @@ namespace Cyotek.Windows.Forms
       // focus
       if ((state & TabListPageState.Focused) == TabListPageState.Focused)
       {
-        SizeF textSize;
-        int offset;
-
-        textSize = TextRenderer.MeasureText(g, page.Text, page.Font, textRectangle.Size, flags);
-        offset = 2;
-
-        NativeMethods.DrawFocusRectangle(g, textRectangle.X, textRectangle.Y, (int)textSize.Width + offset, (int)textSize.Height + offset);
+        NativeMethods.DrawFocusRectangle(g, fillBounds);
       }
     }
 
