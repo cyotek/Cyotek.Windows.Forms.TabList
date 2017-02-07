@@ -73,6 +73,9 @@
     <Compile Include="BaseForm.designer.cs">
       <DependentUpon>BaseForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="EventsListBox.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="FakeOptionPage3.cs">
       <SubType>UserControl</SubType>
     </Compile>

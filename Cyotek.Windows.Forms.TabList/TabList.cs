@@ -7,7 +7,7 @@ using Cyotek.Windows.Forms.Design;
 namespace Cyotek.Windows.Forms
 {
   // Cyotek TabList
-  // Copyright (c) 2012-2013 Cyotek.
+  // Copyright (c) 2012-2017 Cyotek.
   // https://www.cyotek.com
   // https://www.cyotek.com/blog/tag/tablist
 
@@ -25,11 +25,19 @@ namespace Cyotek.Windows.Forms
 
     private static readonly object _eventAllowTabSelectionChanged = new object();
 
+    private static readonly object _eventDeselected = new object();
+
+    private static readonly object _eventDeselecting = new object();
+
     private static readonly object _eventHeaderSizeChanged = new object();
 
     private static readonly object _eventRendererChanged = new object();
 
+    private static readonly object _eventSelected = new object();
+
     private static readonly object _eventSelectedIndexChanged = new object();
+
+    private static readonly object _eventSelecting = new object();
 
     private static readonly object _eventShowTabListChanged = new object();
 
@@ -99,6 +107,20 @@ namespace Cyotek.Windows.Forms
       remove { this.Events.RemoveHandler(_eventAllowTabSelectionChanged, value); }
     }
 
+    [Category("Action")]
+    public event EventHandler<TabListEventArgs> Deselected
+    {
+      add { this.Events.AddHandler(_eventDeselected, value); }
+      remove { this.Events.RemoveHandler(_eventDeselected, value); }
+    }
+
+    [Category("Action")]
+    public event EventHandler<TabListCancelEventArgs> Deselecting
+    {
+      add { this.Events.AddHandler(_eventDeselecting, value); }
+      remove { this.Events.RemoveHandler(_eventDeselecting, value); }
+    }
+
     [Category("Property Changed")]
     public event EventHandler HeaderSizeChanged
     {
@@ -113,11 +135,25 @@ namespace Cyotek.Windows.Forms
       remove { this.Events.RemoveHandler(_eventRendererChanged, value); }
     }
 
+    [Category("Action")]
+    public event EventHandler<TabListEventArgs> Selected
+    {
+      add { this.Events.AddHandler(_eventSelected, value); }
+      remove { this.Events.RemoveHandler(_eventSelected, value); }
+    }
+
     [Category("Property Changed")]
     public event EventHandler SelectedIndexChanged
     {
       add { this.Events.AddHandler(_eventSelectedIndexChanged, value); }
       remove { this.Events.RemoveHandler(_eventSelectedIndexChanged, value); }
+    }
+
+    [Category("Action")]
+    public event EventHandler<TabListCancelEventArgs> Selecting
+    {
+      add { this.Events.AddHandler(_eventSelecting, value); }
+      remove { this.Events.RemoveHandler(_eventSelecting, value); }
     }
 
     [Category("Property Changed")]
@@ -240,7 +276,7 @@ namespace Cyotek.Windows.Forms
       get { return _selectedIndex; }
       set
       {
-        if (this.SelectedIndex != value)
+        if (_selectedIndex != value)
         {
           _selectedIndex = value;
 
@@ -253,7 +289,7 @@ namespace Cyotek.Windows.Forms
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
     public virtual TabListPage SelectedPage
     {
-      get { return this.SelectedIndex != -1 ? _tabListPages[this.SelectedIndex] : null; }
+      get { return _selectedIndex != -1 ? _tabListPages[_selectedIndex] : null; }
       set { this.SelectedIndex = _tabListPages.IndexOf(value); }
     }
 
@@ -335,7 +371,7 @@ namespace Cyotek.Windows.Forms
       {
         int index;
 
-        index = this.SelectedIndex + increment;
+        index = _selectedIndex + increment;
 
         if (index < 0 && increment == -1 || index >= _tabListPageCount && increment != 1)
         {
@@ -346,7 +382,7 @@ namespace Cyotek.Windows.Forms
           index = 0;
         }
 
-        this.SelectedIndex = index;
+        this.ProcessTabChange(index);
       }
     }
 
@@ -406,6 +442,32 @@ namespace Cyotek.Windows.Forms
       handler?.Invoke(this, e);
     }
 
+    /// <summary>
+    /// Raises the <see cref="Deselected" /> event.
+    /// </summary>
+    /// <param name="e">The <see cref="TabListEventArgs" /> instance containing the event data.</param>
+    protected virtual void OnDeselected(TabListEventArgs e)
+    {
+      EventHandler<TabListEventArgs> handler;
+
+      handler = (EventHandler<TabListEventArgs>)this.Events[_eventDeselected];
+
+      handler?.Invoke(this, e);
+    }
+
+    /// <summary>
+    /// Raises the <see cref="Deselecting" /> event.
+    /// </summary>
+    /// <param name="e">The <see cref="TabListCancelEventArgs" /> instance containing the event data.</param>
+    protected virtual void OnDeselecting(TabListCancelEventArgs e)
+    {
+      EventHandler<TabListCancelEventArgs> handler;
+
+      handler = (EventHandler<TabListCancelEventArgs>)this.Events[_eventDeselecting];
+
+      handler?.Invoke(this, e);
+    }
+
     protected override void OnGotFocus(EventArgs e)
     {
       base.OnGotFocus(e);
@@ -452,10 +514,10 @@ namespace Cyotek.Windows.Forms
               this.CycleSelectedTab(-3);
               break;
             case Keys.Home:
-              this.SelectedIndex = 0;
+              this.ProcessTabChange(0);
               break;
             case Keys.End:
-              this.SelectedIndex = _tabListPageCount - 1;
+              this.ProcessTabChange(_tabListPageCount - 1);
               break;
           }
         }
@@ -478,9 +540,10 @@ namespace Cyotek.Windows.Forms
         int index;
 
         index = this.GetItemAtPoint(e.Location);
+
         if (index != -1)
         {
-          this.SelectedIndex = index;
+          this.ProcessTabChange(index);
         }
       }
     }
@@ -527,7 +590,7 @@ namespace Cyotek.Windows.Forms
         {
           TabListPageState state;
 
-          if (i == this.SelectedIndex)
+          if (i == _selectedIndex)
           {
             state = TabListPageState.Selected;
             if (this.Focused)
@@ -573,6 +636,19 @@ namespace Cyotek.Windows.Forms
     }
 
     /// <summary>
+    /// Raises the <see cref="Selected" /> event.
+    /// </summary>
+    /// <param name="e">The <see cref="TabListEventArgs" /> instance containing the event data.</param>
+    protected virtual void OnSelected(TabListEventArgs e)
+    {
+      EventHandler<TabListEventArgs> handler;
+
+      handler = (EventHandler<TabListEventArgs>)this.Events[_eventSelected];
+
+      handler?.Invoke(this, e);
+    }
+
+    /// <summary>
     /// Raises the <see cref="SelectedIndexChanged" /> event.
     /// </summary>
     /// <param name="e">The <see cref="EventArgs" /> instance containing the event data.</param>
@@ -583,6 +659,19 @@ namespace Cyotek.Windows.Forms
       this.UpdateSelectedPage();
 
       handler = (EventHandler)this.Events[_eventSelectedIndexChanged];
+
+      handler?.Invoke(this, e);
+    }
+
+    /// <summary>
+    /// Raises the <see cref="Selecting" /> event.
+    /// </summary>
+    /// <param name="e">The <see cref="TabListCancelEventArgs" /> instance containing the event data.</param>
+    protected virtual void OnSelecting(TabListCancelEventArgs e)
+    {
+      EventHandler<TabListCancelEventArgs> handler;
+
+      handler = (EventHandler<TabListCancelEventArgs>)this.Events[_eventSelecting];
 
       handler?.Invoke(this, e);
     }
@@ -633,13 +722,13 @@ namespace Cyotek.Windows.Forms
 
     protected virtual void UpdateSelectedPage()
     {
-      if (this.SelectedIndex != -1)
+      if (_selectedIndex != -1)
       {
         this.SelectedPage.Bounds = this.DisplayRectangle;
 
         for (int i = 0; i < _tabListPageCount; i++)
         {
-          _pages[i].Visible = i == this.SelectedIndex;
+          _pages[i].Visible = i == _selectedIndex;
         }
       }
 
@@ -652,7 +741,7 @@ namespace Cyotek.Windows.Forms
 
       index = this.InsertPage(_tabListPageCount, page);
 
-      if (this.SelectedIndex == -1)
+      if (_selectedIndex == -1)
       {
         this.SelectedIndex = index;
       }
@@ -733,7 +822,8 @@ namespace Cyotek.Windows.Forms
 
       _pages[_tabListPageCount] = null;
 
-      selectedIndex = this.SelectedIndex;
+      selectedIndex = _selectedIndex;
+
       if (_tabListPageCount == 0)
       {
         this.SelectedIndex = -1;
@@ -742,6 +832,7 @@ namespace Cyotek.Windows.Forms
       {
         this.SelectedIndex = 0;
       }
+
       this.UpdatePages();
       this.UpdateSelectedPage();
 
@@ -751,6 +842,46 @@ namespace Cyotek.Windows.Forms
     internal void UpdatePage(TabListPage page)
     {
       this.Invalidate();
+    }
+
+    private void ProcessTabChange(int index)
+    {
+      if (index != _selectedIndex)
+      {
+        TabListCancelEventArgs cancelEventArgs;
+        TabListPage newPage;
+        newPage = _pages[index];
+
+        // first raise the Selecting event to allow the UI choice to be cancelled
+        cancelEventArgs = new TabListCancelEventArgs(newPage, index, TabListAction.Selecting);
+        this.OnSelecting(cancelEventArgs);
+
+        if (!cancelEventArgs.Cancel)
+        {
+          TabListPage currentPage;
+
+          currentPage = this.SelectedPage;
+
+          // next, raise the Deselect event (if appropriate), and again check for cancellation
+          if (currentPage != null)
+          {
+            cancelEventArgs = new TabListCancelEventArgs(currentPage, _selectedIndex, TabListAction.Deselecting);
+            this.OnDeselecting(cancelEventArgs);
+          }
+
+          if (!cancelEventArgs.Cancel)
+          {
+            this.SelectedIndex = index;
+
+            this.OnSelected(new TabListEventArgs(newPage, index, TabListAction.Selected));
+
+            if (currentPage != null)
+            {
+              this.OnDeselected(new TabListEventArgs(currentPage, _selectedIndex, TabListAction.Deselected));
+            }
+          }
+        }
+      }
     }
 
     private void UpdateFocusStyle()

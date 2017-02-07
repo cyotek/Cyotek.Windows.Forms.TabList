@@ -3,7 +3,7 @@ using System.Reflection;
 using System.Runtime.InteropServices;
 
 // Cyotek TabList
-// Copyright (c) 2012-2013 Cyotek Ltd.
+// Copyright (c) 2012-2017 Cyotek Ltd.
 // https://www.cyotek.com
 // https://www.cyotek.com/blog/tag/tablist
 
@@ -16,11 +16,11 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Cyotek Ltd")]
 [assembly: AssemblyProduct("Cyotek Application Framework")]
-[assembly: AssemblyCopyright("Copyright © 2012-2013 Cyotek Ltd. All Rights Reserved")]
+[assembly: AssemblyCopyright("Copyright © 2012-2017 Cyotek Ltd. All Rights Reserved")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 [assembly: ComVisible(false)]
 [assembly: Guid("03c78e16-e122-440c-9402-9c080090c7b0")]
 [assembly: CLSCompliant(true)]
-[assembly: AssemblyVersion("1.0.2.0")]
-[assembly: AssemblyFileVersion("1.0.2.0")]
+[assembly: AssemblyVersion("2.0.0.0")]
+[assembly: AssemblyFileVersion("2.0.0.0")]

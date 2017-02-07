@@ -1,8 +1,9 @@
 # TabList Change Log
 
-## 1.3.0
+## 2.0.0
 ### Added
 * Designer now supports **Dock in Parent Container** and **Undock in Parent Container** commands
+* Added new `Selecting`, `Selected`, `Deselecting` and `Deselected` events, mirroring similar events in a standard `TabControl`
 
 ### Changed
 * Now uses semantic versioning
