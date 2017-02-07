@@ -6,9 +6,12 @@
 
 ### Changed
 * Now uses semantic versioning
+* `TabListPageCollection` now implements `IList<TabListPage>`
 
 ### Removed
 * Removed the explicit implementation of `ITabListPageRenderer` from `TabListPageRenderer` as it added nothing over the implicit
+* `TabListPageCollection` is now sealed and is without a public constructor
+* Removed public `IsReadOnly`, `IsFixedSize`, `IsSynchronized` and `SyncRoot` properties, these are now available only via explicit interface casting 
 
 ### Fixed
 * Focus rectangles are now drawn using the Win32 `DrawFocusRect` API rather than the utterly awful .NET implementation

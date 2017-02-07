@@ -43,6 +43,8 @@ namespace Cyotek.Windows.Forms
 
     private TabListPageCollection _tabListPages;
 
+    private int _tabListPageCount;
+
     #endregion
 
     #region Static Constructors
@@ -259,7 +261,11 @@ namespace Cyotek.Windows.Forms
     }
 
     [Browsable(false)]
-    public virtual int TabListPageCount { get; protected set; }
+    public int TabListPageCount
+    {
+      get { return _tabListPageCount; }
+      protected set { _tabListPageCount = value; }
+    }
 
     [Category("Behavior")]
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
@@ -297,16 +303,17 @@ namespace Cyotek.Windows.Forms
 
     protected virtual void CycleSelectedTab(int increment)
     {
-      if (this.TabListPageCount != 0)
+      if (_tabListPageCount != 0)
       {
         int index;
 
         index = this.SelectedIndex + increment;
-        if (index < 0 && increment == -1 || index >= this.TabListPageCount && increment != 1)
+
+        if (index < 0 && increment == -1 || index >= _tabListPageCount && increment != 1)
         {
-          index = this.TabListPageCount - 1;
+          index = _tabListPageCount - 1;
         }
-        else if (index < 0 && increment != -1 || index >= this.TabListPageCount && increment == 1)
+        else if (index < 0 && increment != -1 || index >= _tabListPageCount && increment == 1)
         {
           index = 0;
         }
@@ -321,7 +328,7 @@ namespace Cyotek.Windows.Forms
 
       result = -1;
 
-      for (int i = 0; i < this.TabListPageCount; i++)
+      for (int i = 0; i < _tabListPageCount; i++)
       {
         if (_tabListPages[i].HeaderBounds.Contains(point))
         {
@@ -402,7 +409,7 @@ namespace Cyotek.Windows.Forms
       if (this.ShowTabList)
       {
         // allow keyboard navigation, if any tabs are present
-        if (this.TabListPageCount != 0)
+        if (_tabListPageCount != 0)
         {
           switch (e.KeyCode)
           {
@@ -422,7 +429,7 @@ namespace Cyotek.Windows.Forms
               this.SelectedIndex = 0;
               break;
             case Keys.End:
-              this.SelectedIndex = this.TabListPageCount - 1;
+              this.SelectedIndex = _tabListPageCount - 1;
               break;
           }
         }
@@ -490,7 +497,7 @@ namespace Cyotek.Windows.Forms
         renderer.RenderList(e.Graphics, this.TabListBounds);
 
         // paint the pages
-        for (int i = 0; i < this.TabListPageCount; i++)
+        for (int i = 0; i < _tabListPageCount; i++)
         {
           TabListPageState state;
 
@@ -605,7 +612,7 @@ namespace Cyotek.Windows.Forms
       {
         this.SelectedPage.Bounds = this.DisplayRectangle;
 
-        for (int i = 0; i < this.TabListPageCount; i++)
+        for (int i = 0; i < _tabListPageCount; i++)
         {
           _pages[i].Visible = i == this.SelectedIndex;
         }
@@ -618,7 +625,7 @@ namespace Cyotek.Windows.Forms
     {
       int index;
 
-      index = this.InsertPage(this.TabListPageCount, page);
+      index = this.InsertPage(_tabListPageCount, page);
 
       if (this.SelectedIndex == -1)
       {
@@ -632,18 +639,18 @@ namespace Cyotek.Windows.Forms
     {
       this.Controls.Clear();
       _pages = null;
-      this.TabListPageCount = 0;
+      _tabListPageCount = 0;
     }
 
     internal TabListPage[] GetTabListPages()
     {
       TabListPage[] copy;
 
-      copy = new TabListPage[this.TabListPageCount];
+      copy = new TabListPage[_tabListPageCount];
 
-      if (this.TabListPageCount > 0)
+      if (_tabListPageCount > 0)
       {
-        Array.Copy(_pages, copy, this.TabListPageCount);
+        Array.Copy(_pages, copy, _tabListPageCount);
       }
 
       return copy;
@@ -655,7 +662,7 @@ namespace Cyotek.Windows.Forms
       {
         _pages = new TabListPage[1];
       }
-      else if (_pages.Length == this.TabListPageCount)
+      else if (_pages.Length == _tabListPageCount)
       {
         // no room left, so resize the array
         TabListPage[] copy;
@@ -666,14 +673,14 @@ namespace Cyotek.Windows.Forms
       }
 
       // if this is an insert rather than append, move the array around
-      if (index < this.TabListPageCount)
+      if (index < _tabListPageCount)
       {
         Array.Copy(_pages, index, _pages, index + 1, _pages.Length - index);
       }
 
       // update the array and page count
       _pages[index] = page;
-      this.TabListPageCount++;
+      _tabListPageCount++;
       this.UpdatePages();
       this.UpdateSelectedPage();
 
@@ -687,26 +694,26 @@ namespace Cyotek.Windows.Forms
     {
       int selectedIndex;
 
-      if (index < 0 || index >= this.TabListPageCount)
+      if (index < 0 || index >= _tabListPageCount)
       {
         throw new ArgumentOutOfRangeException(nameof(index));
       }
 
-      this.TabListPageCount--;
+      _tabListPageCount--;
 
-      if (index < this.TabListPageCount)
+      if (index < _tabListPageCount)
       {
-        Array.Copy(_pages, index + 1, _pages, index, this.TabListPageCount - index);
+        Array.Copy(_pages, index + 1, _pages, index, _tabListPageCount - index);
       }
 
-      _pages[this.TabListPageCount] = null;
+      _pages[_tabListPageCount] = null;
 
       selectedIndex = this.SelectedIndex;
-      if (this.TabListPageCount == 0)
+      if (_tabListPageCount == 0)
       {
         this.SelectedIndex = -1;
       }
-      else if (index == selectedIndex || selectedIndex >= this.TabListPageCount)
+      else if (index == selectedIndex || selectedIndex >= _tabListPageCount)
       {
         this.SelectedIndex = 0;
       }
