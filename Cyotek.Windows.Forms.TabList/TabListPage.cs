@@ -21,15 +21,6 @@ namespace Cyotek.Windows.Forms
   [DefaultProperty("Text")]
   public class TabListPage : Panel
   {
-    #region Constructors
-
-    public TabListPage()
-    {
-
-    }
-
-    #endregion
-
     #region Events
 
     [Browsable(false)]
@@ -131,10 +122,19 @@ namespace Cyotek.Windows.Forms
     [EditorBrowsable(EditorBrowsableState.Never)]
     [Browsable(false)]
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+    public new BorderStyle BorderStyle
+    {
+      get { return base.BorderStyle; }
+      set { base.BorderStyle = value; }
+    }
+
+    [EditorBrowsable(EditorBrowsableState.Never)]
+    [Browsable(false)]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
     public override DockStyle Dock
     {
       get { return DockStyle.None; }
-      set {  }
+      set { }
     }
 
     [EditorBrowsable(EditorBrowsableState.Never)]
