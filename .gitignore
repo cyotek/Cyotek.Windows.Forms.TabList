@@ -4,5 +4,6 @@
 [Dd]ebug/
 [Rr]elease/
 packages/
+nuget/
 
 push.cmd

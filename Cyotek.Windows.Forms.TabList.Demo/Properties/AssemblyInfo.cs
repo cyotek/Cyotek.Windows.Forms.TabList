@@ -15,7 +15,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Cyotek Ltd")]
-[assembly: AssemblyProduct("Cyotek Application Framework")]
+[assembly: AssemblyProduct("Cyotek TabList Control")]
 [assembly: AssemblyCopyright("Copyright © 2012-2017 Cyotek Ltd. All Rights Reserved")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]

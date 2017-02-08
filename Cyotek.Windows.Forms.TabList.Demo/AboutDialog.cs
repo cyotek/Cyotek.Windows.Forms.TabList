@@ -61,14 +61,14 @@ namespace Cyotek.Windows.Forms.Demo
       {
         FileVersionInfo info;
         Assembly assembly;
-        string title;
+        string name;
 
         assembly = typeof(TabList).Assembly;
         info = FileVersionInfo.GetVersionInfo(assembly.Location);
-        title = info.ProductName;
+        name = info.ProductName;
 
-        this.Text = $"About {title}";
-        nameLabel.Text = title;
+        this.Text = $"About {name}";
+        nameLabel.Text = name;
         versionLabel.Text = $"Version {info.FileVersion}";
         copyrightLabel.Text = info.LegalCopyright;
 

@@ -3,7 +3,7 @@ using System.Windows.Forms;
 
 namespace Cyotek.Windows.Forms.Demo
 {
-  internal class WizardTabListPageRenderer : TabListPageRenderer
+  internal class WizardTabListRenderer : TabListRenderer
   {
     #region Methods
 

@@ -15,6 +15,10 @@ namespace Cyotek.Windows.Forms
 
   // If you use this control in your applications, attribution, donations or contributions are welcome.
 
+  /// <summary>
+  /// Manages a related set of tab pages.
+  /// </summary>
+  /// <seealso cref="T:System.Windows.Forms.Control"/>
   [ToolboxItem(true)]
   [Designer(typeof(TabListDesigner))]
   [DefaultProperty("TabListPages")]
@@ -51,11 +55,11 @@ namespace Cyotek.Windows.Forms
 
     private Size _headerSize;
 
-    private int _hoverIndex;
+    private int _hotIndex;
 
     private TabListPage[] _pages;
 
-    private ITabListPageRenderer _renderer;
+    private ITabListRenderer _renderer;
 
     private int _selectedIndex;
 
@@ -71,20 +75,26 @@ namespace Cyotek.Windows.Forms
 
     #region Static Constructors
 
+    /// <summary>
+    /// Static constructor.
+    /// </summary>
     static TabList()
     {
-      TabListPageRenderer.DefaultRenderer = new DefaultTabListPageRenderer();
+      TabListRenderer.DefaultRenderer = new VisualStudioTabListRenderer();
     }
 
     #endregion
 
     #region Constructors
 
+    /// <summary>
+    /// Default constructor.
+    /// </summary>
     public TabList()
     {
       _tabListPages = new TabListPageCollection(this);
       _selectedIndex = -1;
-      _hoverIndex = -1;
+      _hotIndex = -1;
       _headerSize = new Size(150, 25);
       _showTabList = true;
       _allowTabSelection = true;
@@ -100,6 +110,9 @@ namespace Cyotek.Windows.Forms
 
     #region Events
 
+    /// <summary>
+    /// Occurs when the value of the <see cref="AllowTabSelection"/> property changes.
+    /// </summary>
     [Category("Property Changed")]
     public event EventHandler AllowTabSelectionChanged
     {
@@ -107,6 +120,10 @@ namespace Cyotek.Windows.Forms
       remove { this.Events.RemoveHandler(_eventAllowTabSelectionChanged, value); }
     }
 
+    /// <summary>
+    ///
+    ///    Occurs when a tab is deselected.
+    /// </summary>
     [Category("Action")]
     public event EventHandler<TabListEventArgs> Deselected
     {
@@ -114,6 +131,9 @@ namespace Cyotek.Windows.Forms
       remove { this.Events.RemoveHandler(_eventDeselected, value); }
     }
 
+    /// <summary>
+    /// Occurs before a tab is deselected, enabling a handler to cancel the tab change.
+    /// </summary>
     [Category("Action")]
     public event EventHandler<TabListCancelEventArgs> Deselecting
     {
@@ -121,6 +141,9 @@ namespace Cyotek.Windows.Forms
       remove { this.Events.RemoveHandler(_eventDeselecting, value); }
     }
 
+    /// <summary>
+    /// Occurs when the value of the <see cref="HeaderSize"/> property changes.
+    /// </summary>
     [Category("Property Changed")]
     public event EventHandler HeaderSizeChanged
     {
@@ -128,6 +151,9 @@ namespace Cyotek.Windows.Forms
       remove { this.Events.RemoveHandler(_eventHeaderSizeChanged, value); }
     }
 
+    /// <summary>
+    /// Occurs when the value of the <see cref="Renderer"/> property changes.
+    /// </summary>
     [Category("Property Changed")]
     public event EventHandler RendererChanged
     {
@@ -135,6 +161,9 @@ namespace Cyotek.Windows.Forms
       remove { this.Events.RemoveHandler(_eventRendererChanged, value); }
     }
 
+    /// <summary>
+    /// Occurs when a tab is selected.
+    /// </summary>
     [Category("Action")]
     public event EventHandler<TabListEventArgs> Selected
     {
@@ -142,6 +171,9 @@ namespace Cyotek.Windows.Forms
       remove { this.Events.RemoveHandler(_eventSelected, value); }
     }
 
+    /// <summary>
+    /// Occurs when the value of the <see cref="SelectedIndex"/> property changes.
+    /// </summary>
     [Category("Property Changed")]
     public event EventHandler SelectedIndexChanged
     {
@@ -149,6 +181,9 @@ namespace Cyotek.Windows.Forms
       remove { this.Events.RemoveHandler(_eventSelectedIndexChanged, value); }
     }
 
+    /// <summary>
+    /// Occurs before a tab is selected, enabling a handler to cancel the tab change.
+    /// </summary>
     [Category("Action")]
     public event EventHandler<TabListCancelEventArgs> Selecting
     {
@@ -156,6 +191,9 @@ namespace Cyotek.Windows.Forms
       remove { this.Events.RemoveHandler(_eventSelecting, value); }
     }
 
+    /// <summary>
+    /// Occurs when the value of the <see cref="ShowTabList"/> property changes.
+    /// </summary>
     [Category("Property Changed")]
     public event EventHandler ShowTabListChanged
     {
@@ -167,9 +205,15 @@ namespace Cyotek.Windows.Forms
 
     #region Properties
 
+    /// <summary>
+    /// Gets or sets a value indicating whether the selected tab can be changed via the user interface.
+    /// </summary>
+    /// <value>
+    /// <c>true</c> if the selected tab can be changed via the user interface, otherwise <c>false</c>.
+    /// </value>
     [Category("Behavior")]
     [DefaultValue(true)]
-    public virtual bool AllowTabSelection
+    public bool AllowTabSelection
     {
       get { return _allowTabSelection; }
       set
@@ -183,6 +227,12 @@ namespace Cyotek.Windows.Forms
       }
     }
 
+    /// <summary>
+    /// Gets the display area of the control's tab pages.
+    /// </summary>
+    /// <value>
+    /// A <see cref="Rectangle"/> that represents the display area of the tab pages.
+    /// </value>
     public override Rectangle DisplayRectangle
     {
       get
@@ -196,9 +246,15 @@ namespace Cyotek.Windows.Forms
       }
     }
 
+    /// <summary>
+    /// Gets or sets the default size of tab list headers
+    /// </summary>
+    /// <value>
+    /// A <see cref="Size"/> that represents the default size of tab list headers.
+    /// </value>
     [Category("Appearance")]
     [DefaultValue(typeof(Size), "150, 25")]
-    public virtual Size HeaderSize
+    public Size HeaderSize
     {
       get { return _headerSize; }
       set
@@ -212,21 +268,12 @@ namespace Cyotek.Windows.Forms
       }
     }
 
-    [Browsable(false)]
-    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-    public virtual int HoverIndex
-    {
-      get { return _hoverIndex; }
-      set
-      {
-        if (_hoverIndex != value)
-        {
-          _hoverIndex = value;
-          this.Invalidate();
-        }
-      }
-    }
-
+    /// <summary>
+    /// Gets or sets the amount of space around each item on the control's tab pages.
+    /// </summary>
+    /// <value>
+    /// A <see cref="Padding"/> that specifies the amount of space around each item.
+    /// </value>
     [DefaultValue(typeof(Padding), "3, 3, 3, 3")]
     public new Padding Padding
     {
@@ -234,14 +281,21 @@ namespace Cyotek.Windows.Forms
       set { base.Padding = value; }
     }
 
+    /// <summary>
+    /// Gets or sets a customer renderer for the <see cref="TabList"/>
+    /// </summary>
+    /// <value>
+    /// The customer renderer for painting the control
+    /// </value>
+    /// <remarks>If this property is <c>null</c> (default), the value of the <see cref="TabListRenderer.DefaultRenderer"/> property will be used instead.</remarks>
     [Category("Appearance")]
     [DefaultValue(null)]
-    public virtual ITabListPageRenderer Renderer
+    public ITabListRenderer Renderer
     {
       get { return _renderer; }
       set
       {
-        if (this.Renderer != value)
+        if (_renderer != value)
         {
           _renderer = value;
 
@@ -250,10 +304,16 @@ namespace Cyotek.Windows.Forms
       }
     }
 
+    /// <summary>
+    /// Gets or sets the index of the currently selected tab page.
+    /// </summary>
+    /// <value>
+    /// The zero-based index of the currently selected tab page. The default is -1, which is also the value if no tab page is selected.
+    /// </value>
     [Browsable(false)]
     [DefaultValue(-1)]
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-    public virtual int SelectedIndex
+    public int SelectedIndex
     {
       get { return _selectedIndex; }
       set
@@ -267,17 +327,29 @@ namespace Cyotek.Windows.Forms
       }
     }
 
+    /// <summary>
+    /// Gets or sets the currently selected tab page.
+    /// </summary>
+    /// <value>
+    /// A <see cref="TabListPage"/> that represents the selected tab page. If no tab page is selected, the value is <c>null</c>.
+    /// </value>
     [Browsable(false)]
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-    public virtual TabListPage SelectedPage
+    public TabListPage SelectedPage
     {
       get { return _selectedIndex != -1 ? _tabListPages[_selectedIndex] : null; }
       set { this.SelectedIndex = _tabListPages.IndexOf(value); }
     }
 
+    /// <summary>
+    /// Gets or sets a value indicating whether the tab list is shown.
+    /// </summary>
+    /// <value>
+    /// <c>true</c> if the tab list should be shown; otherwise <c>false</c>.
+    /// </value>
     [Category("Appearance")]
     [DefaultValue(true)]
-    public virtual bool ShowTabList
+    public bool ShowTabList
     {
       get { return _showTabList; }
       set
@@ -291,9 +363,15 @@ namespace Cyotek.Windows.Forms
       }
     }
 
+    /// <summary>
+    /// Gets the display area of the control's tab list.
+    /// </summary>
+    /// <value>
+    /// A <see cref="Rectangle"/> that represents the display area of the tab list.
+    /// </value>
     [Browsable(false)]
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-    public Rectangle TabListBounds
+    public Rectangle TabListDisplayRectangle
     {
       get
       {
@@ -310,21 +388,41 @@ namespace Cyotek.Windows.Forms
       }
     }
 
+    /// <summary>
+    /// Gets the number of tabs in the tab list.
+    /// </summary>
+    /// <value>
+    /// The number of tabs in the tab list.
+    /// </value>
     [Browsable(false)]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
     public int TabListPageCount
     {
       get { return _tabListPageCount; }
       protected set { _tabListPageCount = value; }
     }
 
+    /// <summary>
+    /// Gets the collection of tab pages in this tab control.
+    /// </summary>
+    /// <value>
+    /// A <see cref="TabListPageCollection"/> that contains the <see cref="TabListPage"/> objects in this <see cref="TabList"/>.
+    /// </value>
     [Category("Behavior")]
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-    public virtual TabListPageCollection TabListPages
+    public TabListPageCollection TabListPages
     {
       get { return _tabListPages; }
       protected set { _tabListPages = value; }
     }
 
+    /// <summary>
+    /// <p>This API supports the product infrastructure and is not intended to be used directly from your code.</p>
+    /// <p>This member is not meaningful for this control.</p>
+    /// </summary>
+    /// <value>
+    /// The text associated with this control.
+    /// </value>
     [Browsable(false)]
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
     public override string Text
@@ -333,46 +431,32 @@ namespace Cyotek.Windows.Forms
       set { base.Text = value; }
     }
 
+    private int HotIndex
+    {
+      get { return _hotIndex; }
+      set
+      {
+        if (_hotIndex != value)
+        {
+          _hotIndex = value;
+          this.Invalidate();
+        }
+      }
+    }
+
     #endregion
 
     #region Methods
 
-    public virtual TabListPage HitTest(Point point)
-    {
-      int index;
-
-      index = this.GetItemAtPoint(point);
-
-      return index != -1 ? _tabListPages[index] : null;
-    }
-
-    protected override ControlCollection CreateControlsInstance()
-    {
-      return new TabListControlCollection(this);
-    }
-
-    protected virtual void CycleSelectedTab(int increment)
-    {
-      if (_tabListPageCount != 0)
-      {
-        int index;
-
-        index = _selectedIndex + increment;
-
-        if (index < 0 && increment == -1 || index >= _tabListPageCount && increment != 1)
-        {
-          index = _tabListPageCount - 1;
-        }
-        else if (index < 0 && increment != -1 || index >= _tabListPageCount && increment == 1)
-        {
-          index = 0;
-        }
-
-        this.ProcessTabChange(index);
-      }
-    }
-
-    protected virtual int GetItemAtPoint(Point point)
+    /// <summary>
+    /// Retrieves the page that is at the specified co-ordinates.
+    /// </summary>
+    /// <param name="x">The x-coordinate at which to retrieve page information.</param>
+    /// <param name="y">The y coordinate at which to retrieve page information.</param>
+    /// <returns>
+    /// The <see cref="TabListPage"/> at the specified point, in client coordinates, or <c>null</c> if there is no page at that location.
+    /// </returns>
+    public int GetPageAt(int x, int y)
     {
       int result;
 
@@ -380,7 +464,7 @@ namespace Cyotek.Windows.Forms
 
       for (int i = 0; i < _tabListPageCount; i++)
       {
-        if (_tabListPages[i].HeaderBounds.Contains(point))
+        if (_tabListPages[i].HeaderBounds.Contains(x, y))
         {
           result = i;
           break;
@@ -390,11 +474,78 @@ namespace Cyotek.Windows.Forms
       return result;
     }
 
-    protected virtual ITabListPageRenderer GetRenderer()
+    /// <summary>
+    /// Retrieves the page that is at the specified point.
+    /// </summary>
+    /// <param name="point">The <see cref="Point"/> at which to retrieve page information.</param>
+    /// <returns>
+    /// The <see cref="TabListPage"/> at the specified point, in client coordinates, or <c>null</c> if
+    /// there is no page at that location.
+    /// </returns>
+    public int GetPageAt(Point point)
     {
-      return this.Renderer ?? TabListPageRenderer.DefaultRenderer ?? new DefaultTabListPageRenderer();
+      return this.GetPageAt(point.X, point.Y);
     }
 
+    /// <summary>
+    /// Provides page information, given a point.
+    /// </summary>
+    /// <param name="point">The <see cref="Point"/> at which to retrieve page information.</param>
+    /// <returns>
+    /// A list of.
+    /// </returns>
+    public TabListPage HitTest(Point point)
+    {
+      return this.HitTest(point.X, point.Y);
+    }
+
+    /// <summary>
+    /// Provides page information, given x- and y-coordinates.
+    /// </summary>
+    /// <param name="x">The x-coordinate at which to retrieve page information.</param>
+    /// <param name="y">The y coordinate at which to retrieve page information.</param>
+    /// <returns>
+    /// The page information.
+    /// </returns>
+    public TabListPage HitTest(int x, int y)
+    {
+      int index;
+
+      index = this.GetPageAt(x, y);
+
+      return index != -1 ? _tabListPages[index] : null;
+    }
+
+    /// <summary>
+    /// Creates a new instance of the control collection for the control.
+    /// </summary>
+    /// <returns>
+    /// A new instance of <see cref="Control.ControlCollection"/> assigned to the control.
+    /// </returns>
+    protected override ControlCollection CreateControlsInstance()
+    {
+      return new TabListControlCollection(this);
+    }
+
+    /// <summary>
+    /// Gets a <see cref="ITabListRenderer"/> used to paint the control.
+    /// </summary>
+    /// <returns>
+    /// A <see cref="ITabListRenderer"/> used to paint the control.
+    /// </returns>
+    protected virtual ITabListRenderer GetRenderer()
+    {
+      return _renderer ?? TabListRenderer.DefaultRenderer ?? new VisualStudioTabListRenderer();
+    }
+
+    /// <summary>
+    /// <p>This API supports the product infrastructure and is not intended to be used directly from your code.</p>
+    /// <p>This member is not meaningful for this control.</p>
+    /// </summary>
+    /// <param name="keyData">One of the <see cref="Keys"/> values.</param>
+    /// <returns>
+    /// <c>true</c> if the specified key is a regular input key; otherwise, <c>false</c>.
+    /// </returns>
     protected override bool IsInputKey(Keys keyData)
     {
       bool result;
@@ -454,6 +605,10 @@ namespace Cyotek.Windows.Forms
       handler?.Invoke(this, e);
     }
 
+    /// <summary>
+    /// Raises the <see cref="Control.GotFocus"/> event.
+    /// </summary>
+    /// <param name="e">An <see cref="EventArgs"/> that contains the event data.</param>
     protected override void OnGotFocus(EventArgs e)
     {
       base.OnGotFocus(e);
@@ -476,6 +631,10 @@ namespace Cyotek.Windows.Forms
       handler?.Invoke(this, e);
     }
 
+    /// <summary>
+    /// Raises the <see cref="Control.KeyDown"/> event.
+    /// </summary>
+    /// <param name="e">A <see cref="KeyEventArgs"/> that contains the event data.</param>
     protected override void OnKeyDown(KeyEventArgs e)
     {
       base.OnKeyDown(e);
@@ -510,6 +669,10 @@ namespace Cyotek.Windows.Forms
       }
     }
 
+    /// <summary>
+    /// Raises the <see cref="Control.LostFocus"/> event.
+    /// </summary>
+    /// <param name="e">An <see cref="EventArgs"/> that contains the event data.</param>
     protected override void OnLostFocus(EventArgs e)
     {
       base.OnLostFocus(e);
@@ -517,6 +680,10 @@ namespace Cyotek.Windows.Forms
       this.Invalidate();
     }
 
+    /// <summary>
+    /// Raises the <see cref="Control.MouseClick"/> event.
+    /// </summary>
+    /// <param name="e">An <see cref="MouseEventArgs"/> that contains the event data.</param>
     protected override void OnMouseClick(MouseEventArgs e)
     {
       base.OnMouseClick(e);
@@ -525,7 +692,7 @@ namespace Cyotek.Windows.Forms
       {
         int index;
 
-        index = this.GetItemAtPoint(e.Location);
+        index = this.GetPageAt(e.Location);
 
         if (index != -1)
         {
@@ -534,23 +701,35 @@ namespace Cyotek.Windows.Forms
       }
     }
 
+    /// <summary>
+    /// Raises the <see cref="Control.MouseLeave"/> event.
+    /// </summary>
+    /// <param name="e">An <see cref="EventArgs"/> that contains the event data.</param>
     protected override void OnMouseLeave(EventArgs e)
     {
       base.OnMouseLeave(e);
 
-      this.HoverIndex = -1;
+      this.HotIndex = -1;
     }
 
+    /// <summary>
+    /// Raises the <see cref="Control.MouseMove"/> event.
+    /// </summary>
+    /// <param name="e">An <see cref="MouseEventArgs"/> that contains the event data.</param>
     protected override void OnMouseMove(MouseEventArgs e)
     {
       base.OnMouseMove(e);
 
       if (this.AllowTabSelection)
       {
-        this.HoverIndex = this.GetItemAtPoint(e.Location);
+        this.HotIndex = this.GetPageAt(e.Location);
       }
     }
 
+    /// <summary>
+    /// Raises the <see cref="Control.PaddingChanged"/> event.
+    /// </summary>
+    /// <param name="e">An <see cref="EventArgs"/> that contains the event data.</param>
     protected override void OnPaddingChanged(EventArgs e)
     {
       base.OnPaddingChanged(e);
@@ -558,18 +737,22 @@ namespace Cyotek.Windows.Forms
       this.ResetSelectedPage();
     }
 
+    /// <summary>
+    /// Raises the <see cref="Control.Paint"/> event.
+    /// </summary>
+    /// <param name="e">An <see cref="PaintEventArgs"/> that contains the event data.</param>
     protected override void OnPaint(PaintEventArgs e)
     {
       base.OnPaint(e);
 
       if (_showTabList)
       {
-        ITabListPageRenderer renderer;
+        ITabListRenderer renderer;
 
         renderer = this.GetRenderer();
 
         // paint the sidebar
-        renderer.RenderList(e.Graphics, this.TabListBounds);
+        renderer.RenderList(e.Graphics, this.TabListDisplayRectangle);
 
         // paint the pages
         for (int i = 0; i < _tabListPageCount; i++)
@@ -584,13 +767,13 @@ namespace Cyotek.Windows.Forms
               state |= TabListPageState.Focused;
             }
           }
-          else if (i == this.HoverIndex)
+          else if (i == this.HotIndex)
           {
-            state = TabListPageState.Hot;
+            state = TabListPageState.HotLight;
           }
           else
           {
-            state = TabListPageState.Normal;
+            state = TabListPageState.None;
           }
 
           renderer.RenderHeader(e.Graphics, _tabListPages[i], state);
@@ -614,6 +797,10 @@ namespace Cyotek.Windows.Forms
       handler?.Invoke(this, e);
     }
 
+    /// <summary>
+    /// Raises the <see cref="Control.Resize"/> event.
+    /// </summary>
+    /// <param name="e">An <see cref="EventArgs"/> that contains the event data.</param>
     protected override void OnResize(EventArgs e)
     {
       base.OnResize(e);
@@ -675,65 +862,6 @@ namespace Cyotek.Windows.Forms
       handler = (EventHandler)this.Events[_eventShowTabListChanged];
 
       handler?.Invoke(this, e);
-    }
-
-    protected virtual void ResetSelectedPage()
-    {
-      _displayRectangle = Rectangle.Empty; // force the display rectangle to be recalculated
-      _tabListBounds = Rectangle.Empty;
-      this.UpdateSelectedPage();
-    }
-
-    protected virtual void UpdatePages()
-    {
-      int y;
-      int x;
-      Point defaultPosition;
-      ITabListPageRenderer renderer;
-      Padding padding;
-
-      renderer = this.GetRenderer();
-      padding = this.Padding;
-
-      defaultPosition = renderer.GetStartingPosition();
-      y = defaultPosition.X + padding.Top;
-      x = defaultPosition.Y + padding.Left;
-
-      foreach (TabListPage page in _tabListPages)
-      {
-        Size headerSize;
-
-        headerSize = renderer.GetPreferredSize(page, this.HeaderSize);
-        page.HeaderBounds = new Rectangle(new Point(x, y), headerSize);
-        y += headerSize.Height;
-      }
-    }
-
-    protected virtual void UpdateSelectedPage()
-    {
-      if (_selectedIndex != -1)
-      {
-        this.SelectedPage.Bounds = this.DisplayRectangle;
-
-        for (int i = 0; i < _tabListPageCount; i++)
-        {
-          TabListPage page;
-
-          page = _pages[i];
-
-          if (i == _selectedIndex)
-          {
-            page.Bounds = this.DisplayRectangle;
-            page.Visible = true;
-          }
-          else
-          {
-            page.Visible = false;
-          }
-        }
-      }
-
-      this.Invalidate();
     }
 
     internal int AddPage(TabListPage page)
@@ -846,6 +974,27 @@ namespace Cyotek.Windows.Forms
       this.Invalidate();
     }
 
+    private void CycleSelectedTab(int increment)
+    {
+      if (_tabListPageCount != 0)
+      {
+        int index;
+
+        index = _selectedIndex + increment;
+
+        if (index < 0 && increment == -1 || index >= _tabListPageCount && increment != 1)
+        {
+          index = _tabListPageCount - 1;
+        }
+        else if (index < 0 && increment != -1 || index >= _tabListPageCount && increment == 1)
+        {
+          index = 0;
+        }
+
+        this.ProcessTabChange(index);
+      }
+    }
+
     private Rectangle GetDisplayRectangle()
     {
       Size size;
@@ -914,9 +1063,68 @@ namespace Cyotek.Windows.Forms
       }
     }
 
+    private void ResetSelectedPage()
+    {
+      _displayRectangle = Rectangle.Empty; // force the display rectangle to be recalculated
+      _tabListBounds = Rectangle.Empty;
+      this.UpdateSelectedPage();
+    }
+
     private void UpdateFocusStyle()
     {
       this.SetStyle(ControlStyles.Selectable, _allowTabSelection);
+    }
+
+    private void UpdatePages()
+    {
+      int y;
+      int x;
+      Point defaultPosition;
+      ITabListRenderer renderer;
+      Padding padding;
+
+      renderer = this.GetRenderer();
+      padding = this.Padding;
+
+      defaultPosition = renderer.GetStartingPosition();
+      y = defaultPosition.X + padding.Top;
+      x = defaultPosition.Y + padding.Left;
+
+      foreach (TabListPage page in _tabListPages)
+      {
+        Size headerSize;
+
+        headerSize = renderer.GetPreferredSize(page, this.HeaderSize);
+        page.HeaderBounds = new Rectangle(new Point(x, y), headerSize);
+        y += headerSize.Height;
+      }
+    }
+
+    private void UpdateSelectedPage()
+    {
+      if (_selectedIndex != -1)
+      {
+        this.SelectedPage.Bounds = this.DisplayRectangle;
+
+        for (int i = 0; i < _tabListPageCount; i++)
+        {
+          TabListPage page;
+
+          page = _pages[i];
+
+          if (i == _selectedIndex)
+          {
+            page.Bounds = this.DisplayRectangle;
+            page.Visible = true;
+          }
+          else
+          {
+            page.Visible = false;
+          }
+        }
+      }
+
+      this.Invalidate();
     }
 
     #endregion

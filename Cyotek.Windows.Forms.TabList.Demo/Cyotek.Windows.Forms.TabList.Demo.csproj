@@ -129,7 +129,7 @@
       <DependentUpon>TabControlHostDemonstrationForm.cs</DependentUpon>
     </Compile>
     <Compile Include="TypeInfo.cs" />
-    <Compile Include="WizardTabListPageRenderer.cs" />
+    <Compile Include="WizardTabListRenderer.cs" />
     <EmbeddedResource Include="AboutDialog.resx">
       <DependentUpon>AboutDialog.cs</DependentUpon>
     </EmbeddedResource>

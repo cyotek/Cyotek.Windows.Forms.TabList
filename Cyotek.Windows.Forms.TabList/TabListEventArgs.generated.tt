@@ -1,6 +1,6 @@
 ﻿<#@ template debug="false" hostspecific="false" language="C#" #>
 <#@ output extension=".cs" #>
 <#
-  string className = "TabListEventArgs";
-#>
+    string className = "TabListEventArgs";
+    #>
 <#@ include file="TabListEventArgs.ttinclude" #>

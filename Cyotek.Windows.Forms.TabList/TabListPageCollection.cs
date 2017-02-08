@@ -17,6 +17,11 @@ namespace Cyotek.Windows.Forms
   {
     #region Nested type: TabListPageCollection
 
+    /// <summary>
+    /// Contains a collection of <see cref="TabListPage"/> objects.
+    /// </summary>
+    /// <seealso cref="T:System.Collections.IList"/>
+    /// <seealso cref="T:System.Collections.Generic.IList{Cyotek.Windows.Forms.TabListPage}"/>
     public sealed class TabListPageCollection : IList, IList<TabListPage>
     {
       #region Constants
@@ -41,6 +46,13 @@ namespace Cyotek.Windows.Forms
 
       #region Properties
 
+      /// <summary>
+      /// Gets or sets a <see cref="TabListPage"/> in the collection.
+      /// </summary>
+      /// <param name="name">The name.</param>
+      /// <returns>
+      /// The indexed item.
+      /// </returns>
       public TabListPage this[string name]
       {
         get
@@ -73,25 +85,44 @@ namespace Cyotek.Windows.Forms
 
       #region Methods
 
+      /// <summary>
+      /// Creates a tab page with the specified text, and adds it to the collection.
+      /// </summary>
+      /// <param name="text">The text to display on the tab page.</param>
+      /// <remarks>The newly created <see cref="TabListPage"/> is added to the end of the collection.</remarks>
       public TabListPage Add(string text)
       {
         TabListPage page;
 
         page = new TabListPage
-               {
-                 Text = text
-               };
+        {
+          Text = text
+        };
 
         this.Add(page);
 
         return page;
       }
 
+      /// <summary>
+      /// Determines whether the collection contains a tab page with the specified key.
+      /// </summary>
+      /// <param name="key">The name of the tab page to search for.</param>
+      /// <returns>
+      /// <c>true</c> to indicate a tab page with the specified key was found in the collection; otherwise, <c>false</c>.
+      /// </returns>
       public bool ContainsKey(string key)
       {
         return this.IndexOfKey(key) != -1;
       }
 
+      /// <summary>
+      /// Returns the index of the first occurrence of the <see cref="TabListPage"/> with the specified key.
+      /// </summary>
+      /// <param name="key">The name of the tab page to search for.</param>
+      /// <returns>
+      /// The zero-based index of the first occurrence of a tab page with the specified key, if found; otherwise, -1.
+      /// </returns>
       public int IndexOfKey(string key)
       {
         int result;
@@ -151,11 +182,18 @@ namespace Cyotek.Windows.Forms
         }
       }
 
+      /// <summary>
+      /// Removes all the tab pages from the collection.
+      /// </summary>
       public void Clear()
       {
         _owner.ClearAllPages();
       }
 
+      /// <summary>
+      /// Removes the tab page at the specified index from the collection.
+      /// </summary>
+      /// <param name="index">The zero-based index of the <see cref="TabListPage"/> to remove.</param>
       public void RemoveAt(int index)
       {
         _owner.Controls.RemoveAt(index);
@@ -243,6 +281,12 @@ namespace Cyotek.Windows.Forms
         this.Remove(page);
       }
 
+      /// <summary>
+      /// Gets the number of tab pages in the collection.
+      /// </summary>
+      /// <value>
+      /// The number of tab pages in the collection.
+      /// </value>
       public int Count
       {
         get { return _owner.TabListPageCount; }
@@ -272,12 +316,28 @@ namespace Cyotek.Windows.Forms
 
       #region IList<TabListPage> Interface
 
+      /// <summary>
+      /// Gets or sets a <see cref="TabListPage"/> in the collection.
+      /// </summary>
+      /// <param name="index">The zero-based index of the tab page to get or set.</param>
+      /// <returns>
+      /// The <see cref="TabListPage"/> at the specified index.
+      /// </returns>
       public TabListPage this[int index]
       {
         get { return _owner.GetTabListPages()[index]; }
-        set { _owner.SelectedIndex = index; }
+        set
+        {
+          this.RemoveAt(index);
+          this.Insert(index, value);
+        }
       }
 
+      /// <summary>
+      /// Adds a <see cref="TabListPage"/> to the collection.
+      /// </summary>
+      /// <exception cref="ArgumentNullException">Thrown when one or more required arguments are null.</exception>
+      /// <param name="value">The <see cref="TabListPage"/> to add.</param>
       public void Add(TabListPage value)
       {
         if (value == null)
@@ -288,6 +348,14 @@ namespace Cyotek.Windows.Forms
         _owner.Controls.Add(value);
       }
 
+      /// <summary>
+      /// Determines whether a specified tab page is in the collection.
+      /// </summary>
+      /// <exception cref="ArgumentNullException">Thrown when one or more required arguments are null.</exception>
+      /// <param name="value">The <see cref="TabListPage"/> to locate in the collection.</param>
+      /// <returns>
+      /// <c>true</c> if the specified TabPage is in the collection; otherwise, <c>false</c>.
+      /// </returns>
       public bool Contains(TabListPage value)
       {
         if (value == null)
@@ -298,11 +366,17 @@ namespace Cyotek.Windows.Forms
         return this.IndexOf(value) != -1;
       }
 
-      public void CopyTo(TabListPage[] array, int arrayIndex)
+      void ICollection<TabListPage>.CopyTo(TabListPage[] array, int arrayIndex)
       {
-        this.CopyTo((Array)array, arrayIndex);
+        this.CopyTo(array, arrayIndex);
       }
 
+      /// <summary>
+      /// Returns an enumeration of all the tab pages in the collection.
+      /// </summary>
+      /// <returns>
+      /// An <see cref="IEnumerator{TabListPage}"/> for the <see cref="TabListPageCollection"/>.
+      /// </returns>
       public IEnumerator<TabListPage> GetEnumerator()
       {
         // ReSharper disable once LoopCanBeConvertedToQuery
@@ -312,6 +386,14 @@ namespace Cyotek.Windows.Forms
         }
       }
 
+      /// <summary>
+      /// Returns the index of the specified tab page in the collection.
+      /// </summary>
+      /// <exception cref="ArgumentNullException">Thrown when one or more required arguments are null.</exception>
+      /// <param name="value">The <see cref="TabListPage"/> to locate in the collection.</param>
+      /// <returns>
+      /// The zero-based index of the tab page; -1 if it cannot be found.
+      /// </returns>
       public int IndexOf(TabListPage value)
       {
         int index;
@@ -337,6 +419,29 @@ namespace Cyotek.Windows.Forms
         return index;
       }
 
+      /// <summary>
+      /// Creates a new tab page with the specified text and inserts it into the collection at the specified index.
+      /// </summary>
+      /// <param name="index">The zero-based index location where the tab page is inserted.</param>
+      /// <param name="text">The text to display on the tab page.</param>
+      public void Insert(int index, string text)
+      {
+        TabListPage page;
+
+        page = new TabListPage
+        {
+          Text = text
+        };
+
+        this.Insert(index, page);
+      }
+
+      /// <summary>
+      /// Inserts an existing tab page into the collection at the specified index.
+      /// </summary>
+      /// <exception cref="ArgumentNullException">Thrown when one or more required arguments are null.</exception>
+      /// <param name="index">The zero-based index location where the tab page is inserted.</param>
+      /// <param name="value">The <see cref="TabListPage"/> to insert in the collection.</param>
       public void Insert(int index, TabListPage value)
       {
         if (value == null)
@@ -349,7 +454,12 @@ namespace Cyotek.Windows.Forms
         _owner.Controls.SetChildIndex(value, index);
       }
 
-      public bool Remove(TabListPage value)
+      /// <summary>
+      /// Removes a <see cref="TabListPage"/> from the collection.
+      /// </summary>
+      /// <exception cref="ArgumentNullException">Thrown when one or more required arguments are null.</exception>
+      /// <param name="value">The <see cref="TabListPage"/> to remove.</param>
+      public void Remove(TabListPage value)
       {
         int index;
 
@@ -363,6 +473,23 @@ namespace Cyotek.Windows.Forms
         if (index != -1)
         {
           _owner.Controls.RemoveAt(index);
+        }
+      }
+
+      bool ICollection<TabListPage>.Remove(TabListPage value)
+      {
+        int index;
+
+        if (value == null)
+        {
+          throw new ArgumentNullException(nameof(value));
+        }
+
+        index = this.IndexOf(value);
+
+        if (index != -1)
+        {
+          this.Remove(value);
         }
 
         return index != -1;

@@ -33,7 +33,7 @@ namespace Cyotek.Windows.Forms.Demo
 
       base.OnLoad(e);
 
-      matchType = typeof(ITabListPageRenderer);
+      matchType = typeof(ITabListRenderer);
 
       // use reflection to find all types inheriting from ITabListPageRenderer that we can use
       foreach (Assembly assembly in AppDomain.CurrentDomain.GetAssemblies())
@@ -74,7 +74,7 @@ namespace Cyotek.Windows.Forms.Demo
 
     private void renderStyleToolStripComboBox_SelectedIndexChanged(object sender, EventArgs e)
     {
-      ITabListPageRenderer renderer;
+      ITabListRenderer renderer;
       TypeInfo info;
 
       info = (TypeInfo)renderStyleToolStripComboBox.SelectedItem;
@@ -82,7 +82,7 @@ namespace Cyotek.Windows.Forms.Demo
       // create an instance of the rendered based on its full type name
       // as the renderers are likely to be in different assemblies, you must
       // specify a full name - e.g. namespace.name,assemblyname
-      renderer = (ITabListPageRenderer)Activator.CreateInstance(Type.GetType(info.FullName));
+      renderer = (ITabListRenderer)Activator.CreateInstance(Type.GetType(info.FullName));
 
       tabList.Renderer = renderer;
     }

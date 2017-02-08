@@ -106,15 +106,6 @@ namespace Cyotek.Windows.Forms.Demo
       }
     }
 
-    private void tabList_SelectedIndexChanged(object sender, EventArgs e)
-    {
-      pagePropertyGrid.SelectedObject = tabList.SelectedPage;
-
-      eventsListBox.AddEvent(tabList, "SelectedIndexChanged", e);
-    }
-
-    #endregion
-
     private void tabList_Deselected(object sender, TabListEventArgs e)
     {
       eventsListBox.AddEvent(tabList, "Deselected", e);
@@ -130,9 +121,18 @@ namespace Cyotek.Windows.Forms.Demo
       eventsListBox.AddEvent(tabList, "Selected", e);
     }
 
+    private void tabList_SelectedIndexChanged(object sender, EventArgs e)
+    {
+      pagePropertyGrid.SelectedObject = tabList.SelectedPage;
+
+      eventsListBox.AddEvent(tabList, "SelectedIndexChanged", e);
+    }
+
     private void tabList_Selecting(object sender, TabListCancelEventArgs e)
     {
       eventsListBox.AddEvent(tabList, "Selecting", e);
     }
+
+    #endregion
   }
 }

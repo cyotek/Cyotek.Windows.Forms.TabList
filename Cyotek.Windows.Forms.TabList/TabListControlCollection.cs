@@ -16,6 +16,10 @@ namespace Cyotek.Windows.Forms
   {
     #region Nested type: TabListControlCollection
 
+    /// <summary>
+    /// Contains a collection of <see cref="Control"/> objects.
+    /// </summary>
+    /// <seealso cref="T:System.Windows.Forms.Control.ControlCollection"/>
     public sealed class TabListControlCollection : ControlCollection
     {
       #region Constructors
@@ -37,6 +41,12 @@ namespace Cyotek.Windows.Forms
 
       #region Methods
 
+      /// <summary>
+      /// Adds a <see cref="Control"/> to the collection.
+      /// </summary>
+      /// <exception cref="ArgumentException">Thrown when one or more arguments have unsupported or
+      /// illegal values.</exception>
+      /// <param name="value">The <see cref="Control"/> to add.</param>
       public override void Add(Control value)
       {
         TabListPage page;
@@ -45,7 +55,7 @@ namespace Cyotek.Windows.Forms
 
         if (page == null)
         {
-          throw new ArgumentException("Only TabListPage controls can be hosted in this control.");
+          throw new ArgumentException("Only TabListPage controls can be hosted in this control.", nameof(value));
         }
 
         page.Visible = false; // all pages should be hidden by default
@@ -55,6 +65,10 @@ namespace Cyotek.Windows.Forms
         this.TabList.AddPage(page);
       }
 
+      /// <summary>
+      /// Removes a <see cref="Control"/> from the collection.
+      /// </summary>
+      /// <param name="value">The <see cref="Control"/> to remove.</param>
       public override void Remove(Control value)
       {
         TabListPage page;

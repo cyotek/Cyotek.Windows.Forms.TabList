@@ -4,15 +4,24 @@
 ### Added
 * Designer now supports **Dock in Parent Container** and **Undock in Parent Container** commands
 * Added new `Selecting`, `Selected`, `Deselecting` and `Deselected` events, mirroring similar events in a standard `TabControl`
+* Added overloads of `HitTest` and `GetPageAt` that accept x- and y-coordinates
+* Added missing XML comments documentation
 
 ### Changed
 * Now uses semantic versioning
 * `TabListPageCollection` now implements `IList<TabListPage>`
+* `TabList.HoverIndex` renamed to `HotIndex`
+* `TabList.TabListBounds` renamed to `TabListDisplayRectangle`
+* `GetItemAtPoint` renamed to `GetPageAt`
+* `DefaultTabListPageRenderer` renamed to `VisualStudio2012TabListRenderer`
+* Any type containing `TabListPageRenderer` has been renamed to be `TabListRenderer`
 
 ### Removed
 * Removed the explicit implementation of `ITabListPageRenderer` from `TabListPageRenderer` as it added nothing over the implicit
 * The `TabListPageCollection` and `TabListControlCollection` classes are now sealed and without public constructors
-* Removed public `IsReadOnly`, `IsFixedSize`, `IsSynchronized` and `SyncRoot` properties, these are now available only via explicit interface casting 
+* Removed public `IsReadOnly`, `IsFixedSize`, `IsSynchronized` and `SyncRoot` properties, these are now available only via explicit interface casting
+* Removed the `virtual` attribute from most properties
+* Some previously protected virtual methods have been made private
 
 ### Fixed
 * Unused events now have no additional overhead

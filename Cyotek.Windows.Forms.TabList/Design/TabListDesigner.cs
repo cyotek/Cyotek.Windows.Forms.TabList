@@ -18,6 +18,10 @@ namespace Cyotek.Windows.Forms.Design
 
   // If you use this control in your applications, attribution, donations or contributions are welcome.
 
+  /// <summary>
+  /// Extends the design mode behavior of a <see cref="TabList"/>.
+  /// </summary>
+  /// <seealso cref="T:System.Windows.Forms.Design.ParentControlDesigner"/>
   public class TabListDesigner : ParentControlDesigner
   {
     #region Fields

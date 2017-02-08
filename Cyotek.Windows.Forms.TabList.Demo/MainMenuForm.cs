@@ -44,7 +44,7 @@ namespace Cyotek.Windows.Forms.Demo
       this.TabControl.TabPages.Insert(0, demoPage);
       this.TabControl.SelectedTab = demoPage;
 
-      this.Text = "Cyotek TabList Control for Windows Forms";
+      this.Text = this.ProductName + " for Windows Forms";
     }
 
     /// <summary>

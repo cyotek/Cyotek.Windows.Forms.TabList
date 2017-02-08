@@ -44,11 +44,11 @@
     <Reference Include="System.Windows.Forms" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ListBoxTabListPageRenderer.cs" />
-    <Compile Include="DefaultTabListPageRenderer.cs" />
+    <Compile Include="ListBoxTabListeRenderer.cs" />
+    <Compile Include="VisualStudioTabListRenderer.cs" />
     <Compile Include="Design\TabListDesigner.cs" />
     <Compile Include="Design\TabListPageDesigner.cs" />
-    <Compile Include="ITabListPageRenderer.cs" />
+    <Compile Include="ITabListRenderer.cs" />
     <Compile Include="NativeMethods.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TabList.cs">
@@ -76,7 +76,7 @@
     <Compile Include="TabListPage.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="TabListPageRenderer.cs" />
+    <Compile Include="TabListRenderer.cs" />
     <Compile Include="TabListPageState.cs" />
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
     <Service Include="{94E38DFF-614B-4cbd-B67C-F211BB35CE8B}" />

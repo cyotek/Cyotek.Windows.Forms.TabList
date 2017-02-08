@@ -2,7 +2,7 @@
 
 namespace Cyotek.Windows.Forms
 {
-  partial class <#=className#>
+  partial class <#=className #>
   {
     #region Constants
 
@@ -17,12 +17,12 @@ namespace Cyotek.Windows.Forms
     #region Constructors
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="<#=className#>"/> class.
+    /// Initializes a new instance of the <see cref="<#=className #>"/> class.
     /// </summary>
     /// <param name="tabPage">The <see cref="TabListPage"/> the event is occurring for.</param>
     /// <param name="tabPageIndex">The zero-based index of <paramref name="tabPage"/> in the <see cref="TabList.TabListPages"/> collection..</param>
     /// <param name="action">One of the <see cref="TabListAction"/> values.</param>
-    public <#=className#>(TabListPage tabPage, int tabPageIndex, TabListAction action)
+    public <#=className #>(TabListPage tabPage, int tabPageIndex, TabListAction action)
     {
       _tabPage = tabPage;
       _tabPageIndex = tabPageIndex;

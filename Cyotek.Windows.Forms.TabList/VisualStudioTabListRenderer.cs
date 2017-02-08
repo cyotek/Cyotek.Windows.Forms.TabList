@@ -12,10 +12,22 @@ namespace Cyotek.Windows.Forms
 
   // If you use this control in your applications, attribution, donations or contributions are welcome.
 
-  public class DefaultTabListPageRenderer : TabListPageRenderer
+  /// <summary>
+  /// Visual Studio 2012 renderer for a <see cref="TabList"/> control.
+  /// </summary>
+  /// <seealso cref="T:Cyotek.Windows.Forms.TabListPageRenderer"/>
+  public class VisualStudioTabListRenderer : TabListRenderer
   {
     #region Methods
 
+    /// <summary>
+    /// Renders the header for the given <see cref="TabListPage"/>.
+    /// </summary>
+    /// <param name="g">The <see cref="Graphics"/> to draw on.</param>
+    /// <param name="page">The <see cref="TabListPage"/> to be processed.</param>
+    /// <param name="state">One of the <see cref="TabListPageState"/> values that specifies the state
+    /// of the <see cref="TabListPage"/> to render.</param>
+    /// <seealso cref="M:Cyotek.Windows.Forms.TabListPageRenderer.RenderHeader(Graphics,TabListPage,TabListPageState)"/>
     public override void RenderHeader(Graphics g, TabListPage page, TabListPageState state)
     {
       Color fillColor;
@@ -36,7 +48,7 @@ namespace Cyotek.Windows.Forms
         fillColor = SystemColors.Highlight;
         textColor = SystemColors.HighlightText;
       }
-      else if ((state & TabListPageState.Hot) == TabListPageState.Hot)
+      else if ((state & TabListPageState.HotLight) == TabListPageState.HotLight)
       {
         fillColor = SystemColors.ControlLightLight;
         textColor = page.Owner.ForeColor;

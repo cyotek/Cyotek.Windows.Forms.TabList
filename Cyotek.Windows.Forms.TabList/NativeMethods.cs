@@ -24,6 +24,33 @@ namespace Cyotek.Windows.Forms
 
     #endregion
 
+    #region Static Methods
+
+    public static void DrawFocusRectangle(Graphics g, Rectangle rectangle)
+    {
+      DrawFocusRectangle(g, rectangle.X, rectangle.Y, rectangle.Width, rectangle.Height);
+    }
+
+    public static void DrawFocusRectangle(Graphics g, int x, int y, int w, int h)
+    {
+      RECT rect;
+      IntPtr hDC;
+
+      rect = new RECT(x, y, x + w, y + h);
+
+      hDC = g.GetHdc();
+      try
+      {
+        DrawFocusRect(hDC, ref rect);
+      }
+      finally
+      {
+        g.ReleaseHdc(hDC);
+      }
+    }
+
+    #endregion
+
     #region Nested type: RECT
 
     [StructLayout(LayoutKind.Sequential)]
@@ -47,28 +74,5 @@ namespace Cyotek.Windows.Forms
     }
 
     #endregion
-
-    public static void DrawFocusRectangle(Graphics g, Rectangle rectangle)
-    {
-      DrawFocusRectangle(g, rectangle.X, rectangle.Y, rectangle.Width, rectangle.Height);
-    }
-
-    public static void DrawFocusRectangle(Graphics g, int x, int y, int w, int h)
-    {
-      RECT rect;
-      IntPtr hDC;
-
-      rect = new RECT(x, y, x + w , y + h);
-
-      hDC = g.GetHdc();
-      try
-      {
-        NativeMethods.DrawFocusRect(hDC, ref rect);
-      }
-      finally
-      {
-        g.ReleaseHdc(hDC);
-      }
-    }
   }
 }
