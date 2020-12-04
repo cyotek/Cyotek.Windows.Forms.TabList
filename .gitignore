@@ -1,9 +1,10 @@
-*.suo
-*.user
-
-[Dd]ebug/
-[Rr]elease/
+.vs/
+bin/
+obj/
 packages/
 nuget/
+
+*.suo
+*.user
 
 push.cmd
