@@ -1063,6 +1063,8 @@ namespace Cyotek.Windows.Forms
       }
     }
 
+
+    /// <inheritdoc/>
     protected override void OnLayout(LayoutEventArgs levent)
     {
       base.OnLayout(levent);
@@ -1121,6 +1123,7 @@ namespace Cyotek.Windows.Forms
       }
     }
 
+    /// <inheritdoc/>
     protected override void OnFontChanged(EventArgs e)
     {
       base.OnFontChanged(e);
