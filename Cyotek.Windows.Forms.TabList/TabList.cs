@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.ComponentModel;
 using System.Drawing;
 using System.Windows.Forms;
@@ -7,7 +7,7 @@ using Cyotek.Windows.Forms.Design;
 namespace Cyotek.Windows.Forms
 {
   // Cyotek TabList
-  // Copyright (c) 2012-2017 Cyotek.
+  // Copyright (c) 2012-2020 Cyotek.
   // https://www.cyotek.com
   // https://www.cyotek.com/blog/tag/tablist
 
@@ -624,7 +624,7 @@ namespace Cyotek.Windows.Forms
     {
       EventHandler handler;
 
-      this.ResetSelectedPage();
+      this.ResetBounds();
 
       handler = (EventHandler)this.Events[_eventHeaderSizeChanged];
 
@@ -734,7 +734,7 @@ namespace Cyotek.Windows.Forms
     {
       base.OnPaddingChanged(e);
 
-      this.ResetSelectedPage();
+      this.ResetBounds();
     }
 
     /// <summary>
@@ -805,7 +805,7 @@ namespace Cyotek.Windows.Forms
     {
       base.OnResize(e);
 
-      this.ResetSelectedPage();
+      this.ResetBounds();
     }
 
     /// <summary>
@@ -857,7 +857,7 @@ namespace Cyotek.Windows.Forms
     {
       EventHandler handler;
 
-      this.ResetSelectedPage();
+      this.ResetBounds();
 
       handler = (EventHandler)this.Events[_eventShowTabListChanged];
 
@@ -1063,11 +1063,32 @@ namespace Cyotek.Windows.Forms
       }
     }
 
-    private void ResetSelectedPage()
+    protected override void OnLayout(LayoutEventArgs levent)
+    {
+      base.OnLayout(levent);
+
+      if (levent.AffectedProperty == nameof(this.Bounds))
+      {
+        _displayRectangle = Rectangle.Empty; // force the display rectangle to be recalculated
+        _tabListBounds = Rectangle.Empty;
+
+        Rectangle b;
+
+        b = this.DisplayRectangle;
+
+        for (int i = 0; i < _tabListPages.Count; i++)
+        {
+          _tabListPages[i].Bounds=b;
+        }
+      }
+    }
+
+    private void ResetBounds()
     {
       _displayRectangle = Rectangle.Empty; // force the display rectangle to be recalculated
       _tabListBounds = Rectangle.Empty;
-      this.UpdateSelectedPage();
+
+      this.Invalidate();
     }
 
     private void UpdateFocusStyle()
@@ -1100,12 +1121,17 @@ namespace Cyotek.Windows.Forms
       }
     }
 
+    protected override void OnFontChanged(EventArgs e)
+    {
+      base.OnFontChanged(e);
+
+      this.UpdateSelectedPage();
+    }
+
     private void UpdateSelectedPage()
     {
       if (_selectedIndex != -1)
       {
-        this.SelectedPage.Bounds = this.DisplayRectangle;
-
         for (int i = 0; i < _tabListPageCount; i++)
         {
           TabListPage page;
@@ -1114,7 +1140,6 @@ namespace Cyotek.Windows.Forms
 
           if (i == _selectedIndex)
           {
-            page.Bounds = this.DisplayRectangle;
             page.Visible = true;
           }
           else

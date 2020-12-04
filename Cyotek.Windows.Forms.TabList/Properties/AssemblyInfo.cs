@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Reflection;
 using System.Runtime.InteropServices;
 
@@ -16,12 +16,12 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Cyotek Ltd")]
 [assembly: AssemblyProduct("Cyotek TabList Control")]
-[assembly: AssemblyCopyright("Copyright © 2012-2017 Cyotek Ltd. All Rights Reserved")]
+[assembly: AssemblyCopyright("Copyright © 2012-2020 Cyotek Ltd. All Rights Reserved")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 [assembly: ComVisible(false)]
 [assembly: Guid("f22e6f0f-2f81-4db8-a3c9-4ae0a1e15a74")]
 [assembly: CLSCompliant(true)]
 [assembly: AssemblyVersion("2.0.0.0")]
-[assembly: AssemblyFileVersion("2.0.0.0")]
-[assembly: AssemblyInformationalVersion("2.0.0")]
+[assembly: AssemblyFileVersion("2.0.0.1")]
+[assembly: AssemblyInformationalVersion("2.0.1")]

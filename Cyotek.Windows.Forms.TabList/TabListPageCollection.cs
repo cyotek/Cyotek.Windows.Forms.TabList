@@ -325,7 +325,7 @@ namespace Cyotek.Windows.Forms
       /// </returns>
       public TabListPage this[int index]
       {
-        get { return _owner.GetTabListPages()[index]; }
+        get { return _owner._pages[index]; }
         set
         {
           this.RemoveAt(index);
