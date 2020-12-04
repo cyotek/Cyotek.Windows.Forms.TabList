@@ -4,15 +4,24 @@ SETLOCAL
 
 CALL ..\..\..\build\set35vars.bat
 
-REM Build and sign the file
-%msbuildexe% Cyotek.Windows.Forms.TabList.sln /p:Configuration=Release /verbosity:minimal /nologo /t:Clean,Build
-CALL signcmd Cyotek.Windows.Forms.TabList\bin\Release\Cyotek.Windows.Forms.TabList.dll
+SET BASENAME=Cyotek.Windows.Forms.TabList
+SET RELDIR=Cyotek.Windows.Forms.TabList\bin\Release\
+SET PRJFILE=Cyotek.Windows.Forms.TabList\%BASENAME%.csproj
+SET DLLNAME=%BASENAME%.dll
 
-REM Create the package
-PUSHD %CD%
-IF NOT EXIST nuget MKDIR nuget
-CD nuget
-NUGET pack ..\Cyotek.Windows.Forms.TabList\Cyotek.Windows.Forms.TabList.csproj -Prop Configuration=Release
+IF EXIST %RELDIR%*.nupkg DEL /F %RELDIR%*.nupkg
+IF EXIST %RELDIR%*.snupkg DEL /F %RELDIR%*.snupkg
+IF EXIST %RELDIR%*.zip DEL /F %RELDIR%*.zip
+
+%msbuildexe% %PRJFILE% /p:Configuration=Release /verbosity:minimal /nologo /t:Clean,Build
+
+PUSHD %RELDIR%
+
+CALL signcmd %DLLNAME%
+
+%nugetexe% pack ..\..\..\%PRJFILE% -Prop Configuration=Release
+CALL sign-package *.nupkg
+
 POPD
 
 ENDLOCAL
