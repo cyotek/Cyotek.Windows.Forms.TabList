@@ -136,7 +136,8 @@ namespace Cyotek.Windows.Forms.Demo
       // AboutDialog
       // 
       this.AcceptButton = this.closeButton;
-      this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
+      this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+      this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
       this.BackColor = System.Drawing.SystemColors.Window;
       this.CancelButton = this.closeButton;
       this.ClientSize = new System.Drawing.Size(615, 495);

@@ -33,6 +33,7 @@
       this.themeDemoButton = new System.Windows.Forms.Button();
       this.demoGroupBox = new Cyotek.Windows.Forms.GroupBox();
       this.tabControlDemoButton = new System.Windows.Forms.Button();
+      this.dynamicLoadingDemoButton = new System.Windows.Forms.Button();
       this.demoGroupBox.SuspendLayout();
       this.SuspendLayout();
       // 
@@ -65,6 +66,7 @@
       this.demoGroupBox.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+      this.demoGroupBox.Controls.Add(this.dynamicLoadingDemoButton);
       this.demoGroupBox.Controls.Add(this.tabControlDemoButton);
       this.demoGroupBox.Controls.Add(this.generalDemoButton);
       this.demoGroupBox.Controls.Add(this.themeDemoButton);
@@ -86,6 +88,18 @@
       this.tabControlDemoButton.Text = "Tab&Control Host Painting Demonstration";
       this.tabControlDemoButton.UseVisualStyleBackColor = true;
       this.tabControlDemoButton.Click += new System.EventHandler(this.tabControlDemoButton_Click);
+      // 
+      // dynamicLoadingDemoButton
+      // 
+      this.dynamicLoadingDemoButton.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+      this.dynamicLoadingDemoButton.Location = new System.Drawing.Point(6, 122);
+      this.dynamicLoadingDemoButton.Name = "dynamicLoadingDemoButton";
+      this.dynamicLoadingDemoButton.Size = new System.Drawing.Size(432, 27);
+      this.dynamicLoadingDemoButton.TabIndex = 3;
+      this.dynamicLoadingDemoButton.Text = "&Dynamic Loading Demonstration";
+      this.dynamicLoadingDemoButton.UseVisualStyleBackColor = true;
+      this.dynamicLoadingDemoButton.Click += new System.EventHandler(this.dynamicLoadingDemoButton_Click);
       // 
       // MainMenuForm
       // 
@@ -111,6 +125,7 @@
     private System.Windows.Forms.Button themeDemoButton;
     private GroupBox demoGroupBox;
     private System.Windows.Forms.Button tabControlDemoButton;
+    private System.Windows.Forms.Button dynamicLoadingDemoButton;
   }
 }
 

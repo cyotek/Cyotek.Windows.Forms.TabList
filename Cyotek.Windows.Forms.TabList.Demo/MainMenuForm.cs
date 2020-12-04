@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Windows.Forms;
 
 namespace Cyotek.Windows.Forms.Demo
@@ -84,5 +84,10 @@ namespace Cyotek.Windows.Forms.Demo
     }
 
     #endregion
+
+    private void dynamicLoadingDemoButton_Click(object sender, EventArgs e)
+    {
+      this.ShowDemo<DynamicLoadingDemonstrationForm>();
+    }
   }
 }

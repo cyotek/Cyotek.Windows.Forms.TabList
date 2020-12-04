@@ -94,6 +94,12 @@
     <Compile Include="FakeOptionPage1.Designer.cs">
       <DependentUpon>FakeOptionPage1.cs</DependentUpon>
     </Compile>
+    <Compile Include="DynamicLoadingDemonstrationForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="DynamicLoadingDemonstrationForm.Designer.cs">
+      <DependentUpon>DynamicLoadingDemonstrationForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="RendererDemonstrationForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -144,6 +150,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="FakeOptionPage1.resx">
       <DependentUpon>FakeOptionPage1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DynamicLoadingDemonstrationForm.resx">
+      <DependentUpon>DynamicLoadingDemonstrationForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="RendererDemonstrationForm.resx">
       <DependentUpon>RendererDemonstrationForm.cs</DependentUpon>
