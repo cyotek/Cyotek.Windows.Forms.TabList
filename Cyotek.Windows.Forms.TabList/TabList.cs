@@ -688,7 +688,7 @@ namespace Cyotek.Windows.Forms
     {
       base.OnMouseClick(e);
 
-      if (e.Button == MouseButtons.Left && this.DesignMode | this.AllowTabSelection)
+      if (e.Button == MouseButtons.Left && this.DesignMode || this.AllowTabSelection)
       {
         int index;
 
