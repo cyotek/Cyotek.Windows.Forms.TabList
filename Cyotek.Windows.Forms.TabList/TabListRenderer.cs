@@ -1,4 +1,5 @@
-﻿using System.Drawing;
+using System;
+using System.Drawing;
 
 namespace Cyotek.Windows.Forms
 {
@@ -26,7 +27,12 @@ namespace Cyotek.Windows.Forms
     /// The default renderer.
     /// </value>
     /// <remarks>All <see cref="TabList"/> controls will use the default renderer unless explicit assigned a dedicated renderer.</remarks>
-    public static ITabListRenderer DefaultRenderer { get; set; }
+    [Obsolete("This property is obsolete and will be removed in a future update. Use TabListManager.Renderer.")]
+    public static ITabListRenderer DefaultRenderer
+    {
+      get => TabListManager.Renderer;
+      set => TabListManager.Renderer = value;
+    }
 
     #endregion
 

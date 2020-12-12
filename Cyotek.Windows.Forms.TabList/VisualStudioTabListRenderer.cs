@@ -18,7 +18,13 @@ namespace Cyotek.Windows.Forms
   /// <seealso cref="T:Cyotek.Windows.Forms.TabListPageRenderer"/>
   public class VisualStudioTabListRenderer : TabListRenderer
   {
-    #region Methods
+    #region Public Fields
+
+    public static ITabListRenderer Default = new VisualStudioTabListRenderer();
+
+    #endregion Public Fields
+
+    #region Public Methods
 
     /// <summary>
     /// Renders the header for the given <see cref="TabListPage"/>.
@@ -112,6 +118,6 @@ namespace Cyotek.Windows.Forms
       }
     }
 
-    #endregion
+    #endregion Public Methods
   }
 }

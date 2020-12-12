@@ -25,6 +25,8 @@ namespace Cyotek.Windows.Forms
   [DefaultEvent("SelectedIndexChanged")]
   public partial class TabList : Control
   {
+    #region Private Fields
+
     private static readonly object _eventAllowTabSelectionChanged = new object();
 
     private static readonly object _eventDeselected = new object();
@@ -67,13 +69,9 @@ namespace Cyotek.Windows.Forms
 
     private TabListPageCollection _tabListPages;
 
-    /// <summary>
-    /// Static constructor.
-    /// </summary>
-    static TabList()
-    {
-      TabListRenderer.DefaultRenderer = new VisualStudioTabListRenderer();
-    }
+    #endregion Private Fields
+
+    #region Public Constructors
 
     /// <summary>
     /// Default constructor.
@@ -93,6 +91,10 @@ namespace Cyotek.Windows.Forms
       this.Size = new Size(200, 200); // the default size is tiny!
       this.Padding = new Padding(3);
     }
+
+    #endregion Public Constructors
+
+    #region Public Events
 
     /// <summary>
     /// Occurs when the value of the <see cref="AllowTabSelection"/> property changes.
@@ -185,6 +187,10 @@ namespace Cyotek.Windows.Forms
       remove { this.Events.RemoveHandler(_eventShowTabListChanged, value); }
     }
 
+    #endregion Public Events
+
+    #region Public Properties
+
     /// <summary>
     /// Gets or sets a value indicating whether the selected tab can be changed via the user interface.
     /// </summary>
@@ -267,7 +273,7 @@ namespace Cyotek.Windows.Forms
     /// <value>
     /// The customer renderer for painting the control
     /// </value>
-    /// <remarks>If this property is <c>null</c> (default), the value of the <see cref="TabListRenderer.DefaultRenderer"/> property will be used instead.</remarks>
+    /// <remarks>If this property is <c>null</c> (default), the value of the <see cref="TabListManager.Renderer"/> property will be used instead.</remarks>
     [Browsable(false)]
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
     public ITabListRenderer Renderer
@@ -411,6 +417,10 @@ namespace Cyotek.Windows.Forms
       set { base.Text = value; }
     }
 
+    #endregion Public Properties
+
+    #region Private Properties
+
     private int HotIndex
     {
       get { return _hotIndex; }
@@ -423,6 +433,10 @@ namespace Cyotek.Windows.Forms
         }
       }
     }
+
+    #endregion Private Properties
+
+    #region Public Methods
 
     /// <summary>
     /// Retrieves the page that is at the specified co-ordinates.
@@ -491,6 +505,10 @@ namespace Cyotek.Windows.Forms
 
       return index != -1 ? _tabListPages[index] : null;
     }
+
+    #endregion Public Methods
+
+    #region Internal Methods
 
     internal int AddPage(TabListPage page)
     {
@@ -602,6 +620,10 @@ namespace Cyotek.Windows.Forms
       this.Invalidate();
     }
 
+    #endregion Internal Methods
+
+    #region Protected Methods
+
     /// <summary>
     /// Creates a new instance of the control collection for the control.
     /// </summary>
@@ -621,7 +643,7 @@ namespace Cyotek.Windows.Forms
     /// </returns>
     protected virtual ITabListRenderer GetRenderer()
     {
-      return _renderer ?? TabListRenderer.DefaultRenderer ?? new VisualStudioTabListRenderer();
+      return _renderer ?? TabListManager.Renderer ?? VisualStudioTabListRenderer.Default;
     }
 
     /// <summary>
@@ -735,37 +757,34 @@ namespace Cyotek.Windows.Forms
     {
       base.OnKeyDown(e);
 
-      if (_showTabList)
+      // allow keyboard navigation, if any tabs are present
+      if (_showTabList && _tabListPageCount != 0)
       {
-        // allow keyboard navigation, if any tabs are present
-        if (_tabListPageCount != 0)
+        switch (e.KeyCode)
         {
-          switch (e.KeyCode)
-          {
-            case Keys.Down:
-              this.CycleSelectedTab(1);
-              break;
+          case Keys.Down:
+            this.CycleSelectedTab(1);
+            break;
 
-            case Keys.Up:
-              this.CycleSelectedTab(-1);
-              break;
+          case Keys.Up:
+            this.CycleSelectedTab(-1);
+            break;
 
-            case Keys.PageDown:
-              this.CycleSelectedTab(3);
-              break;
+          case Keys.PageDown:
+            this.CycleSelectedTab(3);
+            break;
 
-            case Keys.PageUp:
-              this.CycleSelectedTab(-3);
-              break;
+          case Keys.PageUp:
+            this.CycleSelectedTab(-3);
+            break;
 
-            case Keys.Home:
-              this.ProcessTabChange(0);
-              break;
+          case Keys.Home:
+            this.ProcessTabChange(0);
+            break;
 
-            case Keys.End:
-              this.ProcessTabChange(_tabListPageCount - 1);
-              break;
-          }
+          case Keys.End:
+            this.ProcessTabChange(_tabListPageCount - 1);
+            break;
         }
       }
     }
@@ -989,6 +1008,10 @@ namespace Cyotek.Windows.Forms
       _currentlyScaling = false;
     }
 
+    #endregion Protected Methods
+
+    #region Private Methods
+
     private void CycleSelectedTab(int increment)
     {
       if (_tabListPageCount != 0)
@@ -1131,6 +1154,7 @@ namespace Cyotek.Windows.Forms
         }
 
         page.Bounds = this.DisplayRectangle;
+        page.Location = this.DisplayRectangle.Location;
 
         if (_currentlyScaling)
         {
@@ -1150,5 +1174,7 @@ namespace Cyotek.Windows.Forms
 
       this.Invalidate();
     }
+
+    #endregion Private Methods
   }
 }
