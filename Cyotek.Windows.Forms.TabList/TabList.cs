@@ -288,8 +288,8 @@ namespace Cyotek.Windows.Forms
     /// The customer renderer for painting the control
     /// </value>
     /// <remarks>If this property is <c>null</c> (default), the value of the <see cref="TabListRenderer.DefaultRenderer"/> property will be used instead.</remarks>
-    [Category("Appearance")]
-    [DefaultValue(null)]
+    [Browsable(false)]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
     public ITabListRenderer Renderer
     {
       get { return _renderer; }
