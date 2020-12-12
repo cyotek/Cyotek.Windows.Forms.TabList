@@ -1,4 +1,4 @@
-﻿using System.Drawing;
+using System.Drawing;
 using System.Windows.Forms;
 
 namespace Cyotek.Windows.Forms
@@ -55,14 +55,17 @@ namespace Cyotek.Windows.Forms
       }
       else
       {
-        fillColor = page.Owner.BackColor;
+        fillColor = Color.Transparent;
         textColor = page.Owner.ForeColor;
       }
 
       // fill the background
-      using (Brush brush = new SolidBrush(fillColor))
+      if (fillColor.A > 0)
       {
-        g.FillRectangle(brush, fillBounds);
+        using (Brush brush = new SolidBrush(fillColor))
+        {
+          g.FillRectangle(brush, fillBounds);
+        }
       }
 
       // draw the selection arrow
