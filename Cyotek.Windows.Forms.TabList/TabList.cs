@@ -794,7 +794,7 @@ namespace Cyotek.Windows.Forms
     {
       base.OnLayout(levent);
 
-      if (levent.AffectedProperty == nameof(this.Bounds))
+      if (levent.AffectedProperty == nameof(this.Bounds) && object.ReferenceEquals(levent.AffectedControl, this))
       {
         this.ResetBounds();
       }
