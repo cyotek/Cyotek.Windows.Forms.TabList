@@ -1,8 +1,8 @@
+using Cyotek.Windows.Forms.Design;
 using System;
 using System.ComponentModel;
 using System.Drawing;
 using System.Windows.Forms;
-using Cyotek.Windows.Forms.Design;
 
 namespace Cyotek.Windows.Forms
 {
@@ -25,8 +25,6 @@ namespace Cyotek.Windows.Forms
   [DefaultEvent("SelectedIndexChanged")]
   public partial class TabList : Control
   {
-    #region Constants
-
     private static readonly object _eventAllowTabSelectionChanged = new object();
 
     private static readonly object _eventDeselected = new object();
@@ -45,11 +43,9 @@ namespace Cyotek.Windows.Forms
 
     private static readonly object _eventShowTabListChanged = new object();
 
-    #endregion
-
-    #region Fields
-
     private bool _allowTabSelection;
+
+    private bool _currentlyScaling;
 
     private Rectangle _displayRectangle;
 
@@ -71,10 +67,6 @@ namespace Cyotek.Windows.Forms
 
     private TabListPageCollection _tabListPages;
 
-    #endregion
-
-    #region Static Constructors
-
     /// <summary>
     /// Static constructor.
     /// </summary>
@@ -82,10 +74,6 @@ namespace Cyotek.Windows.Forms
     {
       TabListRenderer.DefaultRenderer = new VisualStudioTabListRenderer();
     }
-
-    #endregion
-
-    #region Constructors
 
     /// <summary>
     /// Default constructor.
@@ -105,10 +93,6 @@ namespace Cyotek.Windows.Forms
       this.Size = new Size(200, 200); // the default size is tiny!
       this.Padding = new Padding(3);
     }
-
-    #endregion
-
-    #region Events
 
     /// <summary>
     /// Occurs when the value of the <see cref="AllowTabSelection"/> property changes.
@@ -200,10 +184,6 @@ namespace Cyotek.Windows.Forms
       add { this.Events.AddHandler(_eventShowTabListChanged, value); }
       remove { this.Events.RemoveHandler(_eventShowTabListChanged, value); }
     }
-
-    #endregion
-
-    #region Properties
 
     /// <summary>
     /// Gets or sets a value indicating whether the selected tab can be changed via the user interface.
@@ -444,10 +424,6 @@ namespace Cyotek.Windows.Forms
       }
     }
 
-    #endregion
-
-    #region Methods
-
     /// <summary>
     /// Retrieves the page that is at the specified co-ordinates.
     /// </summary>
@@ -516,6 +492,116 @@ namespace Cyotek.Windows.Forms
       return index != -1 ? _tabListPages[index] : null;
     }
 
+    internal int AddPage(TabListPage page)
+    {
+      int index;
+
+      index = this.InsertPage(_tabListPageCount, page);
+
+      if (_selectedIndex == -1)
+      {
+        this.SelectedIndex = index;
+      }
+
+      return index;
+    }
+
+    internal void ClearAllPages()
+    {
+      this.Controls.Clear();
+      _pages = null;
+      _tabListPageCount = 0;
+    }
+
+    internal TabListPage[] GetTabListPages()
+    {
+      TabListPage[] copy;
+
+      copy = new TabListPage[_tabListPageCount];
+
+      if (_tabListPageCount > 0)
+      {
+        Array.Copy(_pages, copy, _tabListPageCount);
+      }
+
+      return copy;
+    }
+
+    internal int InsertPage(int index, TabListPage page)
+    {
+      if (_pages == null)
+      {
+        _pages = new TabListPage[1];
+      }
+      else if (_pages.Length == _tabListPageCount)
+      {
+        // no room left, so resize the array
+        TabListPage[] copy;
+
+        copy = new TabListPage[_pages.Length + 1];
+        Array.Copy(_pages, copy, _pages.Length);
+        _pages = copy;
+      }
+
+      // if this is an insert rather than append, move the array around
+      if (index < _tabListPageCount)
+      {
+        Array.Copy(_pages, index, _pages, index + 1, _pages.Length - index);
+      }
+
+      // update the array and page count
+      _pages[index] = page;
+      _tabListPageCount++;
+      this.UpdatePages();
+      this.UpdateSelectedPage();
+
+      // finally trigger a redraw of the control
+      this.Invalidate();
+
+      return index;
+    }
+
+    internal void RemovePageAt(int index)
+    {
+      int selectedIndex;
+
+      if (index < 0 || index >= _tabListPageCount)
+      {
+        throw new ArgumentOutOfRangeException(nameof(index));
+      }
+
+      _tabListPageCount--;
+
+      if (index < _tabListPageCount)
+      {
+        Array.Copy(_pages, index + 1, _pages, index, _tabListPageCount - index);
+      }
+
+      _pages[_tabListPageCount] = null;
+
+      selectedIndex = _selectedIndex;
+
+      if (_tabListPageCount == 0)
+      {
+        this.SelectedIndex = -1;
+      }
+      else if (index == selectedIndex || selectedIndex >= _tabListPageCount)
+      {
+        this.SelectedIndex = 0;
+      }
+
+      this.UpdatePages();
+      this.UpdateSelectedPage();
+
+      this.Invalidate();
+    }
+
+    // ReSharper disable once UnusedParameter.Global
+    internal void UpdatePage(TabListPage page)
+    {
+      this.Invalidate();
+    }
+
     /// <summary>
     /// Creates a new instance of the control collection for the control.
     /// </summary>
@@ -538,23 +624,6 @@ namespace Cyotek.Windows.Forms
       return _renderer ?? TabListRenderer.DefaultRenderer ?? new VisualStudioTabListRenderer();
     }
 
-    protected override bool ProcessDialogKey(Keys keyData)
-    {
-      bool result;
-
-      if (keyData == (Keys.Control | Keys.Tab))
-      {
-        this.CycleSelectedTab(1);
-        result = true;
-      }
-      else
-      {
-        result = base.ProcessDialogKey(keyData);
-      }
-
-      return result;
-    }
-
     /// <summary>
     /// <p>This API supports the product infrastructure and is not intended to be used directly from your code.</p>
     /// <p>This member is not meaningful for this control.</p>
@@ -573,6 +642,7 @@ namespace Cyotek.Windows.Forms
         case Keys.Down:
           result = true;
           break;
+
         default:
           result = base.IsInputKey(keyData);
           break;
@@ -622,6 +692,14 @@ namespace Cyotek.Windows.Forms
       handler?.Invoke(this, e);
     }
 
+    /// <inheritdoc/>
+    protected override void OnFontChanged(EventArgs e)
+    {
+      base.OnFontChanged(e);
+
+      this.ResetBounds();
+    }
+
     /// <summary>
     /// Raises the <see cref="Control.GotFocus"/> event.
     /// </summary>
@@ -641,6 +719,7 @@ namespace Cyotek.Windows.Forms
     {
       EventHandler handler;
 
+      this.UpdatePages();
       this.ResetBounds();
 
       handler = (EventHandler)this.Events[_eventHeaderSizeChanged];
@@ -666,23 +745,39 @@ namespace Cyotek.Windows.Forms
             case Keys.Down:
               this.CycleSelectedTab(1);
               break;
+
             case Keys.Up:
               this.CycleSelectedTab(-1);
               break;
+
             case Keys.PageDown:
               this.CycleSelectedTab(3);
               break;
+
             case Keys.PageUp:
               this.CycleSelectedTab(-3);
               break;
+
             case Keys.Home:
               this.ProcessTabChange(0);
               break;
+
             case Keys.End:
               this.ProcessTabChange(_tabListPageCount - 1);
               break;
           }
         }
+      }
+    }
+
+    /// <inheritdoc/>
+    protected override void OnLayout(LayoutEventArgs levent)
+    {
+      base.OnLayout(levent);
+
+      if (levent.AffectedProperty == nameof(this.Bounds))
+      {
+        this.ResetBounds();
       }
     }
 
@@ -815,17 +910,6 @@ namespace Cyotek.Windows.Forms
     }
 
     /// <summary>
-    /// Raises the <see cref="Control.Resize"/> event.
-    /// </summary>
-    /// <param name="e">An <see cref="EventArgs"/> that contains the event data.</param>
-    protected override void OnResize(EventArgs e)
-    {
-      base.OnResize(e);
-
-      this.ResetBounds();
-    }
-
-    /// <summary>
     /// Raises the <see cref="Selected" /> event.
     /// </summary>
     /// <param name="e">The <see cref="TabListEventArgs" /> instance containing the event data.</param>
@@ -881,114 +965,28 @@ namespace Cyotek.Windows.Forms
       handler?.Invoke(this, e);
     }
 
-    internal int AddPage(TabListPage page)
+    protected override bool ProcessDialogKey(Keys keyData)
     {
-      int index;
+      bool result;
 
-      index = this.InsertPage(_tabListPageCount, page);
-
-      if (_selectedIndex == -1)
+      if (keyData == (Keys.Control | Keys.Tab))
       {
-        this.SelectedIndex = index;
+        this.CycleSelectedTab(1);
+        result = true;
+      }
+      else
+      {
+        result = base.ProcessDialogKey(keyData);
       }
 
-      return index;
+      return result;
     }
 
-    internal void ClearAllPages()
+    protected override void ScaleCore(float dx, float dy)
     {
-      this.Controls.Clear();
-      _pages = null;
-      _tabListPageCount = 0;
-    }
-
-    internal TabListPage[] GetTabListPages()
-    {
-      TabListPage[] copy;
-
-      copy = new TabListPage[_tabListPageCount];
-
-      if (_tabListPageCount > 0)
-      {
-        Array.Copy(_pages, copy, _tabListPageCount);
-      }
-
-      return copy;
-    }
-
-    internal int InsertPage(int index, TabListPage page)
-    {
-      if (_pages == null)
-      {
-        _pages = new TabListPage[1];
-      }
-      else if (_pages.Length == _tabListPageCount)
-      {
-        // no room left, so resize the array
-        TabListPage[] copy;
-
-        copy = new TabListPage[_pages.Length + 1];
-        Array.Copy(_pages, copy, _pages.Length);
-        _pages = copy;
-      }
-
-      // if this is an insert rather than append, move the array around
-      if (index < _tabListPageCount)
-      {
-        Array.Copy(_pages, index, _pages, index + 1, _pages.Length - index);
-      }
-
-      // update the array and page count
-      _pages[index] = page;
-      _tabListPageCount++;
-      this.UpdatePages();
-      this.UpdateSelectedPage();
-
-      // finally trigger a redraw of the control
-      this.Invalidate();
-
-      return index;
-    }
-
-    internal void RemovePageAt(int index)
-    {
-      int selectedIndex;
-
-      if (index < 0 || index >= _tabListPageCount)
-      {
-        throw new ArgumentOutOfRangeException(nameof(index));
-      }
-
-      _tabListPageCount--;
-
-      if (index < _tabListPageCount)
-      {
-        Array.Copy(_pages, index + 1, _pages, index, _tabListPageCount - index);
-      }
-
-      _pages[_tabListPageCount] = null;
-
-      selectedIndex = _selectedIndex;
-
-      if (_tabListPageCount == 0)
-      {
-        this.SelectedIndex = -1;
-      }
-      else if (index == selectedIndex || selectedIndex >= _tabListPageCount)
-      {
-        this.SelectedIndex = 0;
-      }
-
-      this.UpdatePages();
-      this.UpdateSelectedPage();
-
-      this.Invalidate();
-    }
-
-    // ReSharper disable once UnusedParameter.Global
-    internal void UpdatePage(TabListPage page)
-    {
-      this.Invalidate();
+      _currentlyScaling = true;
+      base.ScaleCore(dx, dy);
+      _currentlyScaling = false;
     }
 
     private void CycleSelectedTab(int increment)
@@ -1080,33 +1078,12 @@ namespace Cyotek.Windows.Forms
       }
     }
 
-
-    /// <inheritdoc/>
-    protected override void OnLayout(LayoutEventArgs levent)
-    {
-      base.OnLayout(levent);
-
-      if (levent.AffectedProperty == nameof(this.Bounds))
-      {
-        _displayRectangle = Rectangle.Empty; // force the display rectangle to be recalculated
-        _tabListBounds = Rectangle.Empty;
-
-        Rectangle b;
-
-        b = this.DisplayRectangle;
-
-        for (int i = 0; i < _tabListPages.Count; i++)
-        {
-          _tabListPages[i].Bounds=b;
-        }
-      }
-    }
-
     private void ResetBounds()
     {
       _displayRectangle = Rectangle.Empty; // force the display rectangle to be recalculated
       _tabListBounds = Rectangle.Empty;
 
+      this.UpdateSelectedPage();
       this.Invalidate();
     }
 
@@ -1140,38 +1117,38 @@ namespace Cyotek.Windows.Forms
       }
     }
 
-    /// <inheritdoc/>
-    protected override void OnFontChanged(EventArgs e)
-    {
-      base.OnFontChanged(e);
-
-      this.UpdateSelectedPage();
-    }
-
     private void UpdateSelectedPage()
     {
       if (_selectedIndex != -1)
       {
-        for (int i = 0; i < _tabListPageCount; i++)
+        TabListPage page;
+
+        page = _tabListPages[_selectedIndex];
+
+        if (_currentlyScaling)
         {
-          TabListPage page;
+          page.SuspendLayout();
+        }
 
-          page = _pages[i];
+        page.Bounds = this.DisplayRectangle;
 
-          if (i == _selectedIndex)
-          {
-            page.Visible = true;
-          }
-          else
-          {
-            page.Visible = false;
-          }
+        if (_currentlyScaling)
+        {
+          page.ResumeLayout();
+        }
+
+        page.Visible = true;
+      }
+
+      for (int i = 0; i < _tabListPageCount; i++)
+      {
+        if (i != _selectedIndex)
+        {
+          _tabListPages[i].Visible = false;
         }
       }
 
       this.Invalidate();
     }
-
-    #endregion
   }
 }
