@@ -538,6 +538,23 @@ namespace Cyotek.Windows.Forms
       return _renderer ?? TabListRenderer.DefaultRenderer ?? new VisualStudioTabListRenderer();
     }
 
+    protected override bool ProcessDialogKey(Keys keyData)
+    {
+      bool result;
+
+      if (keyData == (Keys.Control | Keys.Tab))
+      {
+        this.CycleSelectedTab(1);
+        result = true;
+      }
+      else
+      {
+        result = base.ProcessDialogKey(keyData);
+      }
+
+      return result;
+    }
+
     /// <summary>
     /// <p>This API supports the product infrastructure and is not intended to be used directly from your code.</p>
     /// <p>This member is not meaningful for this control.</p>
