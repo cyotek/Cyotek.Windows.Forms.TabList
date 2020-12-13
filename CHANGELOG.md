@@ -1,5 +1,23 @@
 # TabList Change Log
 
+## 2.0.2
+
+### Added
+
+* Added `Ctrl+Tab` hotkey to cycle tabs, when the `TabList` or a
+  hosted control has focus.
+* Added `TabListManager` class with a `Renderer` property, the
+  original `TabListRenderer.DefaultRenderer` has been marked as
+  obsolete and will be removed in a future update
+
+### Changed
+
+* The default `VisualStudioTabListRenderer` no longer draws a
+  solid fill for tab buttons in a default state, allowing the
+  background image (if set) to appear
+* The `TabList.Renderer` property no longer appears in
+  Properties windows or serialised by the designer
+
 ## 2.0.1
 
 ### Fixed
