@@ -45,6 +45,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ListBoxTabListeRenderer.cs" />
+    <Compile Include="ListBoxTabListRenderer.cs" />
+    <Compile Include="RenderSupport.cs" />
     <Compile Include="TabListManager.cs" />
     <Compile Include="VisualStudioTabListRenderer.cs" />
     <Compile Include="Design\TabListDesigner.cs" />

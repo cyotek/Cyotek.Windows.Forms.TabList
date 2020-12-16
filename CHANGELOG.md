@@ -1,6 +1,6 @@
 # TabList Change Log
 
-## 2.0.2
+## 2.1.0
 
 ### Added
 
@@ -9,6 +9,10 @@
 * Added `TabListManager` class with a `Renderer` property, the
   original `TabListRenderer.DefaultRenderer` has been marked as
   obsolete and will be removed in a future update
+* The `Enabled` property is now exposed for `TabListPage`
+  instances and the control will now correctly behave and render
+  according to the enabled state of individual pages, and the
+  overall control
 
 ### Changed
 
@@ -17,6 +21,9 @@
   background image (if set) to appear
 * The `TabList.Renderer` property no longer appears in
   Properties windows or serialised by the designer
+* The misspelled `ListBoxTabListeRenderer` class has been marked
+  as obsolete and will be removed in a future update. Please use
+  the correctly named `ListBoxTabListRenderer` class instead
 
 ## 2.0.1
 
