@@ -58,6 +58,8 @@
       this.statusStrip1 = new System.Windows.Forms.StatusStrip();
       this.eventsSplitContainer = new System.Windows.Forms.SplitContainer();
       this.eventsListBox = new Cyotek.Windows.Forms.Demo.EventsListBox();
+      this.disabledTabListPage = new Cyotek.Windows.Forms.TabListPage();
+      this.disabledLabel = new System.Windows.Forms.Label();
       this.propertiesSplitContainer.Panel1.SuspendLayout();
       this.propertiesSplitContainer.Panel2.SuspendLayout();
       this.propertiesSplitContainer.SuspendLayout();
@@ -75,6 +77,7 @@
       this.eventsSplitContainer.Panel1.SuspendLayout();
       this.eventsSplitContainer.Panel2.SuspendLayout();
       this.eventsSplitContainer.SuspendLayout();
+      this.disabledTabListPage.SuspendLayout();
       this.SuspendLayout();
       // 
       // propertiesSplitContainer
@@ -257,6 +260,7 @@
       this.tabList.Controls.Add(this.tabListPage1);
       this.tabList.Controls.Add(this.tabListPage2);
       this.tabList.Controls.Add(this.tabListPage3);
+      this.tabList.Controls.Add(this.disabledTabListPage);
       this.tabList.Dock = System.Windows.Forms.DockStyle.Fill;
       this.tabList.Location = new System.Drawing.Point(0, 0);
       this.tabList.Name = "tabList";
@@ -271,10 +275,8 @@
       // tabListPage1
       // 
       this.tabListPage1.Controls.Add(this.fakeOptionPage11);
-      this.tabListPage1.Dock = System.Windows.Forms.DockStyle.Fill;
       this.tabListPage1.Name = "tabListPage1";
       this.tabListPage1.Size = new System.Drawing.Size(322, 407);
-      this.tabListPage1.TabIndex = 0;
       this.tabListPage1.Text = "Options";
       // 
       // fakeOptionPage11
@@ -288,10 +290,8 @@
       // tabListPage2
       // 
       this.tabListPage2.Controls.Add(this.fakeOptionPage21);
-      this.tabListPage2.Dock = System.Windows.Forms.DockStyle.Fill;
       this.tabListPage2.Name = "tabListPage2";
-      this.tabListPage2.Size = new System.Drawing.Size(42, 192);
-      this.tabListPage2.TabIndex = 1;
+      this.tabListPage2.Size = new System.Drawing.Size(322, 407);
       this.tabListPage2.Text = "More Options";
       // 
       // fakeOptionPage21
@@ -299,16 +299,14 @@
       this.fakeOptionPage21.Dock = System.Windows.Forms.DockStyle.Fill;
       this.fakeOptionPage21.Location = new System.Drawing.Point(0, 0);
       this.fakeOptionPage21.Name = "fakeOptionPage21";
-      this.fakeOptionPage21.Size = new System.Drawing.Size(42, 192);
+      this.fakeOptionPage21.Size = new System.Drawing.Size(322, 407);
       this.fakeOptionPage21.TabIndex = 0;
       // 
       // tabListPage3
       // 
       this.tabListPage3.Controls.Add(this.fakeOptionPage31);
-      this.tabListPage3.Dock = System.Windows.Forms.DockStyle.Fill;
       this.tabListPage3.Name = "tabListPage3";
-      this.tabListPage3.Size = new System.Drawing.Size(42, 192);
-      this.tabListPage3.TabIndex = 2;
+      this.tabListPage3.Size = new System.Drawing.Size(322, 407);
       this.tabListPage3.Text = "Advanced Options";
       // 
       // fakeOptionPage31
@@ -316,7 +314,7 @@
       this.fakeOptionPage31.Dock = System.Windows.Forms.DockStyle.Fill;
       this.fakeOptionPage31.Location = new System.Drawing.Point(0, 0);
       this.fakeOptionPage31.Name = "fakeOptionPage31";
-      this.fakeOptionPage31.Size = new System.Drawing.Size(42, 192);
+      this.fakeOptionPage31.Size = new System.Drawing.Size(322, 407);
       this.fakeOptionPage31.TabIndex = 0;
       // 
       // menuStrip1
@@ -397,6 +395,28 @@
       this.eventsListBox.Size = new System.Drawing.Size(784, 95);
       this.eventsListBox.TabIndex = 0;
       // 
+      // disabledTabListPage
+      // 
+      this.disabledTabListPage.Controls.Add(this.disabledLabel);
+      this.disabledTabListPage.Enabled = false;
+      this.disabledTabListPage.Name = "disabledTabListPage";
+      this.disabledTabListPage.Size = new System.Drawing.Size(322, 407);
+      this.disabledTabListPage.Text = "Disabled";
+      // 
+      // disabledLabel
+      // 
+      this.disabledLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+      this.disabledLabel.Location = new System.Drawing.Point(32, 32);
+      this.disabledLabel.Margin = new System.Windows.Forms.Padding(32);
+      this.disabledLabel.Name = "disabledLabel";
+      this.disabledLabel.Size = new System.Drawing.Size(258, 348);
+      this.disabledLabel.TabIndex = 0;
+      this.disabledLabel.Text = "This TabListPage is disabled. Disabled pages cannot be automatically navigated in" +
+    "to.";
+      this.disabledLabel.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+      // 
       // GeneralDemonstrationForm
       // 
       this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -427,6 +447,7 @@
       this.eventsSplitContainer.Panel1.ResumeLayout(false);
       this.eventsSplitContainer.Panel2.ResumeLayout(false);
       this.eventsSplitContainer.ResumeLayout(false);
+      this.disabledTabListPage.ResumeLayout(false);
       this.ResumeLayout(false);
       this.PerformLayout();
 
@@ -464,6 +485,8 @@
     private GroupBox tabPagesGroupBox;
     private System.Windows.Forms.SplitContainer eventsSplitContainer;
     private EventsListBox eventsListBox;
+    private TabListPage disabledTabListPage;
+    private System.Windows.Forms.Label disabledLabel;
   }
 }
 
