@@ -3,6 +3,7 @@ bin/
 obj/
 packages/
 nuget/
+_NCrunch_*/
 
 *.suo
 *.user
