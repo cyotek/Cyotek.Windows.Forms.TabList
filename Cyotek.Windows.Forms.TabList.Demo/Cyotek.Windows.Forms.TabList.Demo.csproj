@@ -134,6 +134,7 @@
     <Compile Include="TabControlHostDemonstrationForm.Designer.cs">
       <DependentUpon>TabControlHostDemonstrationForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="TypeExtensions.cs" />
     <Compile Include="TypeInfo.cs" />
     <Compile Include="WizardTabListRenderer.cs" />
     <EmbeddedResource Include="AboutDialog.resx">

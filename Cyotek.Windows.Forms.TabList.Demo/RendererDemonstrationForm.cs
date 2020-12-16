@@ -1,12 +1,11 @@
-﻿using System;
-using System.Linq;
+using System;
 using System.Reflection;
 using System.Windows.Forms;
 
 namespace Cyotek.Windows.Forms.Demo
 {
   // Cyotek TabList
-  // Copyright (c) 2012-2017 Cyotek.
+  // Copyright (c) 2012-2020 Cyotek.
   // https://www.cyotek.com
   // https://www.cyotek.com/blog/tag/tablist
 
@@ -16,55 +15,82 @@ namespace Cyotek.Windows.Forms.Demo
 
   internal partial class RendererDemonstrationForm : BaseForm
   {
-    #region Constructors
+    #region Public Constructors
 
     public RendererDemonstrationForm()
     {
       this.InitializeComponent();
     }
 
-    #endregion
+    #endregion Public Constructors
 
-    #region Methods
+    #region Protected Methods
 
     protected override void OnLoad(EventArgs e)
     {
-      Type matchType;
+      Assembly[] assemblies;
 
       base.OnLoad(e);
 
-      matchType = typeof(ITabListRenderer);
+      assemblies = AppDomain.CurrentDomain.GetAssemblies();
 
       // use reflection to find all types inheriting from ITabListPageRenderer that we can use
-      foreach (Assembly assembly in AppDomain.CurrentDomain.GetAssemblies())
+      for (int i = 0; i < assemblies.Length; i++)
       {
-        foreach (Type type in assembly.GetTypes().Where(t => matchType.IsAssignableFrom(t) && t.IsClass && !t.IsAbstract))
+        Type[] types;
+
+        types = assemblies[i].GetTypes();
+
+        for (int j = 0; j < types.Length; j++)
         {
-          int textWidth;
-          string text;
+          Type type;
 
-          text = type.Name;
+          type = types[j];
 
-          renderStyleToolStripComboBox.Items.Add(new TypeInfo
-                                                 {
-                                                   Name = text,
-                                                   FullName = type.AssemblyQualifiedName
-                                                 });
+          if (this.CanUseType(type))
+          {
+            string text;
+            int textWidth;
 
-          // make sure the control is wide enough
-          textWidth = TextRenderer.MeasureText(text, renderStyleToolStripComboBox.Font).Width + SystemInformation.VerticalScrollBarWidth + 6;
-          if (textWidth > renderStyleToolStripComboBox.Width)
-            renderStyleToolStripComboBox.Width = textWidth;
+            text = type.Name;
+
+            renderStyleToolStripComboBox.Items.Add(new TypeInfo
+            {
+              Name = text,
+              FullName = type.AssemblyQualifiedName
+            });
+
+            // make sure the control is wide enough
+            textWidth = TextRenderer.MeasureText(text, renderStyleToolStripComboBox.Font).Width + SystemInformation.VerticalScrollBarWidth + 6;
+            if (textWidth > renderStyleToolStripComboBox.Width)
+            {
+              renderStyleToolStripComboBox.Width = textWidth;
+            }
+          }
         }
       }
 
       if (renderStyleToolStripComboBox.Items.Count != 0)
+      {
         renderStyleToolStripComboBox.SelectedIndex = 0;
+      }
     }
+
+    #endregion Protected Methods
+
+    #region Private Methods
 
     private void aboutToolStripMenuItem_Click(object sender, EventArgs e)
     {
       AboutDialog.ShowAboutDialog();
+    }
+
+    private bool CanUseType(Type type)
+    {
+      return type.IsClass
+        && !type.IsAbstract
+        && typeof(ITabListRenderer).IsAssignableFrom(type)
+        && !type.IsObsolete();
     }
 
     private void closeToolStripMenuItem_Click(object sender, EventArgs e)
@@ -87,6 +113,6 @@ namespace Cyotek.Windows.Forms.Demo
       tabList.Renderer = renderer;
     }
 
-    #endregion
+    #endregion Private Methods
   }
 }
