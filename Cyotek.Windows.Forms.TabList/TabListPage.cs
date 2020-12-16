@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.ComponentModel;
 using System.Drawing;
 using System.Windows.Forms;
@@ -7,7 +7,7 @@ using Cyotek.Windows.Forms.Design;
 namespace Cyotek.Windows.Forms
 {
   // Cyotek TabList
-  // Copyright (c) 2012-2017 Cyotek.
+  // Copyright (c) 2012-2020 Cyotek.
   // https://www.cyotek.com
   // https://www.cyotek.com/blog/tag/tablist
 
@@ -22,7 +22,7 @@ namespace Cyotek.Windows.Forms
   [ToolboxItem(false)]
   [DesignTimeVisible(false)]
   [Designer(typeof(TabListPageDesigner))]
-  [DefaultProperty("Text")]
+  [DefaultProperty(nameof(Text))]
   public class TabListPage : Panel
   {
     #region Events
@@ -49,18 +49,6 @@ namespace Cyotek.Windows.Forms
     {
       add { base.DockChanged += value; }
       remove { base.DockChanged -= value; }
-    }
-
-    /// <summary>
-    /// <p>This API supports the product infrastructure and is not intended to be used directly from your code.</p>
-    /// <p>This member is not meaningful for this control.</p>
-    /// </summary>
-    [EditorBrowsable(EditorBrowsableState.Never)]
-    [Browsable(false)]
-    public new event EventHandler EnabledChanged
-    {
-      add { base.EnabledChanged += value; }
-      remove { base.EnabledChanged -= value; }
     }
 
     /// <summary>
@@ -191,19 +179,6 @@ namespace Cyotek.Windows.Forms
     {
       get { return DockStyle.None; }
       set { }
-    }
-
-    /// <summary>
-    /// <p>This API supports the product infrastructure and is not intended to be used directly from your code.</p>
-    /// <p>This member is not meaningful for this control.</p>
-    /// </summary>
-    [EditorBrowsable(EditorBrowsableState.Never)]
-    [Browsable(false)]
-    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-    public new bool Enabled
-    {
-      get { return base.Enabled; }
-      set { base.Enabled = value; }
     }
 
     /// <summary>

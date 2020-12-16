@@ -27,6 +27,8 @@ namespace Cyotek.Windows.Forms
   {
     #region Private Fields
 
+    private const int _invalidIndex = -1;
+
     private static readonly object _eventAllowTabSelectionChanged = new object();
 
     private static readonly object _eventDeselected = new object();
@@ -531,6 +533,100 @@ namespace Cyotek.Windows.Forms
       _tabListPageCount = 0;
     }
 
+    internal int FindFirstEnabledTab()
+    {
+      int result;
+
+      result = _invalidIndex;
+
+      for (int i = 0; i < _tabListPageCount; i++)
+      {
+        if (_tabListPages[i].Enabled)
+        {
+          result = i;
+          break;
+        }
+      }
+
+      return result;
+    }
+
+    internal int FindLastEnabledTab()
+    {
+      int result;
+
+      result = _invalidIndex;
+
+      for (int i = _tabListPageCount - 1; i >= 0; i--)
+      {
+        if (_tabListPages[i].Enabled)
+        {
+          result = i;
+          break;
+        }
+      }
+
+      return result;
+    }
+
+    internal int FindNextAvailableTab(int stepSize, bool forwards, bool canWrap)
+    {
+      int result;
+
+      result = _invalidIndex;
+
+      if (_tabListPageCount > 0)
+      {
+        int increment;
+        int newIndex;
+
+        increment = forwards ? stepSize : -stepSize;
+        newIndex = _selectedIndex + increment;
+
+        if (newIndex < 0 && canWrap)
+        {
+          newIndex = _tabListPageCount - 1;
+        }
+        else if (newIndex >= _tabListPageCount && canWrap)
+        {
+          newIndex = 0;
+        }
+
+        if (this.IsInRange(newIndex))
+        {
+          if (_tabListPages[newIndex].Enabled)
+          {
+            result = newIndex;
+          }
+          else if (this.AreAnyTabsEnabled())
+          {
+            increment = forwards ? 1 : -1;
+
+            do
+            {
+              newIndex += increment;
+
+              if (newIndex < 0)
+              {
+                newIndex = _tabListPageCount - 1;
+              }
+              else if (newIndex >= _tabListPageCount)
+              {
+                newIndex = 0;
+              }
+
+              if (_tabListPages[newIndex].Enabled)
+              {
+                result = newIndex;
+              }
+            } while (result == _invalidIndex);
+          }
+        }
+      }
+
+      return result;
+    }
+
     internal TabListPage[] GetTabListPages()
     {
       TabListPage[] copy;
@@ -760,31 +856,42 @@ namespace Cyotek.Windows.Forms
       // allow keyboard navigation, if any tabs are present
       if (_showTabList && _tabListPageCount != 0)
       {
+        int index;
+
         switch (e.KeyCode)
         {
           case Keys.Down:
-            this.CycleSelectedTab(1);
+            index = this.FindNextAvailableTab(1, true, true);
             break;
 
           case Keys.Up:
-            this.CycleSelectedTab(-1);
+            index = this.FindNextAvailableTab(1, false, true);
             break;
 
           case Keys.PageDown:
-            this.CycleSelectedTab(3);
+            index = this.FindNextAvailableTab(3, true, false);
             break;
 
           case Keys.PageUp:
-            this.CycleSelectedTab(-3);
+            index = this.FindNextAvailableTab(3, false, false);
             break;
 
           case Keys.Home:
-            this.ProcessTabChange(0);
+            index = this.FindFirstEnabledTab();
             break;
 
           case Keys.End:
-            this.ProcessTabChange(_tabListPageCount - 1);
+            index = this.FindLastEnabledTab();
             break;
+
+          default:
+            index = _invalidIndex;
+            break;
+        }
+
+        if (this.IsInRange(index))
+        {
+          this.ProcessTabChange(index);
         }
       }
     }
@@ -853,7 +960,16 @@ namespace Cyotek.Windows.Forms
 
       if (this.AllowTabSelection)
       {
-        this.HotIndex = this.GetPageAt(e.Location);
+        int index;
+
+        index = this.GetPageAt(e.Location);
+
+        if (index != _invalidIndex && !_tabListPages[index].Enabled)
+        {
+          index = _invalidIndex;
+        }
+
+        this.HotIndex = index;
       }
     }
 
@@ -990,7 +1106,15 @@ namespace Cyotek.Windows.Forms
 
       if (keyData == (Keys.Control | Keys.Tab))
       {
-        this.CycleSelectedTab(1);
+        int index;
+
+        index = this.FindNextAvailableTab(1, true, true);
+
+        if (this.IsInRange(index))
+        {
+          this.ProcessTabChange(index);
+        }
+
         result = true;
       }
       else
@@ -1012,25 +1136,22 @@ namespace Cyotek.Windows.Forms
 
     #region Private Methods
 
-    private void CycleSelectedTab(int increment)
+    private bool AreAnyTabsEnabled()
     {
-      if (_tabListPageCount != 0)
+      bool result;
+
+      result = false;
+
+      for (int i = 0; i < _tabListPageCount; i++)
       {
-        int index;
-
-        index = _selectedIndex + increment;
-
-        if (index < 0 && increment == -1 || index >= _tabListPageCount && increment != 1)
+        if (_tabListPages[i].Enabled)
         {
-          index = _tabListPageCount - 1;
+          result = true;
+          break;
         }
-        else if (index < 0 && increment != -1 || index >= _tabListPageCount && increment == 1)
-        {
-          index = 0;
-        }
-
-        this.ProcessTabChange(index);
       }
+
+      return result;
     }
 
     private Rectangle GetDisplayRectangle()
@@ -1059,6 +1180,11 @@ namespace Cyotek.Windows.Forms
       bottomMargin = padding.Bottom + 1;
 
       return new Rectangle(leftMargin, topMargin, size.Width - (leftMargin + rightMargin), size.Height - (topMargin + bottomMargin));
+    }
+
+    private bool IsInRange(int index)
+    {
+      return index >= 0 && index < _tabListPageCount;
     }
 
     private void ProcessTabChange(int index)
