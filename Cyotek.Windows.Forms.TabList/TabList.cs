@@ -21,8 +21,8 @@ namespace Cyotek.Windows.Forms
   /// <seealso cref="T:System.Windows.Forms.Control"/>
   [ToolboxItem(true)]
   [Designer(typeof(TabListDesigner))]
-  [DefaultProperty("TabListPages")]
-  [DefaultEvent("SelectedIndexChanged")]
+  [DefaultProperty(nameof(TabListPages))]
+  [DefaultEvent(nameof(SelectedIndexChanged))]
   public partial class TabList : Control
   {
     #region Private Fields
@@ -81,8 +81,8 @@ namespace Cyotek.Windows.Forms
     public TabList()
     {
       _tabListPages = new TabListPageCollection(this);
-      _selectedIndex = -1;
-      _hotIndex = -1;
+      _selectedIndex = _invalidIndex;
+      _hotIndex = _invalidIndex;
       _headerSize = new Size(150, 25);
       _showTabList = true;
       _allowTabSelection = true;
@@ -299,7 +299,7 @@ namespace Cyotek.Windows.Forms
     /// The zero-based index of the currently selected tab page. The default is -1, which is also the value if no tab page is selected.
     /// </value>
     [Browsable(false)]
-    [DefaultValue(-1)]
+    [DefaultValue(_invalidIndex)]
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
     public int SelectedIndex
     {
@@ -325,7 +325,7 @@ namespace Cyotek.Windows.Forms
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
     public TabListPage SelectedPage
     {
-      get { return _selectedIndex != -1 ? _tabListPages[_selectedIndex] : null; }
+      get { return _selectedIndex != _invalidIndex ? _tabListPages[_selectedIndex] : null; }
       set { this.SelectedIndex = _tabListPages.IndexOf(value); }
     }
 
@@ -452,7 +452,7 @@ namespace Cyotek.Windows.Forms
     {
       int result;
 
-      result = -1;
+      result = _invalidIndex;
 
       for (int i = 0; i < _tabListPageCount; i++)
       {
@@ -505,7 +505,7 @@ namespace Cyotek.Windows.Forms
 
       index = this.GetPageAt(x, y);
 
-      return index != -1 ? _tabListPages[index] : null;
+      return index != _invalidIndex ? _tabListPages[index] : null;
     }
 
     #endregion Public Methods
@@ -518,7 +518,7 @@ namespace Cyotek.Windows.Forms
 
       index = this.InsertPage(_tabListPageCount, page);
 
-      if (_selectedIndex == -1)
+      if (_selectedIndex == _invalidIndex)
       {
         this.SelectedIndex = index;
       }
@@ -697,7 +697,7 @@ namespace Cyotek.Windows.Forms
 
       if (_tabListPageCount == 0)
       {
-        this.SelectedIndex = -1;
+        this.SelectedIndex = _invalidIndex;
       }
       else if (index == selectedIndex || selectedIndex >= _tabListPageCount)
       {
@@ -926,13 +926,13 @@ namespace Cyotek.Windows.Forms
     {
       base.OnMouseClick(e);
 
-      if (e.Button == MouseButtons.Left && this.DesignMode || this.AllowTabSelection)
+      if ((e.Button == MouseButtons.Left && this.DesignMode) || this.AllowTabSelection)
       {
         int index;
 
         index = this.GetPageAt(e.Location);
 
-        if (index != -1)
+        if (index != _invalidIndex && _tabListPages[index].Enabled)
         {
           this.ProcessTabChange(index);
         }
@@ -947,7 +947,7 @@ namespace Cyotek.Windows.Forms
     {
       base.OnMouseLeave(e);
 
-      this.HotIndex = -1;
+      this.HotIndex = _invalidIndex;
     }
 
     /// <summary>
@@ -1268,7 +1268,7 @@ namespace Cyotek.Windows.Forms
 
     private void UpdateSelectedPage()
     {
-      if (_selectedIndex != -1)
+      if (_selectedIndex != _invalidIndex)
       {
         TabListPage page;
 
