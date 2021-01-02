@@ -4,7 +4,7 @@ using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
 // Cyotek TabList
-// Copyright (c) 2012-2017 Cyotek Ltd.
+// Copyright (c) 2012-2021 Cyotek Ltd.
 // https://www.cyotek.com
 // https://www.cyotek.com/blog/tag/tablist
 
@@ -17,7 +17,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Cyotek Ltd")]
 [assembly: AssemblyProduct("Cyotek TabList Control")]
-[assembly: AssemblyCopyright("Copyright © 2012-2020 Cyotek Ltd. All Rights Reserved")]
+[assembly: AssemblyCopyright("Copyright © 2012-2021 Cyotek Ltd. All Rights Reserved")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 [assembly: ComVisible(false)]

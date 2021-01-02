@@ -25,6 +25,10 @@
   as obsolete and will be removed in a future update. Please use
   the correctly named `ListBoxTabListRenderer` class instead
 
+### Fixed
+
+* The previous speculative fix didn't work correctly
+
 ## 2.0.1
 
 ### Fixed
