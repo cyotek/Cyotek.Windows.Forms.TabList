@@ -65,6 +65,8 @@ namespace Cyotek.Windows.Forms
 
     private int _selectedIndex;
 
+    private bool _shortcutsEnabled;
+
     private bool _showTabList;
 
     private Rectangle _tabListBounds;
@@ -88,6 +90,7 @@ namespace Cyotek.Windows.Forms
       _headerSize = new Size(150, 25);
       _showTabList = true;
       _allowTabSelection = true;
+      _shortcutsEnabled = true;
 
       this.SetStyle(ControlStyles.AllPaintingInWmPaint | ControlStyles.ResizeRedraw | ControlStyles.OptimizedDoubleBuffer | ControlStyles.UserMouse | ControlStyles.SupportsTransparentBackColor, true);
       this.UpdateFocusStyle();
@@ -308,12 +311,12 @@ namespace Cyotek.Windows.Forms
       get { return _selectedIndex; }
       set
       {
-        if (_selectedIndex != value)
+        if (value < -1)
         {
-          _selectedIndex = value;
-
-          this.OnSelectedIndexChanged(EventArgs.Empty);
+          throw new ArgumentOutOfRangeException(nameof(value));
         }
+
+        this.ProcessTabChange(value);
       }
     }
 
@@ -329,6 +332,18 @@ namespace Cyotek.Windows.Forms
     {
       get { return _selectedIndex != _invalidIndex ? _tabListPages[_selectedIndex] : null; }
       set { this.SelectedIndex = _tabListPages.IndexOf(value); }
+    }
+
+
+    /// <summary> Gets or sets a value indicating whether global shortcuts are enabled. </summary>
+    /// <value> <c>true</c> if global shortcuts are enabled, otherwise <c>false</c>. </value>
+    /// <remarks> When <c>false</c>, the Control+Tab hotkey is not available. </remarks>
+    [Category("Behavior")]
+    [DefaultValue(true)]
+    public bool ShortcutsEnabled
+    {
+      get { return _shortcutsEnabled; }
+      set { _shortcutsEnabled = value; }
     }
 
     /// <summary>
@@ -1106,13 +1121,12 @@ namespace Cyotek.Windows.Forms
       handler?.Invoke(this, e);
     }
 
-
     /// <inheritdoc />
     protected override bool ProcessDialogKey(Keys keyData)
     {
       bool result;
 
-      if (keyData == (Keys.Control | Keys.Tab))
+      if (_shortcutsEnabled && keyData == (Keys.Control | Keys.Tab))
       {
         int index;
 
@@ -1223,7 +1237,9 @@ namespace Cyotek.Windows.Forms
 
           if (!cancelEventArgs.Cancel)
           {
-            this.SelectedIndex = index;
+            _selectedIndex = index;
+
+            this.OnSelectedIndexChanged(EventArgs.Empty);
 
             this.OnSelected(new TabListEventArgs(newPage, index, TabListAction.Selected));
 

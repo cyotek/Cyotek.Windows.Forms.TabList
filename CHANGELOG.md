@@ -1,5 +1,19 @@
 # TabList Change Log
 
+## 2.2.0
+
+### Added
+
+* Added `ShortcutsEnabled` property. If `false`, the
+  `Ctrl+Tab` hotkey is disabled
+
+### Changed
+
+* Attempting to set the `SelectedIndex` property to a value less
+  than -1 now throws
+* Setting the `SelectedIndex` property now calls the full set of
+  selection and selection events
+
 ## 2.1.0
 
 ### Added
