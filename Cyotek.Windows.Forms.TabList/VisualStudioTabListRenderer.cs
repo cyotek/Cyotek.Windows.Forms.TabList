@@ -3,7 +3,7 @@ using System.Drawing;
 namespace Cyotek.Windows.Forms
 {
   // Cyotek TabList
-  // Copyright (c) 2012-2020 Cyotek.
+  // Copyright (c) 2012-2021 Cyotek.
   // https://www.cyotek.com
   // https://www.cyotek.com/blog/tag/tablist
 
@@ -19,6 +19,7 @@ namespace Cyotek.Windows.Forms
   {
     #region Public Fields
 
+    /// <summary> A default instance of <see cref="VisualStudioTabListRenderer"/>. </summary>
     public static ITabListRenderer Default = new VisualStudioTabListRenderer();
 
     #endregion Public Fields

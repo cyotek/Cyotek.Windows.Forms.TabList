@@ -7,7 +7,7 @@ using System.Windows.Forms;
 namespace Cyotek.Windows.Forms
 {
   // Cyotek TabList
-  // Copyright (c) 2012-2020 Cyotek.
+  // Copyright (c) 2012-2021 Cyotek.
   // https://www.cyotek.com
   // https://www.cyotek.com/blog/tag/tablist
 
@@ -1106,6 +1106,8 @@ namespace Cyotek.Windows.Forms
       handler?.Invoke(this, e);
     }
 
+
+    /// <inheritdoc />
     protected override bool ProcessDialogKey(Keys keyData)
     {
       bool result;
@@ -1131,6 +1133,7 @@ namespace Cyotek.Windows.Forms
       return result;
     }
 
+    /// <inheritdoc />
     protected override void ScaleCore(float dx, float dy)
     {
       _currentlyScaling = true;

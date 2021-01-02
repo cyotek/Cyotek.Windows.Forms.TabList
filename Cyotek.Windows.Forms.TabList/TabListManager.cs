@@ -1,9 +1,19 @@
 using System;
 
+// Cyotek TabList
+// Copyright (c) 2012-2021 Cyotek.
+// https://www.cyotek.com
+// https://www.cyotek.com/blog/tag/tablist
+
+// Licensed under the MIT License. See LICENSE.txt for the full text.
+
+// If you use this control in your applications, attribution, donations or contributions are welcome.
+
 // Code mostly adapted from ToolStripManager
 
 namespace Cyotek.Windows.Forms
 {
+  /// <summary> Controls rendering of <see cref="TabList"/> controls. </summary>
   public static class TabListManager
   {
     #region Private Fields
@@ -12,9 +22,9 @@ namespace Cyotek.Windows.Forms
 
     private const int _staticEventDefaultRendererChanged = 0;
 
-    private static ITabListRenderer _defaultRenderer;
-
     private static readonly object _internalSyncObject = new object();
+
+    private static ITabListRenderer _defaultRenderer;
 
     [ThreadStatic]
     private static Delegate[] _staticEventHandlers;
@@ -34,6 +44,8 @@ namespace Cyotek.Windows.Forms
 
     #region Public Properties
 
+    /// <summary> Gets or sets the default painting style for <see cref="TabList"/> controls. </summary>
+    /// <value> The <see cref="ITabListRenderer"/> to use for default painting. </value>
     public static ITabListRenderer Renderer
     {
       get
