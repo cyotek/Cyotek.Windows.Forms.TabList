@@ -29,6 +29,8 @@ namespace Cyotek.Windows.Forms
 
     private const int _invalidIndex = -1;
 
+    private static readonly TabListPage[] _empty = new TabListPage[0];
+
     private static readonly object _eventAllowTabSelectionChanged = new object();
 
     private static readonly object _eventDeselected = new object();
@@ -531,6 +533,7 @@ namespace Cyotek.Windows.Forms
       this.Controls.Clear();
       _pages = null;
       _tabListPageCount = 0;
+      this.SelectedIndex = _invalidIndex;
     }
 
     internal int FindFirstEnabledTab()
@@ -631,11 +634,14 @@ namespace Cyotek.Windows.Forms
     {
       TabListPage[] copy;
 
-      copy = new TabListPage[_tabListPageCount];
-
       if (_tabListPageCount > 0)
       {
+        copy = new TabListPage[_tabListPageCount];
         Array.Copy(_pages, copy, _tabListPageCount);
+      }
+      else
+      {
+        copy = _empty;
       }
 
       return copy;
